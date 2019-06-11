@@ -1,65 +1,42 @@
 
 
-# Outcomes on a page, journey through the lifecourse ###
+# Outcomes on a page, Journey through the lifecourse ###
 
 ######################
 # Author: Rich Tyler #
 # Date: Jan 2019     #
 ######################
 
+rm(list = ls()) #  I have an R profile that loads some functions which you may not have so lets clear the workspace
+
 comp_area <- "England"
 
-library(png)
-library(grid)
-library(plyr)
-library(readr)
-library(readxl)
-library(gridExtra)
-library(tidyverse)
-library(fingertipsR)
-library(readODS)
+library(easypackages)
+
+libraries("png", "grid", "tidyverse", "gridExtra", "fingertipsR", "PHEindicatormethods", "readODS", "readxl")
+
+# library(png)
+# library(grid)
+# library(plyr)
+# library(readr)
+# library(readxl)
+# library(gridExtra)
+# library(tidyverse)
+# library(fingertipsR)
+# library(readODS)
 
 options(scipen = 999)
 
+# This will be the coordinate system for placing our objects in grid later
 vplayout <- function(x,y)
   viewport(layout.pos.row = x, layout.pos.col = y)
 
+# This capitalises words in a string
 capwords = function(s, strict = FALSE) {
   cap = function(s) paste(toupper(substring(s, 1, 1)),{s = substring(s, 2); if(strict) tolower(s) else s},sep = "", collapse = " " )
   sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))}
 
-fun_LCI <- function (x, n, conf.level) 
-{
-  zalpha <- abs(qnorm((1 - conf.level)/2))
-  phat <- x/n
-  bound <- (zalpha * ((phat * (1 - phat) + (zalpha^2)/(4 * 
-                                                         n))/n)^(1/2))/(1 + (zalpha^2)/n)
-  midpnt <- (phat + (zalpha^2)/(2 * n))/(1 + (zalpha^2)/n)
-  uplim <- round(midpnt + bound, digits = 4)
-  lowlim <- round(midpnt - bound, digits = 4)
-  cint <- c(lowlim, uplim)
-  attr(cint, "conf.level") <- conf.level
-  rval <- list(conf.int = cint)
-  class(rval) <- "htest"
-  return(lowlim)
-}
-
-fun_UCI <- function (x, n, conf.level) 
-{
-  zalpha <- abs(qnorm((1 - conf.level)/2))
-  phat <- x/n
-  bound <- (zalpha * ((phat * (1 - phat) + (zalpha^2)/(4 * 
-                                                         n))/n)^(1/2))/(1 + (zalpha^2)/n)
-  midpnt <- (phat + (zalpha^2)/(2 * n))/(1 + (zalpha^2)/n)
-  uplim <- round(midpnt + bound, digits = 4)
-  lowlim <- round(midpnt - bound, digits = 4)
-  cint <- c(lowlim, uplim)
-  attr(cint, "conf.level") <- conf.level
-  rval <- list(conf.int = cint)
-  class(rval) <- "htest"
-  return(uplim)
-}
-
+# We can define some hex colours to use later in our comparisons
 better <- "#3ECC26"
 no_diff <- "#E7AF27"
 worse <- "#CC2629"
@@ -67,83 +44,89 @@ not_applic <- "#8E8E8E"
 higher = "#BED2FF"
 lower = "#5555E6"
 
-# This checks to see if Journey through indicators folder exists in the working directory and if not it will be created.
+# This checks to see if 'Journey through indicators' folder exists in the working directory and if not it will be created.
 if (!file.exists("./Journey through indicators")) {
   dir.create("./Journey through indicators")} 
 
 # Read in JSNA logo (only download it if it is not available in your working directory)
-if(!file.exists("./Research Unit.png")){download.file("http://jsna.westsussex.gov.uk/wp-content/uploads/2017/12/Research-Unit.png", "./Research Unit.png", mode = 'wb')} # This downloads a png image from the West Sussex JSNA website and saves it to your working directory. The if(!file.exists()) only runs the command if the file does not exist (because we have included an ! at the beginning)
-unit_logo = readPNG("./Research Unit.png")
+if(!file.exists("./Journey through indicators/Research Unit.png")){download.file("https://github.com/psychty/la-ph-walkthrough/raw/master/Research%20Unit.png", "./Journey through indicators/Research Unit.png", mode = 'wb')} # This downloads a png image from the West Sussex JSNA website and saves it to your working directory. The if(!file.exists()) only runs the command if the file does not exist (because we have included an ! at the beginning)
+unit_logo = readPNG("./Journey through indicators/Research Unit.png")
+
+# I do not think I can legitimately publically host and make available the png images downloaded from flaticon (contact me and I can email something).
 
 # Read in infographics icons ####
-ind_2a_icon = readPNG("./Work/Journey through indicators/Icons/png/ind_2a_icon_people.png")
-ind_2b_icon = readPNG("./PH walkthrough png files/ind_2b_icon_scales.png")
-ind_3_icon = readPNG("./PH walkthrough png files/ind_3_icon_feeding_bottle.png")
-ind_5_icon = readPNG("./PH walkthrough png files/ind_5_icon_blocks.png")
-ind_6_icon = readPNG("./PH walkthrough png files/ind_6_icon_food_1.png")
-ind_7_icon = readPNG("./PH walkthrough png files/ind_7_icon_food_2.png")
-ind_8_icon = readPNG("./PH walkthrough png files/ind_8_icon_pencil_rotated.png")
-ind_9_icon = readPNG("./PH walkthrough png files/ind_9_icon_piggy_bank.png")
-ind_10_icon = readPNG("./PH walkthrough png files/ind_10_icon_transport.png")
-ind_11_icon = readPNG("./PH walkthrough png files/ind_11_icon_baby_stroller.png")
-ind_12_icon = readPNG("./PH walkthrough png files/ind_12_icon_education.png")
-ind_13_icon = readPNG("./PH walkthrough png files/ind_13_icon_wrench.png")
-ind_14_icon = readPNG("./PH walkthrough png files/ind_14_icon_money_1.png")
-ind_15_icon = readPNG("./PH walkthrough png files/ind_15_icon_money_1.png")
-ind_16_icon = readPNG("./PH walkthrough png files/ind_16_icon_for_sale.png")
-ind_17_icon = readPNG("./PH walkthrough png files/ind_17_icon_overturned_car.png")
-ind_19_icon = readPNG("./PH walkthrough png files/ind_19_icon_glass_bottle.png")
-ind_20_icon = readPNG("./PH walkthrough png files/ind_20_icon_running.png")
-ind_21_icon = readPNG("./PH walkthrough png files/ind_21_icon_sofa.png")
-ind_22_icon = readPNG("./PH walkthrough png files/ind_22_icon_cigarette.png")
-ind_23_icon = readPNG("./PH walkthrough png files/ind_23_icon_fast_food.png")
-ind_24_icon = readPNG("./PH walkthrough png files/ind_24_icon_bra.png")
-ind_25_icon = readPNG("./PH walkthrough png files/ind_25_icon_underwear.png")
-ind_26_icon = readPNG("./PH walkthrough png files/ind_26_icon_microscope.png")
-ind_27_icon = readPNG("./PH walkthrough png files/ind_27_icon_blood_sugar.png")
-ind_28_icon = readPNG("./PH walkthrough png files/ind_28_icon_heartbeat.png")
-ind_29_icon = readPNG("./PH walkthrough png files/ind_29_icon_awareness_ribbon.png")
-ind_30_icon = readPNG("./PH walkthrough png files/ind_30_icon_coins_1.png")
-ind_31_icon = readPNG("./PH walkthrough png files/ind_31_icon_flame.png")
-ind_32_icon = readPNG("./PH walkthrough png files/ind_32_icon_hip.png")
-ind_33_icon = readPNG("./PH walkthrough png files/ind_33_icon_glove.png")
-ind_34_icon = readPNG("./PH walkthrough png files/ind_34_icon_tombstone.png")
-ind_35_icon = readPNG("./PH walkthrough png files/ind_35_icon_tombstone.png")
-arrow_left = readPNG("./PH walkthrough png files/arrow_left.png")
-arrow_right = readPNG("./PH walkthrough png files/arrow_right.png")
-arrow_down = readPNG("./PH walkthrough png files/arrow_down.png")
-
+ind_2a_icon = readPNG("./Journey through indicators/png/ind_2a_icon_people.png")
+ind_2b_icon = readPNG("./Journey through indicators/png/ind_2b_icon_scales.png")
+ind_3_icon = readPNG("./Journey through indicators/png/ind_3_icon_feeding_bottle.png")
+ind_5_icon = readPNG("./Journey through indicators/png/ind_5_icon_blocks.png")
+ind_6_icon = readPNG("./Journey through indicators/png/ind_6_icon_food_1.png")
+ind_7_icon = readPNG("./Journey through indicators/png/ind_7_icon_food_2.png")
+ind_8_icon = readPNG("./Journey through indicators/png/ind_8_icon_pencil_rotated.png")
+ind_9_icon = readPNG("./Journey through indicators/png/ind_9_icon_piggy_bank.png")
+ind_10_icon = readPNG("./Journey through indicators/png/ind_10_icon_transport.png")
+ind_11_icon = readPNG("./Journey through indicators/png/ind_11_icon_baby_stroller.png")
+ind_12_icon = readPNG("./Journey through indicators/png/ind_12_icon_education.png")
+ind_13_icon = readPNG("./Journey through indicators/png/ind_13_icon_wrench.png")
+ind_14_icon = readPNG("./Journey through indicators/png/ind_14_icon_money_1.png")
+ind_15_icon = readPNG("./Journey through indicators/png/ind_15_icon_money_1.png")
+ind_16_icon = readPNG("./Journey through indicators/png/ind_16_icon_for_sale.png")
+ind_17_icon = readPNG("./Journey through indicators/png/ind_17_icon_overturned_car.png")
+ind_19_icon = readPNG("./Journey through indicators/png/ind_19_icon_glass_bottle.png")
+ind_20_icon = readPNG("./Journey through indicators/png/ind_20_icon_running.png")
+ind_21_icon = readPNG("./Journey through indicators/png/ind_21_icon_sofa.png")
+ind_22_icon = readPNG("./Journey through indicators/png/ind_22_icon_cigarette.png")
+ind_23_icon = readPNG("./Journey through indicators/png/ind_23_icon_fast_food.png")
+ind_24_icon = readPNG("./Journey through indicators/png/ind_24_icon_bra.png")
+ind_25_icon = readPNG("./Journey through indicators/png/ind_25_icon_underwear.png")
+ind_26_icon = readPNG("./Journey through indicators/png/ind_26_icon_microscope.png")
+# ind_27_icon = readPNG("./Journey through indicators/png/ind_27_icon_blood_sugar.png")
+ind_27_icon = readPNG("./Journey through indicators/png/ind_28_icon_heartbeat.png")
+ind_28_icon = readPNG("./Journey through indicators/png/ind_29_icon_awareness_ribbon.png")
+ind_29_icon = readPNG("./Journey through indicators/png/ind_30_icon_coins_1.png")
+ind_30_icon = readPNG("./Journey through indicators/png/ind_31_icon_flame.png")
+ind_31_icon = readPNG("./Journey through indicators/png/ind_32_icon_hip.png")
+ind_32_icon = readPNG("./Journey through indicators/png/ind_33_icon_glove.png")
+ind_33_icon = readPNG("./Journey through indicators/png/ind_34_icon_tombstone.png")
+ind_34_icon = readPNG("./Journey through indicators/png/ind_35_icon_tombstone.png")
+arrow_left = readPNG("./Journey through indicators/png/arrow_left.png")
+arrow_right = readPNG("./Journey through indicators/png/arrow_right.png")
+arrow_down = readPNG("./Journey through indicators/png/arrow_down.png")
 
 # Indicator 1 - Infant Mortality ####
-indicator_1 <- fingertips_data(IndicatorID = 92196, AreaTypeID = 101) 
-indicator_1 <- arrange(indicator_1, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_1 <- subset(indicator_1, Timeperiod == unique(indicator_1$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_1 <- fingertips_data(IndicatorID = 92196, AreaTypeID = 101) %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_1_comp <- subset(indicator_1, AreaName == comp_area)
+indicator_1_comp <- indicator_1 %>% 
+  filter(AreaName == comp_area)
 
 # Indicator 2 - Low birth weight ####
-indicator_2 <- fingertips_data(IndicatorID = 20101,  AreaTypeID = 101) 
-indicator_2 <- arrange(indicator_2, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_2 <- subset(indicator_2, Timeperiod == unique(indicator_2$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_2 <- fingertips_data(IndicatorID = 20101,  AreaTypeID = 101) %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_2_comp <- subset(indicator_2, AreaName == comp_area)
+indicator_2_comp <- indicator_2 %>% 
+  filter(AreaName == comp_area)
 
 # Indicator 3 - Breastfeeding initiation ####
-indicator_3 <- fingertips_data(IndicatorID = 20201, AreaTypeID = 101) 
-indicator_3 <- arrange(indicator_3, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_3 <- subset(indicator_3, Timeperiod == unique(indicator_3$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_3 <- fingertips_data(IndicatorID = 20201, AreaTypeID = 101) %>%  
+ arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+ filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_3_comp <- subset(indicator_3, AreaName == comp_area) 
+indicator_3_comp <- indicator_3 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 4 - 0-4 in hh with out-of-work- benefits ####
 
-if(!file.exists("./Journey through indicators/children-in-out-of-work-households-by-la-may-2016.ods")){
-  download.file("https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/662946/children-in-out-of-work-households-by-la-may-2016.ods", "./Journey through indicators/children-in-out-of-work-households-by-la-may-2016.ods", mode = "wb")}
+# This is updated once a year in december
 
-if(!file.exists("./Journey through indicators/children-in-out-of-work-households-by-country-may-2016.ods")){
-  download.file("https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/662952/children-in-out-of-work-households-by-country-may-2016.ods", "./Journey through indicators/children-in-out-of-work-households-by-country-may-2016.ods", mode = "wb")}
+if(!file.exists("./Journey through indicators/children-in-out-of-work-households-by-la-may-2017.ods")){
+  download.file("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/761934/children-in-out-of-work-households-by-la-may-2017.ods", "./Journey through indicators/children-in-out-of-work-households-by-la-may-2017.ods", mode = "wb")}
 
-indicator_4 <- read_ods("./Journey through indicators/children-in-out-of-work-households-by-la-may-2016.ods", sheet = "Table_1", skip = 10, formula_as_formula = TRUE, col_names = FALSE) ; indicator_4 <- indicator_4[,2:4]
+if(!file.exists("./Journey through indicators/children-in-out-of-work-households-by-country-may-2017.ods")){
+  download.file("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/761937/children-in-out-of-work-households-by-country-may-2017.ods", "./Journey through indicators/children-in-out-of-work-households-by-country-may-2017.ods", mode = "wb")}
+
+indicator_4 <- read_ods("./Journey through indicators/children-in-out-of-work-households-by-la-may-2017.ods", sheet = "Table_1", skip = 10, formula_as_formula = TRUE, col_names = FALSE) ; indicator_4 <- indicator_4[,2:4]
 colnames(indicator_4) <- c("Name", "Code", "Children_aged_0-4_poverty")
 
 indicator_4$`Children_aged_0-4_poverty` <- gsub(",", "",indicator_4$`Children_aged_0-4_poverty`)
@@ -151,235 +134,249 @@ indicator_4 <- subset(indicator_4, !(is.na(Code)))
 indicator_4$`Children_aged_0-4_poverty` <- as.numeric(indicator_4$`Children_aged_0-4_poverty`)
 indicator_4$Name <- gsub(" UA", "", indicator_4$Name)
 
-indicator_4_comp <- read_ods("./Journey through indicators/children-in-out-of-work-households-by-country-may-2016.ods", sheet = "Table_1", skip = 8, formula_as_formula = TRUE, col_names = FALSE)
+indicator_4_comp <- read_ods("./Journey through indicators/children-in-out-of-work-households-by-country-may-2017.ods", sheet = "Table_1", skip = 8, formula_as_formula = TRUE, col_names = FALSE)
 indicator_4_comp <- indicator_4_comp[,2:3]
 colnames(indicator_4_comp) <- c("Name", "Children_aged_0-4_poverty")
-indicator_4_comp <- subset(indicator_4_comp, !(is.na(`Children_aged_0-4_poverty`)))
 
-if (!file.exists("./Journey through indicators/mye_2016.xls")) {
-  download.file("https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatesforukenglandandwalesscotlandandnorthernireland/mid2016/ukmidyearestimates2016.xls", "./Journey through indicators/mye_2016.xls", mode = "wb")}
+indicator_4_comp <- indicator_4_comp %>% 
+  filter(!(is.na(`Children_aged_0-4_poverty`))) %>% 
+  filter(Name == "England") %>% 
+  mutate(`Children_aged_0-4_poverty` = as.numeric(`Children_aged_0-4_poverty`))
 
-mye_2016 <- read_excel("./Journey through indicators/mye_2016.xls",sheet = "MYE2 - All", skip = 4)
-mye_2016 <- mye_2016[c("Code","Name","0","1","2","3","4")]
-mye_2016$`0_4` <- rowSums(mye_2016[,3:ncol(mye_2016)], na.rm = TRUE)
+if (!file.exists("./Journey through indicators/mye_2017.xls")) {
+  download.file("https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatesforukenglandandwalesscotlandandnorthernireland/mid2017/ukmidyearestimates2017finalversion.xls", "./Journey through indicators/mye_2017.xls", mode = "wb")}
 
-mye_2016$Name <- capwords(mye_2016$Name, strict = TRUE)
+mye_2017 <- read_excel("./Journey through indicators/mye_2017.xls",sheet = "MYE2 - All", skip = 4) %>% 
+  select(Code, Name, `0`, `1`, `2`, `3`, `4`) %>% 
+  mutate(`0_4` = rowSums(.[3:7], na.rm = TRUE)) %>% 
+  mutate(Name = capwords(Name, strict = TRUE))
 
-indicator_4 <- merge(indicator_4, mye_2016[c("Code", "0_4")], by = "Code")
-indicator_4$Percentage_children_poverty <- indicator_4$`Children_aged_0-4_poverty` / indicator_4$`0_4` * 100
-indicator_4$LCI <- fun_LCI(indicator_4$`Children_aged_0-4_poverty`, indicator_4$`0_4`, .95)
-indicator_4$UCI <- fun_UCI(indicator_4$`Children_aged_0-4_poverty`, indicator_4$`0_4`, .95)
+indicator_4 <- indicator_4 %>% 
+  left_join(mye_2017[c("Code", "0_4")], by = "Code") %>% 
+  mutate(Percentage_children_poverty = `Children_aged_0-4_poverty` / `0_4` * 100) %>% 
+  mutate(LCI = wilson_lower(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100,
+         UCI = wilson_upper(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100)
 
-indicator_4_comp <- subset(indicator_4_comp, Name == "England")
+indicator_4_comp <- indicator_4_comp %>% 
+  left_join(mye_2017[c("Name", "0_4")], by = "Name") %>% 
+  mutate(Percentage_children_poverty = `Children_aged_0-4_poverty` / `0_4` * 100) %>% 
+  mutate(LCI = wilson_lower(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100,
+         UCI = wilson_upper(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100)
 
-indicator_4_comp <- merge(indicator_4_comp, mye_2016[c("Name", "0_4")], by = "Name")
-indicator_4_comp$Percentage_children_poverty <- indicator_4_comp$`Children_aged_0-4_poverty` / indicator_4_comp$`0_4` * 100
-indicator_4_comp$LCI <- fun_LCI(indicator_4_comp$`Children_aged_0-4_poverty`, indicator_4_comp$`0_4`, .95)
-indicator_4_comp$UCI <- fun_UCI(indicator_4_comp$`Children_aged_0-4_poverty`, indicator_4_comp$`0_4`, .95)
+# Indicator 5 - school Readiness by pupil residency ####
 
+# 2018
+download.file("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/759613/EYFSP_2018_additional_tables_underlying_data.zip",  "./Journey through indicators/EYFSP_2018_Tables.zip")
+unzip("./Journey through indicators/EYFSP_2018_Tables.zip", exdir = "./Journey through indicators")
 
-
-# Indicator 5 - Readiness ####
-# This is 2016 data
-# if (!file.exists("./Journey through indicators/1_EYDataTables.xlsx")) {
-#   download.file("https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/649820/1_EYDataTables.xlsx", "./Journey through indicators/1_EYDataTables.xlsx", mode = "wb")}
-#   
-# Readiness_EYFS <- read_excel("./Journey through indicators/1_EYDataTables.xlsx", col_types = c("text", "text", "numeric", "numeric", "numeric", "skip", "skip", "skip", "skip", "skip", "skip"), sheet = "Table EY1", skip = 7)
-# colnames(Readiness_EYFS) <- c("Code", "Name", "Number_children", "Number_GLD", "Percentage_GLD")
-# Readiness_EYFS <- subset(Readiness_EYFS, !is.na(Name) & Name != "No match")
-
-# Readiness_EYFS$Name <- capwords(Readiness_EYFS$Name, strict = TRUE)
-# 
-# Readiness_EYFS$GLD_LCI <- fun_LCI(Readiness_EYFS$Number_GLD,  Readiness_EYFS$Number_children, .95)
-# Readiness_EYFS$GLD_UCI <- fun_UCI(Readiness_EYFS$Number_GLD,  Readiness_EYFS$Number_children, .95)
-# 
-# indicator_5 <- subset(Readiness_EYFS, Name == ch_area)
-# indicator_5_comp <- subset(Readiness_EYFS, Name == comp_area)
-# 
-# indicator_5_colour <- ifelse(indicator_5$GLD_LCI > indicator_5_comp$GLD_UCI, worse, ifelse(indicator_5$GLD_UCI < indicator_5_comp$GLD_LCI, better, no_diff))
-# 
-
-# 2017
-if (!file.exists("./Journey through indicators/SFR60_2017_UD_residency_additional_tables.csv")) {
-  download.file("https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/663119/SFR60_2017_UD_Additional_Tables.zip", "./Journey through indicators/SFR60-2017_Tables.zip")
-  unzip("./Journey through indicators/SFR60-2017_Tables.zip", exdir = "./Journey through indicators")
-  file.remove("./Journey through indicators/SFR60_2017_UD_National_additional_tables.csv")
-  file.remove("./Journey through indicators/SFR60_2017_UD_National2_additional_tables.csv")
-  file.remove("./Journey through indicators/SFR60-2017_Tables.zip")}
-
-indicator_5 <- read_csv("./Journey through indicators/SFR60_2017_UD_residency_additional_tables.csv", col_types = cols(AT_LEAST_EXPECTED_all_res_17 = col_number(), ELIG_all_res_17 = col_number(),GOODLEV_all_res_17 = col_number()))
-
-indicator_5 <- indicator_5[c("LAD_code_9_digit","LAD_name","ELIG_all_res_17", "AT_LEAST_EXPECTED_all_res_17", "GOODLEV_all_res_17")]; indicator_5 <- subset(indicator_5, !(is.na(LAD_name)))
-
-colnames(indicator_5) <- c("Area_Code","Name","ELIG_all_res_17", "AT_LEAST_EXPECTED_all_res_17", "GOODLEV_all_res_17")
-
-indicator_5$Name <- gsub(" UA", "", indicator_5$Name)
-
-indicator_5_comp <- data.frame(Area_Code = "-", Name = "England", ELIG_all_res_17 = sum(indicator_5$ELIG_all_res_17, na.rm = TRUE), AT_LEAST_EXPECTED_all_res_17 = sum(indicator_5$AT_LEAST_EXPECTED_all_res_17, na.rm = TRUE), GOODLEV_all_res_17 = sum(indicator_5$GOODLEV_all_res_17, na.rm = TRUE))
-
-indicator_5$Percentage_GLD <- indicator_5$GOODLEV_all_res_17 / indicator_5$ELIG_all_res_17 * 100
-indicator_5$GLD_LCI <- fun_LCI(indicator_5$GOODLEV_all_res_17,  indicator_5$ELIG_all_res_17, .95)
-indicator_5$GLD_UCI <- fun_UCI(indicator_5$GOODLEV_all_res_17,  indicator_5$ELIG_all_res_17, .95)
-
-indicator_5_comp$Percentage_GLD <- indicator_5_comp$GOODLEV_all_res_17 / indicator_5_comp$ELIG_all_res_17 * 100
-indicator_5_comp$GLD_LCI <- fun_LCI(indicator_5_comp$GOODLEV_all_res_17,  indicator_5_comp$ELIG_all_res_17, .95)
-indicator_5_comp$GLD_UCI <- fun_UCI(indicator_5_comp$GOODLEV_all_res_17,  indicator_5_comp$ELIG_all_res_17, .95)
+indicator_5 <- read_csv("./Journey through indicators/EYFSP_LAD_ pr_additional_tables_2018.csv", col_types = cols(year = col_double(),level = col_character(),country_code = col_character(), country_name = col_character(),  region_code_pr = col_character(),  region_name_pr = col_character(), lad_code_pr = col_character(),lad_name_pr = col_character(),number_of_pupils = col_double(),  elg_number = col_double(),elg_percent = col_double(),gld_number = col_double(), gld_percent = col_double(), point_score = col_double(), average_point_score = col_double()
+)) %>%
+  mutate(lad_name_pr = ifelse(is.na(region_name_pr), country_name_pr, ifelse(is.na(lad_name_pr), region_name_pr, lad_name_pr))) %>% 
+  mutate(lad_code_pr = ifelse(is.na(region_code_pr), country_code_pr, ifelse(is.na(lad_code_pr), region_code_pr, lad_code_pr))) %>% 
+  mutate(lad_name_pr = gsub(" UA", "", lad_name_pr)) %>% 
+  rename(Area_name = lad_name_pr,
+         Area_code = lad_code_pr) %>% 
+  select(year, level, Area_code, Area_name, number_of_pupils, gld_number, gld_percent) %>% 
+  mutate(gld_percent = gld_number / number_of_pupils * 100,
+         gld_lci = wilson_lower(gld_number, number_of_pupils, confidence = .95) * 100,
+         gld_uci = wilson_upper(gld_number, number_of_pupils, confidence = .95) * 100) %>% 
+  filter(year == "201718")
+  
+indicator_5_comp <- indicator_5 %>% 
+  filter(level == "Regional") %>% 
+  summarise(number_of_pupils = sum(number_of_pupils, na.rm = TRUE),
+            gld_number = sum(gld_number, na.rm = TRUE)) %>% 
+  mutate(year = "201718",
+         level = "England",
+         Area_name = "England",
+         Area_code = "E92000001") %>%
+  mutate(gld_percent = gld_number / number_of_pupils * 100,
+         gld_lci = wilson_lower(gld_number, number_of_pupils, confidence = .95) * 100,
+         gld_uci = wilson_upper(gld_number, number_of_pupils, confidence = .95) * 100) %>% 
+  select(year, level, Area_code, Area_name, number_of_pupils, gld_number, gld_percent, gld_lci, gld_uci)
 
 # Indicators 6 - Excess weight reception ####
-indicator_6 <- fingertips_data(IndicatorID = 20601, AreaTypeID = 101) 
-indicator_6 <- arrange(indicator_6, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_6 <- subset(indicator_6, Timeperiod == unique(indicator_6$Timeperiod)[1] & Sex == "Persons") # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_6 <- fingertips_data(IndicatorID = 20601, AreaTypeID = 101) %>% 
+  arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1] & Sex == "Persons") # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_6_comp <- subset(indicator_6, AreaName == comp_area) 
+indicator_6_comp <- indicator_6 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 7 ####
-indicator_7 <- fingertips_data(IndicatorID = 20602, AreaTypeID = 101) 
-indicator_7 <- arrange(indicator_7, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_7 <- subset(indicator_7, Timeperiod == unique(indicator_7$Timeperiod)[1] & Sex == "Persons") # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_7 <- fingertips_data(IndicatorID = 20602, AreaTypeID = 101) %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1] & Sex == "Persons") # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_7_comp <- subset(indicator_7, AreaName == comp_area) 
+indicator_7_comp <- indicator_7 %>% 
+  filter(AreaName == comp_area) 
 
-# Indicator 8 ####
-if (!file.exists("./Journey through indicators/2a_PrimaryTables.xlsx")) {
-  download.file("https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/649821/2a_PrimaryTables.xlsx", "./Journey through indicators/2a_PrimaryTables.xlsx", mode = "wb")}
+# Indicator 8 Key stage 2 expected level for reading, writing and mathematics #### 
+if (!file.exists("./Journey through indicators/Key_stage_2_underlying_data.zip")) {
+  download.file("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/774449/Key_stage_2_underlying_data.zip", "./Journey through indicators/Key_stage_2_underlying_data.zip", mode = "wb")
+  unzip("./Journey through indicators/Key_stage_2_underlying_data.zip", exdir = "./Journey through indicators")}
 
-indicator_8 <- read_excel("./Journey through indicators/2a_PrimaryTables.xlsx", sheet = "Table PA1", col_types = c("text", "text", "numeric", "numeric","skip", "skip", "skip", "skip", "skip","skip", "skip", "skip", "skip", "skip", "skip", "skip", "skip","skip", "skip", "skip", "skip","skip", "skip", "skip", "skip", "skip", "skip"), skip = 7); colnames(indicator_8) <- c("Code", "Name", "Number_children", "Number_achieving_EL" )
+indicator_8 <- read_csv("./Journey through indicators/2018_KS2_PUPRES_CHAR_UD.csv", col_types = c(.default = col_character(), KS2_RWM_ELIG_18 = col_number(), KS2_RWM_EXP_18 = col_number())) %>% 
+  filter(is.na(RURALITY)) %>% 
+  mutate(LAD_NAME = ifelse(is.na(REGION_NAME), COUNTRY_NAME, ifelse(is.na(LA_NAME), REGION_NAME, ifelse(is.na(LAD_NAME), LA_NAME, LAD_NAME)))) %>% 
+  mutate(LAD_CODE = ifelse(is.na(REGION_CODE), COUNTRY_CODE, ifelse(is.na(LA_CODE), REGION_CODE, ifelse(is.na(LAD_CODE), LA_CODE, LAD_CODE)))) %>% 
+  rename(Area_Name = LAD_NAME,
+         Area_Code = LAD_CODE) %>% 
+  select(Area_Code, Area_Name, KS2_RWM_ELIG_18, KS2_RWM_EXP_18) %>%
+  mutate(KS2_RWM_ELIG_18 = as.numeric(KS2_RWM_ELIG_18),
+         KS2_RWM_EXP_18 = as.numeric(KS2_RWM_EXP_18),
+         Percentage_EL = KS2_RWM_EXP_18 / KS2_RWM_ELIG_18 * 100,
+         GLD_LCI =  wilson_lower(KS2_RWM_EXP_18, KS2_RWM_ELIG_18, confidence = .95) * 100,
+         GLD_UCI =  wilson_upper(KS2_RWM_EXP_18, KS2_RWM_ELIG_18, confidence = .95) * 100)
 
-indicator_8 <- subset(indicator_8, !is.na(Name) & Name != "No match")
-indicator_8$Name <- capwords(indicator_8$Name, strict = TRUE)
-indicator_8$Name <- gsub("Barrow-in-furness", "Barrow-in-Furness", indicator_8$Name)
-indicator_8$Name <- gsub("Vale Of White Horse", "Vale of White Horse", indicator_8$Name)
-
-indicator_8$Percentage_EL <- indicator_8$Number_achieving_EL / indicator_8$Number_children * 100
-indicator_8$GLD_LCI <- fun_LCI(indicator_8$Number_achieving_EL, indicator_8$Number_children, .95)
-indicator_8$GLD_UCI <- fun_UCI(indicator_8$Number_achieving_EL, indicator_8$Number_children, .95)
-
-indicator_8$Name <- gsub("\\And\\b", "and", indicator_8$Name)
-
-indicator_8_comp <- subset(indicator_8, Name == comp_area)
+indicator_8_comp <- indicator_8 %>% 
+  filter(Area_Name == comp_area)
 
 # Indicator 9 - under 16s living in poverty ####
-indicator_9 <- fingertips_data(IndicatorID = 10101,  AreaTypeID = 101) 
-indicator_9 <- arrange(indicator_9, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_9 <- subset(indicator_9, Timeperiod == unique(indicator_9$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_9 <- fingertips_data(IndicatorID = 10101,  AreaTypeID = 101) %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_9_comp <- subset(indicator_9, AreaName == comp_area)
+indicator_9_comp <- indicator_9 %>% 
+  filter(AreaName == comp_area)
 
 # Indicator 10 - Emergency admissions for intentional self-harm ####
-indicator_10 <- fingertips_data(IndicatorID = 21001,  AreaTypeID = 101) 
-indicator_10 <- subset(indicator_10, Sex == "Persons")
-indicator_10 <- arrange(indicator_10, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_10 <- subset(indicator_10, Timeperiod == unique(indicator_10$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_10 <- fingertips_data(IndicatorID = 21001,  AreaTypeID = 101) %>% 
+  filter(Sex == "Persons") %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_10_comp <- subset(indicator_10, AreaName == comp_area) 
+indicator_10_comp <- indicator_10 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 11 - Under 18s conceptions ####
-indicator_11 <- fingertips_data(IndicatorID = 20401,  AreaTypeID = 101) 
-indicator_11 <- arrange(indicator_11, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_11 <- subset(indicator_11, Timeperiod == unique(indicator_11$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_11 <- fingertips_data(IndicatorID = 20401,  AreaTypeID = 101) %>% 
+  arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_11_comp <- subset(indicator_11, AreaName == comp_area) 
+indicator_11_comp <- indicator_11 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 12 - Pupils attaining GCSEs ####
-indicator_12 <- fingertips_data(IndicatorID = 92199,  AreaTypeID = 101) 
-indicator_12 <- arrange(indicator_12, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_12 <- subset(indicator_12, Timeperiod == unique(indicator_12$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_12 <- fingertips_data(IndicatorID = 92199,  AreaTypeID = 101) %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_12_comp <- subset(indicator_12, AreaName == comp_area) 
+indicator_12_comp <- indicator_12 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 13 - Youth unemployment rate ####
-indicator_13 <- read_csv("https://www.nomisweb.co.uk/api/v01/dataset/NM_162_1.data.csv?geography=2092957699,2092957698,2092957697,1879048193...1879048573,1879048583,1879048574...1879048582&date=latest&gender=0&age=11&measure=1&measures=20100&select=date_name,geography_name,gender_name,age_name,geography_code,measure_name,obs_value")
+indicator_13 <- read_csv("https://www.nomisweb.co.uk/api/v01/dataset/NM_162_1.data.csv?geography=2092957699,2092957698,2092957697,1879048193...1879048573,1879048583,1879048574...1879048582&date=latest&gender=0&age=11&measure=1&measures=20100&select=date_name,geography_name,gender_name,age_name,geography_code,measure_name,obs_value", col_types = cols(  DATE_NAME = col_character(),  GEOGRAPHY_NAME = col_character(),  GENDER_NAME = col_character(),  AGE_NAME = col_character(),  GEOGRAPHY_CODE = col_character(),  MEASURE_NAME = col_character(),  OBS_VALUE = col_double()))
 
-if (!file.exists("./Journey through indicators/mye_2016.xls")) {
-  download.file("https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatesforukenglandandwalesscotlandandnorthernireland/mid2016/ukmidyearestimates2016.xls", "./Journey through indicators/mye_2016.xls", mode = "wb")}
+if (!file.exists("./Journey through indicators/mye_2017.xls")) {
+  download.file("https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatesforukenglandandwalesscotlandandnorthernireland/mid2017/ukmidyearestimates2017finalversion.xls", "./Journey through indicators/mye_2017.xls", mode = "wb")}
 
-mye_2016 <- read_excel("./Journey through indicators/mye_2016.xls",sheet = "MYE2 - All", skip = 4)
-mye_2016 <- mye_2016[c("Code","Name","18","19","20","21","22","23","24")]
-mye_2016$`18_24` <- rowSums(mye_2016[,3:ncol(mye_2016)], na.rm = TRUE)
+mye_2017 <- read_excel("./Journey through indicators/mye_2017.xls",sheet = "MYE2 - All", skip = 4) %>% 
+  select(Code,Name,`18`,`19`,`20`,`21`,`22`,`23`,`24`) %>% 
+  mutate(`18_24` = rowSums(.[3:ncol(mye_2017)], na.rm = TRUE))
 
-mye_2016$Name <- capwords(mye_2016$Name, strict = TRUE)
+indicator_13 <- indicator_13 %>% 
+  left_join(mye_2017[c("Code", "Name","18_24")], by = c("GEOGRAPHY_CODE" = "Code")) %>% 
+  mutate(Percentage_claimants = OBS_VALUE / `18_24` * 100,
+         claimants_LCI = wilson_lower(OBS_VALUE, `18_24`, confidence = .95) * 100,
+         claimants_UCI = wilson_upper(OBS_VALUE, `18_24`, confidence = .95) * 100)
 
-indicator_13 <- merge(indicator_13, mye_2016[c("Code", "Name","18_24")], by.x = "GEOGRAPHY_CODE", by.y = "Code")
-
-indicator_13$Percentage_claimants <- indicator_13$OBS_VALUE / indicator_13$`18_24` * 100
-indicator_13$claimants_LCI <- fun_LCI(indicator_13$OBS_VALUE, indicator_13$`18_24`, .95)
-indicator_13$claimants_UCI <- fun_UCI(indicator_13$OBS_VALUE, indicator_13$`18_24`, .95)
-
-indicator_13_comp <- subset(indicator_13, Name == comp_area) 
+indicator_13_comp <- indicator_13 %>% 
+  filter(GEOGRAPHY_NAME == comp_area) 
 
 # Indicator 14 - Hourly earnings (male) ####
-if (!file.exists("./Journey through indicators/PROV - Home Geography Table 8.6a   Hourly pay - Excluding overtime 2017.xls")){
-  download.file("https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/placeofresidencebylocalauthorityashetable8/2017provisional/table82017provisional.zip", "./Journey through indicators/Earnings.zip")
+if (!file.exists("./Journey through indicators/PROV - Home Geography Table 8.6a   Hourly pay - Excluding overtime 2018.xls")){
+  download.file("https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/placeofresidencebylocalauthorityashetable8/2018provisional/table82018provisional.zip", "./Journey through indicators/Earnings.zip")
   unzip("./Journey through indicators/Earnings.zip", exdir = "./Journey through indicators")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.3b   Basic Pay - Including other pay 2017 CV.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.1a   Weekly pay - Gross 2017.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.1b   Weekly pay - Gross 2017 CV.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.2a   Weekly pay - Excluding overtime 2017.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.2b   Weekly pay - Excluding overtime 2017 CV.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.3a   Basic Pay - Including other pay 2017.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.5b   Hourly pay - Gross 2017 CV.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.4a   Overtime pay 2017.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.4b   Overtime pay 2017 CV.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.5a   Hourly pay - Gross 2017.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.12  Gender pay gap 2017.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.6b   Hourly pay - Excluding overtime 2017 CV.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.7a   Annual pay - Gross 2017.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.7b   Annual pay - Gross 2017 CV.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.8a   Annual pay - Incentive 2017.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.8b   Annual pay - Incentive 2017 CV.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.9a   Paid hours worked - Total 2017.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.9b   Paid hours worked - Total 2017 CV.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.10a   Paid hours worked - Basic 2017.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.10b   Paid hours worked - Basic 2017 CV.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.11a   Paid hours worked - Overtime 2017.xls")
-  file.remove("./Journey through indicators/PROV - Home Geography Table 8.11b   Paid hours worked - Overtime 2017 CV.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.3b   Basic Pay - Including other pay 2018 CV.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.1a   Weekly pay - Gross 2018.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.1b   Weekly pay - Gross 2018 CV.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.2a   Weekly pay - Excluding overtime 2018.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.2b   Weekly pay - Excluding overtime 2018 CV.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.3a   Basic Pay - Including other pay 2018.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.5b   Hourly pay - Gross 2018 CV.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.4a   Overtime pay 2018.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.5a   Hourly pay - Gross 2018.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.12  Gender pay gap 2018.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.6b   Hourly pay - Excluding overtime 2018 CV.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.7a   Annual pay - Gross 2018.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.7b   Annual pay - Gross 2018 CV.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.8a   Annual pay - Incentive 2018.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.8b   Annual pay - Incentive 2018 CV.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.9a   Paid hours worked - Total 2018.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.9b   Paid hours worked - Total 2018 CV.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.10a   Paid hours worked - Basic 2018.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.10b   Paid hours worked - Basic 2018 CV.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.11a   Paid hours worked - Overtime 2018.xls")
+  file.remove("./Journey through indicators/PROV - Home Geography Table 8.11b   Paid hours worked - Overtime 2018 CV.xls")
   file.remove("./Journey through indicators/Earnings.zip")}
 
 # Estimates of the change from the previous year are provided for the median and mean. It is important to note that these are not adjusted to account for changes in the composition of the labour market during that period. Such factors can influence the apparent change in medians or means independently of changes in individuals' earnings. For example, when there are more low-paying jobs in the labour market in one year compared to the previous year, this acts to decrease the median. Consequently, care should be taken when drawing conclusions about changes in pay for individuals over time.				
 
-indicator_14 <- read_excel("./Journey through indicators/PROV - Home Geography Table 8.6a   Hourly pay - Excluding overtime 2017.xls", sheet = "Male", col_types = c("text", "text", "numeric", "numeric", "numeric", "text", "numeric", "text", "text", "text", "text", "text", "text", "text", "text", "text", "text", "numeric", "text", "text"), skip = 4);indicator_14 <- indicator_14[,1:5]
-colnames(indicator_14) <- c("Name", "Code", "N_jobs_thousands", "Median", "Change")
-indicator_14_SE <- subset(indicator_14, Name == "South East")
-indicator_14_England <- subset(indicator_14, Name == "England")
+indicator_14 <- read_excel("./Journey through indicators/PROV - Home Geography Table 8.6a   Hourly pay - Excluding overtime 2018.xls", sheet = "Male", col_types = c("text", "text", "numeric", "numeric", "numeric", "text", "numeric", "text", "text", "text", "text", "text", "text", "text", "text", "text", "text", "numeric", "text", "text"), skip = 4) %>% 
+  select(1:5) %>% 
+  mutate(Timeperiod = "2018")
 
-indicator_14$Timeperiod <- "2017"
+colnames(indicator_14) <- c("Name", "Code", "N_jobs_thousands", "Median", "Change", "Timeperiod")
+
+indicator_14_SE <- indicator_14 %>% 
+  filter(Name == "South East")
+
+indicator_14_England <- indicator_14 %>% 
+  filter(Name == "England")
 
 # Indicator 15 - Hourly earnings (female) ####
 
-indicator_15 <- read_excel("./Journey through indicators/PROV - Home Geography Table 8.6a   Hourly pay - Excluding overtime 2017.xls", col_types = c("text", "text", "numeric", "numeric", "numeric", "text", "numeric", "text", "text", "text", "text", "text", "text", "text", "text", "text", "text", "numeric", "text", "text"), sheet = "Female", skip = 4);indicator_15 <- indicator_15[,1:5]
-colnames(indicator_15) <- c("Name", "Code", "N_jobs_thousands", "Median", "Change")
-indicator_15_SE <- subset(indicator_15, Name == "South East")
-indicator_15_England <- subset(indicator_15, Name == "England")
+indicator_15 <- read_excel("./Journey through indicators/PROV - Home Geography Table 8.6a   Hourly pay - Excluding overtime 2018.xls", sheet = "Female", col_types = c("text", "text", "numeric", "numeric", "numeric", "text", "numeric", "text", "text", "text", "text", "text", "text", "text", "text", "text", "text", "numeric", "text", "text"), skip = 4) %>% 
+  select(1:5) %>% 
+  mutate(Timeperiod = "2018")
 
-indicator_15$Timeperiod <- "2017"
+colnames(indicator_15) <- c("Name", "Code", "N_jobs_thousands", "Median", "Change", "Timeperiod")
+
+indicator_15_SE <- indicator_15 %>% 
+  filter(Name == "South East")
+
+indicator_15_England <- indicator_15 %>% 
+  filter(Name == "England")
 
 # Indicator 16 - Ratio of lower quartile house price to lower quartile earnings ####
-if (!file.exists("./Journey through indicators/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls")){
-  download.file("https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/housing/datasets/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian/current/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls", "./Journey through indicators/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls", mode = "wb")}
+  download.file("https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/housing/datasets/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian/current/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls", "./Journey through indicators/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls", mode = "wb")
 
-indicator_16a <- read_excel("./Journey through indicators/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls",col_types = c("text", "text", "text", "text",  "skip", "skip","skip", "skip", "skip", "skip", "skip", "skip", "skip", "skip", "skip", "skip","skip", "skip", "skip", "skip", "skip", "numeric", "numeric", "numeric"),  sheet = "6a", skip = 5); indicator_16a <- subset(indicator_16a, !(is.na(Name)))
+indicator_16a <- read_excel("./Journey through indicators/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls",  sheet = "6a", skip = 5) %>% 
+  filter(!(is.na(Name)))
 
-indicator_16b <- read_excel("./Journey through indicators/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls",col_types = c("text", "text", "text", "text",  "skip", "skip", "skip","skip", "skip", "skip", "skip", "skip", "skip", "skip", "skip", "skip", "skip","skip", "skip", "skip", "skip", "skip", "numeric", "numeric", "numeric"),  sheet = "6b", skip = 5); indicator_16b <- subset(indicator_16b, !(is.na(Name)))
+indicator_16b <- read_excel("./Journey through indicators/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls",  sheet = "6b", skip = 5) %>% 
+  filter(!(is.na(Name)))
 
-indicator_16 <- merge(indicator_16a[c("Code","Name","Q3-2016")], indicator_16b[c("Code","Name","2016")], by = c("Code", "Name"))
-
-colnames(indicator_16) <- c("Code", "Name", "Q3_LQ_price", "Gross_LQ_Annual_Earnings")
-indicator_16$Affordability_ratio <- indicator_16$Q3_LQ_price / indicator_16$Gross_LQ_Annual_Earnings
+indicator_16 <- indicator_16a %>% 
+  select(Code,Name,`Year ending Sep 2018`) %>% 
+  left_join(indicator_16b[c("Code","Name","2018")], by = c("Code", "Name")) %>% 
+  rename(LQ_price = `Year ending Sep 2018`,
+         Gross_LQ_Annual_Earnings = `2018`) %>% 
+  mutate(Gross_LQ_Annual_Earnings = as.numeric(Gross_LQ_Annual_Earnings)) %>% 
+  mutate(Affordability_ratio = LQ_price / Gross_LQ_Annual_Earnings)
 
 rm(indicator_16a,indicator_16b)
 
-indicator_16a_comp <- read_excel("./Journey through indicators/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls", sheet = "1a", col_types = c("text", "text", "skip", "skip", "skip", "skip","skip", "skip", "skip","skip", "skip", "skip","skip", "skip", "skip","skip", "skip", "skip", "skip", "numeric", "numeric", "numeric"), skip = 5); indicator_16a_comp <- subset(indicator_16a_comp, !(is.na(Name)))
+indicator_16a_comp <- read_excel("./Journey through indicators/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls", sheet = "1a", skip = 5) %>% 
+  filter(!(is.na(Name)))
 
-indicator_16b_comp <- read_excel("./Journey through indicators/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls", sheet = "1b", col_types = c("text", "text", "skip", "skip", "skip", "skip","skip", "skip", "skip","skip", "skip", "skip","skip","skip", "skip", "skip","skip", "skip", "skip", "skip", "numeric", "numeric", "numeric"), skip = 5); indicator_16b_comp <- subset(indicator_16b_comp, !(is.na(Name)))
+indicator_16b_comp <- read_excel("./Journey through indicators/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls", sheet = "1b", skip = 5) %>% 
+  filter(!(is.na(Name)))
 
-indicator_16_comp <- merge(indicator_16a_comp[c("Code","Name","Q3-2016")], indicator_16b_comp[c("Code","Name","2016")], by = c("Code", "Name"))
+indicator_16_comp <- indicator_16a_comp %>% 
+  select(Code,Name,`Year ending Sep 2018`) %>% 
+  left_join(indicator_16b_comp[c("Code","Name","2018")], by = c("Code", "Name")) %>% 
+  rename(LQ_price = `Year ending Sep 2018`,
+         Gross_LQ_Annual_Earnings = `2018`) %>% 
+  mutate(Gross_LQ_Annual_Earnings = as.numeric(Gross_LQ_Annual_Earnings)) %>% 
+  mutate(Affordability_ratio = LQ_price / Gross_LQ_Annual_Earnings)
 
-colnames(indicator_16_comp) <- c("Code", "Name", "Q3_LQ_price", "Gross_LQ_Annual_Earnings")
-indicator_16_comp$Affordability_ratio <- indicator_16_comp$Q3_LQ_price / indicator_16_comp$Gross_LQ_Annual_Earnings
+indicator_16_SE <- indicator_16_comp %>% 
+  filter(Name == "South East")
 
-rm(indicator_16a_comp,indicator_16b_comp)
-indicator_16_SE <- subset(indicator_16_comp, Name == "South East")
-indicator_16_comp <- subset(indicator_16_comp, Name == comp_area)
+indicator_16_comp <- indicator_16_comp %>% 
+  filter(Name == comp_area)
 
 # This indicator is on fingertips but it is not as up to date as on ONS and also the figure for 2015 has been revised.
 # ator_16 <- fingertips_data(IndicatorID = 92620,  AreaTypeID = 101) 
@@ -390,156 +387,180 @@ indicator_16_comp <- subset(indicator_16_comp, Name == comp_area)
 # indicator_16 <- subset(indicator_16, AreaName == ch_area) 
 
 # Indicator 17 - KSI roads ####
-indicator_17 <- fingertips_data(IndicatorID = 11001,  AreaTypeID = 101) 
-indicator_17 <- arrange(indicator_17, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_17 <- subset(indicator_17, Timeperiod == unique(indicator_17$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_17 <- fingertips_data(IndicatorID = 11001,  AreaTypeID = 101) %>% 
+ arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+ filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_17_comp <- subset(indicator_17, AreaName == comp_area) 
+indicator_17_comp <- indicator_17 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 18 - Violent crime ####
-indicator_18 <- fingertips_data(IndicatorID = 11202,  AreaTypeID = 101) 
-indicator_18 <- arrange(indicator_18, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_18 <- subset(indicator_18, Timeperiod == unique(indicator_18$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_18 <- fingertips_data(IndicatorID = 11202,  AreaTypeID = 101) %>% 
+ arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+ filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_18_comp <- subset(indicator_18, AreaName == comp_area) 
+indicator_18_comp <- indicator_18 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 19 Hospital admissions for alcohol-related conditions (Narrow), all ages ####
-indicator_19 <- fingertips_data(IndicatorID = 91414,  AreaTypeID = 101) 
-indicator_19 <- subset(indicator_19, Sex == "Persons")
-indicator_19 <- arrange(indicator_19, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_19 <- subset(indicator_19, Timeperiod == unique(indicator_19$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_19 <- fingertips_data(IndicatorID = 91414,  AreaTypeID = 101) %>% 
+ filter(Sex == "Persons") %>% 
+ arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_19_comp <- subset(indicator_19, AreaName == comp_area) 
+indicator_19_comp <- indicator_19 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 20 - Physically active adults (current method) ####
-indicator_20 <- fingertips_data(IndicatorID = 93014,  AreaTypeID = 101) 
-indicator_20 <- subset(indicator_20, Sex == "Persons" & Age == "19+ yrs")
-indicator_20 <- arrange(indicator_20, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_20 <- subset(indicator_20, Timeperiod == unique(indicator_20$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_20 <- fingertips_data(IndicatorID = 93014,  AreaTypeID = 101) %>% 
+  filter(Sex == "Persons" & Age == "19+ yrs") %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_20_comp <- subset(indicator_20, AreaName == comp_area) 
+indicator_20_comp <- indicator_20 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 21 - Physically inactive adults (current method) ####
-indicator_21 <- fingertips_data(IndicatorID = 93015,  AreaTypeID = 101) 
-indicator_21 <- subset(indicator_21, Sex == "Persons" & Age == "19+ yrs")
-indicator_21 <- arrange(indicator_21, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_21 <- subset(indicator_21, Timeperiod == unique(indicator_21$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_21 <- fingertips_data(IndicatorID = 93015,  AreaTypeID = 101) %>% 
+ filter(Sex == "Persons" & Age == "19+ yrs") %>% 
+ arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+ filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_21_comp <- subset(indicator_21, AreaName == comp_area) 
+indicator_21_comp <- indicator_21 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 22 - Adult smoking prevalence ####
-indicator_22 <- fingertips_data(IndicatorID = 92443,  AreaTypeID = 101) 
-indicator_22 <- subset(indicator_22, Sex == "Persons" & Age == "18+ yrs")
-indicator_22 <- arrange(indicator_22, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_22 <- subset(indicator_22, Timeperiod == unique(indicator_22$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_22 <- fingertips_data(IndicatorID = 92443,  AreaTypeID = 101) %>% 
+ filter(Sex == "Persons" & Age == "18+ yrs") %>% 
+ arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+ filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_22_comp <- subset(indicator_22, AreaName == comp_area) 
+indicator_22_comp <- indicator_22 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 23 - Excess weight ####
-indicator_23 <- fingertips_data(IndicatorID = 93088,  AreaTypeID = 101) 
-indicator_23 <- subset(indicator_23, Sex == "Persons" & Age == "18+ yrs")
-indicator_23 <- arrange(indicator_23, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_23 <- subset(indicator_23, Timeperiod == unique(indicator_23$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_23 <- fingertips_data(IndicatorID = 93088,  AreaTypeID = 101) %>% 
+ filter(Sex == "Persons" & Age == "18+ yrs") %>% 
+ arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+ filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_23_comp <- subset(indicator_23, AreaName == comp_area) 
+indicator_23_comp <- indicator_23 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 24 - Breast screening ####
-indicator_24 <- fingertips_data(IndicatorID = 22001,  AreaTypeID = 101) 
-indicator_24 <- arrange(indicator_24, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_24 <- subset(indicator_24, Timeperiod == unique(indicator_24$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_24 <- fingertips_data(IndicatorID = 22001,  AreaTypeID = 101) %>% 
+ arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+ filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_24_comp <- subset(indicator_24, AreaName == comp_area) 
+indicator_24_comp <- indicator_24 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 25 - Bowel screening ####
-indicator_25 <- fingertips_data(IndicatorID = 91720,  AreaTypeID = 101) 
-indicator_25 <- arrange(indicator_25, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_25 <- subset(indicator_25, Timeperiod == unique(indicator_25$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_25 <- fingertips_data(IndicatorID = 91720,  AreaTypeID = 101) %>% 
+ arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+ filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_25_comp <- subset(indicator_25, AreaName == comp_area) 
+indicator_25_comp <- indicator_25 %>% 
+  filter(AreaName == comp_area) 
 
 # Indicator 26 - Cervical screening ####
-indicator_26 <- fingertips_data(IndicatorID = 22002,  AreaTypeID = 101) 
-indicator_26 <- arrange(indicator_26, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_26 <- subset(indicator_26, Timeperiod == unique(indicator_26$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_26 <- fingertips_data(IndicatorID = 22002,  AreaTypeID = 101) %>% 
+ arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+ filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_26_comp <- subset(indicator_26, AreaName == comp_area) 
+indicator_26_comp <- indicator_26 %>% 
+  filter(AreaName == comp_area) 
 
-# Indicator 27 - QOF Diabetes ####
-indicator_27 <- fingertips_data(IndicatorID = 21701,  AreaTypeID = 101) 
-indicator_27 <- arrange(indicator_27, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_27 <- subset(indicator_27, Timeperiod == unique(indicator_27$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_27_comp <- subset(indicator_27, AreaName == comp_area) 
+# download.file("https://files.digital.nhs.uk/72/CB2869/qof-1718-csv.zip", "./Journey through indicators/QOF_diabetes_prevalence.zip", mode = "wb")
+# unzip("./Journey through indicators/QOF_diabetes_prevalence.zip", exdir = "./Journey through indicators")
+# file.remove("./Journey through indicators/QOF_diabetes_prevalence.zip")
+# file.remove("./Journey through indicators/CCG_EXCEPTIONS_EXCLUSIONS.csv")
+# file.remove("./Journey through indicators/ACHIEVEMENT.csv")
 
-# Indicator 28 - Mortality from cardiovascular disease ####
-indicator_28 <- fingertips_data(IndicatorID = 40401,  AreaTypeID = 101) 
-indicator_28 <- subset(indicator_28, Sex == "Persons")
-indicator_28 <- arrange(indicator_28, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_28 <- subset(indicator_28, Timeperiod == unique(indicator_28$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+# indicator_27 <- read_excel("./Journey through indicators/QOF_diabetes_prevalence.xlsx")
+# 
+# indicator_27 <- fingertips_data(IndicatorID = 93347,  AreaTypeID = 101) #%>% 
+#  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+#  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+# 
+# indicator_27_comp <- indicator_27 %>% 
+#   filter(AreaName == comp_area) 
 
-indicator_28_comp <- subset(indicator_28, AreaName == comp_area) 
+# Indicator 27 - Mortality from cardiovascular disease ####
+indicator_27 <- fingertips_data(IndicatorID = 40401,  AreaTypeID = 101) %>% 
+ filter(Sex == "Persons") %>% 
+ arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+ filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-# Indicator 29 - Mortality from all cancers ####
-indicator_29 <- fingertips_data(IndicatorID = 40501,  AreaTypeID = 101) 
-indicator_29 <- subset(indicator_29, Sex == "Persons")
-indicator_29 <- arrange(indicator_29, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_29 <- subset(indicator_29, Timeperiod == unique(indicator_29$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_27_comp <- indicator_27 %>% 
+  filter(AreaName == comp_area) 
 
-indicator_29_comp <- subset(indicator_29, AreaName == comp_area) 
+# Indicator 28 - Mortality from all cancers ####
+indicator_28 <- fingertips_data(IndicatorID = 40501,  AreaTypeID = 101) %>% 
+  filter(Sex == "Persons") %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-# Indicator 30 - Older people in poverty ####
-indicator_30 <- fingertips_data(IndicatorID = 340,  AreaTypeID = 101) 
-indicator_30 <- arrange(indicator_30, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_30 <- subset(indicator_30, Timeperiod == unique(indicator_30$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_28_comp <- indicator_28 %>% 
+  filter(AreaName == comp_area) 
 
-indicator_30_comp <- subset(indicator_30, AreaName == comp_area) 
+# Indicator 29 - Older people in poverty ####
+indicator_29 <- fingertips_data(IndicatorID = 340,  AreaTypeID = 101) %>% 
+  arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+
  
 ID2015 <- read_csv("https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467774/File_7_ID_2015_All_ranks__deciles_and_scores_for_the_Indices_of_Deprivation__and_population_denominators.csv")
 
-indicator_30_comp$LCI <- fun_LCI((indicator_30_comp$Value/100) * sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), .95)  * 100
-indicator_30_comp$UCI <- fun_UCI((indicator_30_comp$Value/100) * sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), .95) * 100
+indicator_29_comp <- indicator_29 %>% 
+  filter(AreaName == comp_area) %>% 
+  mutate(LCI = wilson_lower((Value / 100) * sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), confidence = .95) * 100,
+         UCI = wilson_upper((Value/100) * sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), confidence = .95) * 100) 
 
-# Indicator 31 - Percentage of households in fuel poverty ####
-indicator_31 <- fingertips_data(IndicatorID = 90356,  AreaTypeID = 101) 
-indicator_31 <- arrange(indicator_31, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_31 <- subset(indicator_31, Timeperiod == unique(indicator_31$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+# Indicator 30 - Percentage of households in fuel poverty ####
+indicator_30 <- fingertips_data(IndicatorID = 90356,  AreaTypeID = 101) %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-indicator_31_comp <- subset(indicator_31, AreaName == comp_area) 
+indicator_30_comp <- indicator_30 %>% 
+  filter(AreaName == comp_area) 
 
-# Lower is better
-# indicator_31_colour <- ifelse(indicator_31$LowerCI95.0limit > indicator_31_comp$UpperCI95.0limit, worse, ifelse(indicator_31$UpperCI95.0limit < indicator_31_comp$LowerCI95.0limit, better, no_diff))
+# Indicator 31 - Emergency admissions for hip fractures ####
+indicator_31 <- fingertips_data(IndicatorID = 41401,  AreaTypeID = 101) %>% 
+ filter(Sex == "Persons") %>% 
+ arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
+ filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-# Indicator 32 - Emergency admissions for hip fractures ####
-indicator_32 <- fingertips_data(IndicatorID = 41401,  AreaTypeID = 101) 
-indicator_32 <- subset(indicator_32, Sex == "Persons")
-indicator_32 <- arrange(indicator_32, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_32 <- subset(indicator_32, Timeperiod == unique(indicator_32$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_31_comp <- indicator_31 %>% 
+  filter(AreaName == comp_area) 
 
-indicator_32_comp <- subset(indicator_32, AreaName == comp_area) 
+# Indicator 32 - Excess winter deaths index ####
+indicator_32 <- fingertips_data(IndicatorID = 90641,  AreaTypeID = 101) %>% 
+  filter(Sex == "Persons") %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-# Indicator 33 - Excess winter deaths index ####
-indicator_33 <- fingertips_data(IndicatorID = 90641,  AreaTypeID = 101) 
-indicator_33 <- subset(indicator_33, Sex == "Persons")
-indicator_33 <- arrange(indicator_33, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_33 <- subset(indicator_33, Timeperiod == unique(indicator_33$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_32_comp <- indicator_32 %>% 
+   filter(AreaName == comp_area) 
 
-indicator_33_comp <- subset(indicator_33, AreaName == comp_area) 
+# Indicator 33 - Male Life Expectancy ####
+indicator_33 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 101) %>% 
+  filter(Sex == "Male") %>% 
+  arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-# Indicator 34 - Male Life Expectancy ####
-indicator_34 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 101) 
-indicator_34 <- subset(indicator_34, Sex == "Male")
-indicator_34 <- arrange(indicator_34, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_34 <- subset(indicator_34, Timeperiod == unique(indicator_34$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+indicator_33_comp <- indicator_33 %>% 
+  filter(AreaName == comp_area) 
 
-indicator_34_comp <- subset(indicator_34, AreaName == comp_area) 
+# Indicator 34 - Female Life Expectancy ####
+indicator_34 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 101) %>% 
+  filter(Sex == "Female") %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
 
-# Indicator 35 - Female Life Expectancy ####
-indicator_35 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 101) 
-indicator_35 <- subset(indicator_35, Sex == "Female")
-indicator_35 <- arrange(indicator_35, desc(Timeperiod)) # Order by descending year (latest data on top)
-indicator_35 <- subset(indicator_35, Timeperiod == unique(indicator_35$Timeperiod)[1]) # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
-
-indicator_35_comp <- subset(indicator_35, AreaName == comp_area) 
+indicator_34_comp <- indicator_34 %>% 
+  filter(AreaName == comp_area) 
 
 # Chosen area ####
 
@@ -547,10 +568,10 @@ areas <- c("Medway","Bracknell Forest","West Berkshire","Reading","Slough","Wind
 
 LA_name_code <- read_csv("https://opendata.arcgis.com/datasets/a267b55f601a4319a9955b0197e3cb81_0.csv")
 
-#areas <- c("Adur", "Arun", "Chichester", "Crawley", "Horsham", "Mid Sussex","Worthing","Brighton and Hove")
+areas <- c("Adur", "Arun", "Chichester", "Crawley", "Horsham", "Mid Sussex","Worthing","Brighton and Hove")
 
 for (i in 1:length(areas)){
-
+#i = 1
   ch_area <- areas[i]
 
 ch_code <- as.character(subset(LA_name_code, LAD17NM == ch_area, select = "LAD17CD")) # this will look up the name of the area (ch_area) on the file specified within read_csv (which is a lookup file from ONS) and find the code of the area
@@ -669,23 +690,23 @@ grid.raster(ind_3_icon, x = unit(0.33, "npc"), y = unit(0.835, "npc"),  just = "
 grid.text(ifelse(is.na(indicator_3_ch$Value),"-",paste(round(indicator_3_ch$Value,1), "%", sep = "")), just = "left", x = unit(0.31, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
 grid.text(ifelse(is.na(indicator_3_ch$Value),"Data on\nbreast feeding\ninitiation\nunavailable",paste("of mothers\nbreastfeed their\nbabies in the first\n48hrs after delivery\nin ", as.character(indicator_3_ch$Timeperiod), sep = "")), just = "left", x = unit(0.31, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
-# indicator 4 - 0???4 year olds in households with an adult of out???of???work benefits #
+# indicator 4 - 0 to 4 year olds in households with an adult of out of work benefits #
 indicator_4_ch <- subset(indicator_4, Name == ch_area)
 indicator_4_colour <- ifelse(is.na(indicator_4_ch$LCI), not_applic, ifelse(indicator_4_ch$LCI > indicator_4_comp$UCI, worse, ifelse(indicator_4_ch$UCI < indicator_4_comp$LCI, better, no_diff)))
 
 grid.circle(x = 0.42, y = 0.835  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_4_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
 grid.text("Out of\nwork\nBenefits", just = "centre", x = unit(0.42, "npc"), y = unit(.835, "npc"), gp = gpar(col = "#ffffff", fontsize = "6"))
 grid.text(ifelse(is.na(indicator_4_ch$Percentage_children_poverty),"-",paste(round(indicator_4_ch$Percentage_children_poverty,1), "%", sep = "")), just = "left", x = unit(0.4, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_4_ch$Percentage_children_poverty),"Data\nunavailable","of 0-4 year olds in\nhouseholds with an\nadult of out-of-work\nbenefits in May 2016."), just = "left", x = unit(0.4, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+grid.text(ifelse(is.na(indicator_4_ch$Percentage_children_poverty),"Data\nunavailable","of 0-4 year olds in\nhouseholds with an\nadult of out-of-work\nbenefits in May 2017."), just = "left", x = unit(0.4, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
 # indicator 5 - School readiness at the end of reception
-indicator_5_ch <- subset(indicator_5, Name == ch_area)
-indicator_5_colour <- ifelse(is.na(indicator_5_ch$GLD_LCI), not_applic, ifelse(indicator_5_ch$GLD_LCI > indicator_5_comp$GLD_UCI, worse, ifelse(indicator_5_ch$GLD_UCI < indicator_5_comp$GLD_LCI, better, no_diff)))
+indicator_5_ch <- subset(indicator_5, Area_name == ch_area)
+indicator_5_colour <- ifelse(is.na(indicator_5_ch$gld_lci), not_applic, ifelse(indicator_5_ch$gld_lci > indicator_5_comp$gld_uci, worse, ifelse(indicator_5_ch$gld_uci < indicator_5_comp$gld_lci, better, no_diff)))
 
 grid.circle(x = 0.51, y = 0.835  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_5_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
 grid.raster(ind_5_icon, x = unit(0.51, "npc"), y = unit(0.835, "npc"),  just = "centre", width = .025)
-grid.text(ifelse(is.na(indicator_5_ch$Percentage_GLD),"-",paste(round(indicator_5_ch$Percentage_GLD,1), "%", sep = "")), just = "left", x = unit(0.49, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_5_ch$Percentage_GLD), "Data\nunavailable",paste("of children assessed\nas achieving a good\nlevel of development\n(being 'School Ready')\nat the end of reception\nin 2017")), just = "left", x = unit(0.49, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+grid.text(ifelse(is.na(indicator_5_ch$gld_percent),"-",paste(round(indicator_5_ch$gld_percent,1), "%", sep = "")), just = "left", x = unit(0.49, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
+grid.text(ifelse(is.na(indicator_5_ch$gld_percent), "Data\nunavailable",paste("of children assessed\nas achieving a good\nlevel of development\n(being 'School Ready')\nat the end of reception\nin 2017/18")), just = "left", x = unit(0.49, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
 # School years ##
 grid.circle(x = 0.625, y = 0.79  , r = 0.06, default.units = "npc", name = NULL, gp = gpar(fill = "#000000"), draw = TRUE, vp = NULL)
@@ -710,7 +731,7 @@ grid.text(ifelse(is.na(indicator_7_ch$Value),"-",paste(round(indicator_7_ch$Valu
 grid.text(ifelse(is.na(indicator_7_ch$Value), "Data\nunavailable",paste("of Year 6 pupils\n(aged 10/11 years)\nmeasured as having\nExcess Weight\nin ", indicator_7_ch$Timeperiod, sep = "")), just = "left", x = unit(0.795, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
 # indicator 8 - KS2 attainment reading, writing and maths
-indicator_8_ch <- subset(indicator_8, Name == ch_area)
+indicator_8_ch <- subset(indicator_8, Area_Name == ch_area)
 # Higher is better
 indicator_8_colour <- ifelse(is.na(indicator_8_ch$GLD_LCI), not_applic, ifelse(indicator_8_ch$GLD_LCI > indicator_8_comp$GLD_UCI, better, ifelse(indicator_8_ch$GLD_UCI < indicator_8_comp$GLD_LCI, worse, no_diff)))
 
@@ -718,7 +739,7 @@ grid.circle(x = 0.905, y = 0.84  , r = 0.03, default.units = "npc", name = NULL,
 grid.raster(ind_8_icon, x = unit(0.905, "npc"), y = unit(0.845, "npc"),  just = "centre", width = .03)
 grid.text("KS2", just = "centre", x = unit(0.905, "npc"), y = unit(.825, "npc"), gp = gpar(col = "#ffffff", fontsize = "7", fontface = "bold"))
 grid.text(ifelse(is.na(indicator_8_ch$Percentage_EL),"-",paste(round(indicator_8_ch$Percentage_EL,1), "%", sep = "")), just = "left", x = unit(0.88, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_8_ch$Percentage_EL), "Data\nunavailable",paste("of pupils attain the\nexpected levels at\nKey stage 2 for\nReading, Writing and\nMathematics in 2016")), just = "left", x = unit(0.88, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+grid.text(ifelse(is.na(indicator_8_ch$Percentage_EL), "Data\nunavailable",paste("of pupils attain the\nexpected levels at\nKey stage 2 for\nReading, Writing and\nMathematics in 2018")), just = "left", x = unit(0.88, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
 # indicator 9 - Children in poverty (under 16s)
 indicator_9_ch <- subset(indicator_9, AreaName == ch_area) 
@@ -796,7 +817,7 @@ indicator_16_ch <- subset(indicator_16, Name == ch_area)
 grid.circle(x = 0.175, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = "#8E8E8E", col = "#ffffff"), draw = TRUE, vp = NULL)
 grid.raster(ind_16_icon, x = unit(0.175, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
 grid.text(ifelse(is.na(indicator_16_ch$Affordability_ratio),"-",paste(round(indicator_16_ch$Affordability_ratio,2), sep = "")), just = "left", x = unit(0.14, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_16_ch$Affordability_ratio), "Data\nunavailable",paste("Housing Affordability\nRatio of lower quartile\nhouse price to lower\nquartile earnings in 2016\n",comp_area, ": ", round(indicator_16_comp$Affordability_ratio,2), sep = "")), just = "left", x = unit(0.14, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+grid.text(ifelse(is.na(indicator_16_ch$Affordability_ratio), "Data\nunavailable",paste("Housing Affordability\nRatio of lower quartile\nhouse price to lower\nquartile earnings in 2018\n",comp_area, ": ", round(indicator_16_comp$Affordability_ratio,2), sep = "")), just = "left", x = unit(0.14, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
 # indicator 17 KSI
 indicator_17_ch <- subset(indicator_17, AreaName == ch_area) 
@@ -902,16 +923,16 @@ grid.raster(ind_26_icon, x = unit(0.91, "npc"), y = unit(0.45, "npc"),  just = "
 grid.text(ifelse(is.na(indicator_26_ch$Value),"-",paste(round(indicator_26_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.88, "npc"), y = unit(.39, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
 grid.text(ifelse(is.na(indicator_26_ch$Value), "Data\nunavailable",paste("cervical cancer\nscreening coverage\nwomen aged\n25-64 years\n(",indicator_26_ch$Timeperiod,")", sep = "")), just = "left", x = unit(0.88, "npc"), y = unit(.37, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
-# indicator 27 - QOF Diabetes
+# indicator 27 Cardiovascular disease premature mortality
 indicator_27_ch <- subset(indicator_27, AreaName == ch_area) 
 indicator_27_colour <- ifelse(is.na(indicator_27_ch$LowerCI95.0limit), not_applic, ifelse(indicator_27_ch$LowerCI95.0limit > indicator_27_comp$UpperCI95.0limit, higher, ifelse(indicator_27_ch$UpperCI95.0limit < indicator_27_comp$LowerCI95.0limit, lower, no_diff)))
 
 grid.circle(x = 0.89, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_27_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
 grid.raster(ind_27_icon, x = unit(0.89, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
 grid.text(ifelse(is.na(indicator_27_ch$Value),"-",paste(round(indicator_27_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.87, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_27_ch$Value), "Data\nunavailable",paste("of GP registered\npatients (aged 17+)\non disease registers \nfor diabetes (",indicator_27_ch$Timeperiod,")", sep = "")), just = "left", x = unit(0.87, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+grid.text(ifelse(is.na(indicator_27_ch$Value), "Data\nunavailable",paste("Mortality from all\nCardiovascular diseases\namong those aged\nunder 75 years in ",indicator_27_ch$Timeperiod, sep = "")), just = "left", x = unit(0.87, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
-# indicator 28 - Cardiovascular disease premature mortality
+# indicator 28 - Cancer premature mortality
 indicator_28_ch <- subset(indicator_28, AreaName == ch_area) 
 # Lower is better
 indicator_28_colour <- ifelse(is.na(indicator_28_ch$LowerCI95.0limit), not_applic, ifelse(indicator_28_ch$LowerCI95.0limit > indicator_28_comp$UpperCI95.0limit, worse, ifelse(indicator_28_ch$UpperCI95.0limit < indicator_28_comp$LowerCI95.0limit, better, no_diff)))
@@ -919,82 +940,85 @@ indicator_28_colour <- ifelse(is.na(indicator_28_ch$LowerCI95.0limit), not_appli
 grid.circle(x = 0.8, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_28_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
 grid.raster(ind_28_icon, x = unit(0.8, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
 grid.text(ifelse(is.na(indicator_28_ch$Value),"-",paste(round(indicator_28_ch$Value, 0), " per 100,000", sep = "")), just = "left", x = unit(0.77, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_28_ch$Value), "Data\nunavailable",paste("Mortality from all\nCardiovascular diseases\namong those aged\nunder 75 years in\n",indicator_28_ch$Timeperiod, sep = "")), just = "left", x = unit(0.77, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+grid.text(ifelse(is.na(indicator_28_ch$Value), "Data\nunavailable",paste("Mortality from all\nCancers among those\naged under 75 years in\n",indicator_28_ch$Timeperiod, sep = "")), just = "left", x = unit(0.77, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
-# indicator 29 - Cancer premature mortality
-indicator_29_ch <- subset(indicator_29, AreaName == ch_area) 
-# Lower is better
-indicator_29_colour <- ifelse(is.na(indicator_29_ch$LowerCI95.0limit), not_applic, ifelse(indicator_29_ch$LowerCI95.0limit > indicator_29_comp$UpperCI95.0limit, worse, ifelse(indicator_29_ch$UpperCI95.0limit < indicator_29_comp$LowerCI95.0limit, better, no_diff)))
-
-grid.circle(x = 0.71, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_29_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
-grid.raster(ind_29_icon, x = unit(0.71, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
-grid.text(ifelse(is.na(indicator_29_ch$Value),"-",paste(round(indicator_29_ch$Value, 0), " per 100,000", sep = "")), just = "left", x = unit(0.675, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_29_ch$Value), "Data\nunavailable",paste("Mortality from all\nCancers among those\naged under 75 years in\n",indicator_29_ch$Timeperiod, sep = "")), just = "left", x = unit(0.675, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+# indicator 29 - 
+# indicator_29_ch <- subset(indicator_29, AreaName == ch_area) 
+# # Lower is better
+# indicator_29_colour <- ifelse(is.na(indicator_29_ch$LowerCI95.0limit), not_applic, ifelse(indicator_29_ch$LowerCI95.0limit > indicator_29_comp$UpperCI95.0limit, worse, ifelse(indicator_29_ch$UpperCI95.0limit < indicator_29_comp$LowerCI95.0limit, better, no_diff)))
+# 
+# grid.circle(x = 0.71, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_29_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
+# grid.raster(ind_29_icon, x = unit(0.71, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
+# grid.text(ifelse(is.na(indicator_29_ch$Value),"-",paste(round(indicator_29_ch$Value, 0), " per 100,000", sep = "")), just = "left", x = unit(0.675, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
+# grid.text(ifelse(is.na(indicator_29_ch$Value), "Data\nunavailable",paste("Mortality from all\nCancers among those\naged under 75 years in\n",indicator_29_ch$Timeperiod, sep = "")), just = "left", x = unit(0.675, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
 # Retirement to older age ##
 grid.circle(x = 0.625, y = 0.2  , r = 0.06, default.units = "npc", name = NULL, gp = gpar(fill = "#000000"), draw = TRUE, vp = NULL)
 grid.text("Retirement\nto older age", just = "centre", x = unit(0.625, "npc"), y = unit(.2, "npc"), gp = gpar(col = "#ffffff", fontsize = "8", fontface = "bold"))
 
-# indicator 30 - ID 2015 - older people income deprivation
-indicator_30_ch <- subset(indicator_30, AreaName == ch_area)
+# indicator 29 - ID 2015 - older people income deprivation
+indicator_29_ch <- subset(indicator_29, AreaName == ch_area)
 
 ID2015_ch <- subset(ID2015, `Local Authority District name (2013)` == ch_area)
-indicator_30_ch$LCI <- fun_LCI((indicator_30_ch$Value/100) * sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), .95)  * 100
-indicator_30_ch$UCI <- fun_UCI((indicator_30_ch$Value/100) * sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), .95) * 100
-indicator_30_colour <- ifelse(is.na(indicator_30_ch$LCI), not_applic, ifelse(indicator_30_ch$LCI > indicator_30_comp$UCI, higher, ifelse(indicator_30_ch$UCI < indicator_30_comp$LCI, lower, no_diff)))
 
-grid.circle(x = 0.54, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_30_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
-grid.raster(ind_30_icon, x = unit(0.54, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
-grid.text(ifelse(is.na(indicator_30_ch$Value),"-",paste(round(indicator_30_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.515, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_30_ch$Value), "Data\nunavailable",paste("of older people\naged 60+ years living\non low incomes\n(English indices of\ndeprivation, ",indicator_30_ch$Timeperiod, ")\nEngland: ", round(indicator_30_comp$Value,1), "%", sep = "")), just = "left", x = unit(0.515, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+indicator_29_ch$LCI <- wilson_lower((indicator_29_ch$Value/100) * sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), .95)  * 100
+indicator_29_ch$UCI <- wilson_upper((indicator_29_ch$Value/100) * sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), .95) * 100
+
+indicator_29_colour <- ifelse(is.na(indicator_29_ch$LCI), not_applic, ifelse(indicator_29_ch$LCI > indicator_29_comp$UCI, higher, ifelse(indicator_29_ch$UCI < indicator_29_comp$LCI, lower, no_diff)))
+
+grid.circle(x = 0.54, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_29_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
+grid.raster(ind_29_icon, x = unit(0.54, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
+grid.text(ifelse(is.na(indicator_29_ch$Value),"-",paste(round(indicator_29_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.515, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
+grid.text(ifelse(is.na(indicator_29_ch$Value), "Data\nunavailable",paste("of older people\naged 60+ years living\non low incomes\n(English indices of\ndeprivation, ",indicator_29_ch$Timeperiod, ")\nEngland: ", round(indicator_29_comp$Value,1), "%", sep = "")), just = "left", x = unit(0.515, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
 # indicator 31 - Fuel poverty
-indicator_31_ch <- subset(indicator_31, AreaName == ch_area)
+indicator_30_ch <- subset(indicator_30, AreaName == ch_area)
 
 grid.circle(x = 0.45, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = "#8E8E8E", col = "#ffffff"), draw = TRUE, vp = NULL)
-grid.raster(ind_31_icon, x = unit(0.45, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
-grid.text(ifelse(is.na(indicator_31_ch$Value),"-",paste(round(indicator_31_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.43, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_31_ch$Value), "Data\nunavailable",paste("of households\nexperiencing fuel\npoverty (Low income\nhigh cost method) in\n",indicator_31_ch$Timeperiod, sep = "")), just = "left", x = unit(0.43, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+grid.raster(ind_30_icon, x = unit(0.45, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
+grid.text(ifelse(is.na(indicator_30_ch$Value),"-",paste(round(indicator_30_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.43, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
+grid.text(ifelse(is.na(indicator_30_ch$Value), "Data\nunavailable",paste("of households\nexperiencing fuel\npoverty (Low income\nhigh cost method) in\n",indicator_30_ch$Timeperiod, sep = "")), just = "left", x = unit(0.43, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
-# indicator 32 - Emergency admissions for hip fractures
+# indicator 31 - Emergency admissions for hip fractures
+indicator_31_ch <- subset(indicator_31, AreaName == ch_area) 
+# Lower is better
+indicator_31_colour <- ifelse(is.na(indicator_31_ch$LowerCI95.0limit), not_applic, ifelse(indicator_31_ch$LowerCI95.0limit > indicator_31_comp$UpperCI95.0limit, worse, ifelse(indicator_31_ch$UpperCI95.0limit < indicator_31_comp$LowerCI95.0limit, better, no_diff)))
+
+grid.circle(x = 0.36, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_31_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
+grid.raster(ind_31_icon, x = unit(0.36, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
+
+grid.text(ifelse(is.na(indicator_31_ch$Value),"-",paste(round(indicator_31_ch$Value, 0), " per 100,000", sep = "")), just = "left", x = unit(0.335, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
+grid.text(ifelse(is.na(indicator_31_ch$Value), "Data\nunavailable",paste("Emergency admissions\nfor hip fractures among\nthose aged 65 years\nand over in ",indicator_31_ch$Timeperiod, "\n(", indicator_31_ch$Count ," admissions)", sep = "")), just = "left", x = unit(0.335, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+
+# indicator 32 - Excess winter deaths
 indicator_32_ch <- subset(indicator_32, AreaName == ch_area) 
 # Lower is better
 indicator_32_colour <- ifelse(is.na(indicator_32_ch$LowerCI95.0limit), not_applic, ifelse(indicator_32_ch$LowerCI95.0limit > indicator_32_comp$UpperCI95.0limit, worse, ifelse(indicator_32_ch$UpperCI95.0limit < indicator_32_comp$LowerCI95.0limit, better, no_diff)))
 
-grid.circle(x = 0.36, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_32_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
-grid.raster(ind_32_icon, x = unit(0.36, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
-grid.text(ifelse(is.na(indicator_32_ch$Value),"-",paste(round(indicator_32_ch$Value, 0), " per 100,000", sep = "")), just = "left", x = unit(0.335, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_32_ch$Value), "Data\nunavailable",paste("Emergency admissions\nfor hip fractures among\nthose aged 65 years\nand over in ",indicator_32_ch$Timeperiod, "\n(", indicator_32_ch$Count ," admissions)", sep = "")), just = "left", x = unit(0.335, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+grid.circle(x = 0.27, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_32_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
+grid.raster(ind_32_icon, x = unit(0.27, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
+grid.text(ifelse(is.na(indicator_32_ch$Value),"-",paste(round(indicator_32_ch$Value, 1), sep = "")), just = "left", x = unit(0.25, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
+grid.text(ifelse(is.na(indicator_32_ch$Value), "Data\nunavailable",paste("Excess winter\ndeaths index\n(three years pooled)\nall ages from\n",indicator_32_ch$Timeperiod, sep = "")), just = "left", x = unit(0.25, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
-# indicator 33 - Excess winter deaths
+# indicator 33 - Male life expectancy at birth
 indicator_33_ch <- subset(indicator_33, AreaName == ch_area) 
-# Lower is better
-indicator_33_colour <- ifelse(is.na(indicator_33_ch$LowerCI95.0limit), not_applic, ifelse(indicator_33_ch$LowerCI95.0limit > indicator_33_comp$UpperCI95.0limit, worse, ifelse(indicator_33_ch$UpperCI95.0limit < indicator_33_comp$LowerCI95.0limit, better, no_diff)))
+# Higher is better
+indicator_33_colour <- ifelse(is.na(indicator_33_ch$LowerCI95.0limit), not_applic, ifelse(indicator_33_ch$LowerCI95.0limit > indicator_33_comp$UpperCI95.0limit, better, ifelse(indicator_33_ch$UpperCI95.0limit < indicator_33_comp$LowerCI95.0limit, worse, no_diff)))
 
-grid.circle(x = 0.27, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_33_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
-grid.raster(ind_33_icon, x = unit(0.27, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
-grid.text(ifelse(is.na(indicator_33_ch$Value),"-",paste(round(indicator_33_ch$Value, 1), sep = "")), just = "left", x = unit(0.25, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_33_ch$Value), "Data\nunavailable",paste("Excess winter\ndeaths index\n(three years pooled)\nall ages from\n",indicator_33_ch$Timeperiod, sep = "")), just = "left", x = unit(0.25, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+grid.circle(x = 0.18, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_33_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
+grid.raster(ind_33_icon, x = unit(0.18, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
+grid.text(ifelse(is.na(indicator_33_ch$Value),"-",paste(round(indicator_33_ch$Value, 1), " years", sep = "")), just = "left", x = unit(0.16, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
+grid.text(ifelse(is.na(indicator_33_ch$Value),"Data on male\nlife expectancy\nunavailable",paste("Male life\nexpectancy\nat birth in\n",indicator_33_ch$Timeperiod, sep = "")), just = "left", x = unit(0.16, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
-# indicator 34 - Male life expectancy at birth
+# indicator 34 - Female life expectancy at birth
 indicator_34_ch <- subset(indicator_34, AreaName == ch_area) 
 # Higher is better
 indicator_34_colour <- ifelse(is.na(indicator_34_ch$LowerCI95.0limit), not_applic, ifelse(indicator_34_ch$LowerCI95.0limit > indicator_34_comp$UpperCI95.0limit, better, ifelse(indicator_34_ch$UpperCI95.0limit < indicator_34_comp$LowerCI95.0limit, worse, no_diff)))
 
-grid.circle(x = 0.18, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_34_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
-grid.raster(ind_34_icon, x = unit(0.18, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
-grid.text(ifelse(is.na(indicator_34_ch$Value),"-",paste(round(indicator_34_ch$Value, 1), " years", sep = "")), just = "left", x = unit(0.16, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_34_ch$Value),"Data on male\nlife expectancy\nunavailable",paste("Male life\nexpectancy\nat birth in\n",indicator_34_ch$Timeperiod, sep = "")), just = "left", x = unit(0.16, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-
-# indicator 35 - Female life expectancy at birth
-indicator_35_ch <- subset(indicator_35, AreaName == ch_area) 
-# Higher is better
-indicator_35_colour <- ifelse(is.na(indicator_35_ch$LowerCI95.0limit), not_applic, ifelse(indicator_35_ch$LowerCI95.0limit > indicator_35_comp$UpperCI95.0limit, better, ifelse(indicator_35_ch$UpperCI95.0limit < indicator_35_comp$LowerCI95.0limit, worse, no_diff)))
-
-grid.circle(x = 0.09, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_35_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
-grid.raster(ind_35_icon, x = unit(0.09, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
-grid.text(ifelse(is.na(indicator_35_ch$Value),"-",paste(round(indicator_35_ch$Value, 1), " years", sep = "")), just = "left", x = unit(0.07, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_35_ch$Value),"Data on female\nlife expectancy\nunavailable",paste("Female life\nexpectancy\nat birth in\n",indicator_35_ch$Timeperiod, sep = "")), just = "left", x = unit(0.07, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+grid.circle(x = 0.09, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_34_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
+grid.raster(ind_34_icon, x = unit(0.09, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
+grid.text(ifelse(is.na(indicator_34_ch$Value),"-",paste(round(indicator_34_ch$Value, 1), " years", sep = "")), just = "left", x = unit(0.07, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
+grid.text(ifelse(is.na(indicator_34_ch$Value),"Data on female\nlife expectancy\nunavailable",paste("Female life\nexpectancy\nat birth in\n",indicator_34_ch$Timeperiod, sep = "")), just = "left", x = unit(0.07, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
 grid.raster(unit_logo, y = unit(0.1, "npc"), x = unit(0.815, "npc"), vjust = 1, hjust = 0, width = .17)
 grid.text("http://jsna.westsussex.gov.uk",just = "left", x = unit(0.05, "npc"), y = unit(.05, "npc"), gp = gpar(col = "#1c8ccd", fontsize = "11", fontface = "bold"))
