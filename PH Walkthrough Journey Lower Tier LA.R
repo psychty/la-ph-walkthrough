@@ -12,7 +12,6 @@ rm(list = ls()) #  I have an R profile that loads some functions which you may n
 comp_area <- "England"
 
 library(easypackages)
-
 libraries("png", "grid", "tidyverse", "gridExtra", "fingertipsR", "PHEindicatormethods", "readODS", "readxl")
 
 # library(png)
@@ -163,8 +162,7 @@ indicator_4_comp <- indicator_4_comp %>%
   mutate(LCI = wilson_lower(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100,
          UCI = wilson_upper(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100)
 
-# Indicator 5 - school Readiness by pupil residency ####
-
+# Indicator 5 - school Readiness by pupil residency ###
 # 2018
 download.file("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/759613/EYFSP_2018_additional_tables_underlying_data.zip",  "./Journey through indicators/EYFSP_2018_Tables.zip")
 unzip("./Journey through indicators/EYFSP_2018_Tables.zip", exdir = "./Journey through indicators")
@@ -571,7 +569,6 @@ LA_name_code <- read_csv("https://opendata.arcgis.com/datasets/a267b55f601a4319a
 areas <- c("Adur", "Arun", "Chichester", "Crawley", "Horsham", "Mid Sussex","Worthing","Brighton and Hove")
 
 for (i in 1:length(areas)){
-#i = 1
   ch_area <- areas[i]
 
 ch_code <- as.character(subset(LA_name_code, LAD17NM == ch_area, select = "LAD17CD")) # this will look up the name of the area (ch_area) on the file specified within read_csv (which is a lookup file from ONS) and find the code of the area
@@ -800,16 +797,16 @@ indicator_14_ch <- subset(indicator_14, Name == ch_area)
 
 grid.circle(x = 0.355, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = "#8E8E8E", col = "#ffffff"), draw = TRUE, vp = NULL)
 grid.raster(ind_14_icon, x = unit(0.355, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
-grid.text(ifelse(is.na(indicator_14_ch$Median),"-",paste("£", str_pad(indicator_14_ch$Median, width = 5, side="right", pad="0"), sep = "")), just = "left", x = unit(0.331, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_14_ch$Median), "Data\nunavailable",paste("Full time hourly gross\nearnings for males\n(median rate) excluding\novertime in ", indicator_14_ch$Timeperiod, "\nEngland: £", str_pad(indicator_14_England$Median, width = 5, side="right", pad="0"), sep = "")), just = "left", x = unit(0.331, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+grid.text(ifelse(is.na(indicator_14_ch$Median),"-",paste("?", str_pad(indicator_14_ch$Median, width = 5, side="right", pad="0"), sep = "")), just = "left", x = unit(0.331, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
+grid.text(ifelse(is.na(indicator_14_ch$Median), "Data\nunavailable",paste("Full time hourly gross\nearnings for males\n(median rate) excluding\novertime in ", indicator_14_ch$Timeperiod, "\nEngland: ?", str_pad(indicator_14_England$Median, width = 5, side="right", pad="0"), sep = "")), just = "left", x = unit(0.331, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
 # indicator 15 - median hourly earnings females
 indicator_15_ch <- subset(indicator_15, Name == ch_area)
 
 grid.circle(x = 0.265, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = "#8E8E8E", col = "#ffffff"), draw = TRUE, vp = NULL)
 grid.raster(ind_15_icon, x = unit(0.265, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
-grid.text(ifelse(is.na(indicator_15_ch$Median),"-",paste("£", str_pad(indicator_15_ch$Median,width = 5, side="right", pad="0"), sep = "")), just = "left", x = unit(0.24, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-grid.text(ifelse(is.na(indicator_15_ch$Median), "Data\nunavailable",paste("Full time hourly gross\nearnings for females\n(median rate) excluding\novertime in ", indicator_15_ch$Timeperiod, "\nEngland: £", str_pad(indicator_15_England$Median, width = 5, side = "right", pad = "0"), sep = "")), just = "left", x = unit(0.24, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+grid.text(ifelse(is.na(indicator_15_ch$Median),"-",paste("?", str_pad(indicator_15_ch$Median,width = 5, side="right", pad="0"), sep = "")), just = "left", x = unit(0.24, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
+grid.text(ifelse(is.na(indicator_15_ch$Median), "Data\nunavailable",paste("Full time hourly gross\nearnings for females\n(median rate) excluding\novertime in ", indicator_15_ch$Timeperiod, "\nEngland: ?", str_pad(indicator_15_England$Median, width = 5, side = "right", pad = "0"), sep = "")), just = "left", x = unit(0.24, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
 
 # indicator 16 - Housing affordability index
 indicator_16_ch <- subset(indicator_16, Name == ch_area)
