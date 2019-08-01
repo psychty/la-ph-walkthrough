@@ -4,7 +4,7 @@
 
 ######################
 # Author: Rich Tyler #
-# Date: Jan 2019     #
+# Date: July 2019    #
 ######################
 
 rm(list = ls()) #  I have an R profile that loads some functions which you may not have so lets clear the workspace
@@ -153,14 +153,14 @@ mye_2017 <- read_excel("./Journey through indicators/mye_2017.xls",sheet = "MYE2
 indicator_4 <- indicator_4 %>% 
   left_join(mye_2017[c("Code", "0_4")], by = "Code") %>% 
   mutate(Percentage_children_poverty = `Children_aged_0-4_poverty` / `0_4` * 100) %>% 
-  mutate(LCI = wilson_lower(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100,
-         UCI = wilson_upper(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100)
+  mutate(LCI = PHEindicatormethods:::wilson_lower(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100,
+         UCI = PHEindicatormethods:::wilson_upper(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100)
 
 indicator_4_comp <- indicator_4_comp %>% 
   left_join(mye_2017[c("Name", "0_4")], by = "Name") %>% 
   mutate(Percentage_children_poverty = `Children_aged_0-4_poverty` / `0_4` * 100) %>% 
-  mutate(LCI = wilson_lower(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100,
-         UCI = wilson_upper(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100)
+  mutate(LCI = PHEindicatormethods:::wilson_lower(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100,
+         UCI = PHEindicatormethods:::wilson_upper(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100)
 
 # Indicator 5 - school Readiness by pupil residency ###
 # 2018
@@ -176,8 +176,8 @@ indicator_5 <- read_csv("./Journey through indicators/EYFSP_LAD_ pr_additional_t
          Area_code = lad_code_pr) %>% 
   select(year, level, Area_code, Area_name, number_of_pupils, gld_number, gld_percent) %>% 
   mutate(gld_percent = gld_number / number_of_pupils * 100,
-         gld_lci = wilson_lower(gld_number, number_of_pupils, confidence = .95) * 100,
-         gld_uci = wilson_upper(gld_number, number_of_pupils, confidence = .95) * 100) %>% 
+         gld_lci = PHEindicatormethods:::wilson_lower(gld_number, number_of_pupils, confidence = .95) * 100,
+         gld_uci = PHEindicatormethods:::wilson_upper(gld_number, number_of_pupils, confidence = .95) * 100) %>% 
   filter(year == "201718")
   
 indicator_5_comp <- indicator_5 %>% 
@@ -189,8 +189,8 @@ indicator_5_comp <- indicator_5 %>%
          Area_name = "England",
          Area_code = "E92000001") %>%
   mutate(gld_percent = gld_number / number_of_pupils * 100,
-         gld_lci = wilson_lower(gld_number, number_of_pupils, confidence = .95) * 100,
-         gld_uci = wilson_upper(gld_number, number_of_pupils, confidence = .95) * 100) %>% 
+         gld_lci = PHEindicatormethods:::wilson_lower(gld_number, number_of_pupils, confidence = .95) * 100,
+         gld_uci = PHEindicatormethods:::wilson_upper(gld_number, number_of_pupils, confidence = .95) * 100) %>% 
   select(year, level, Area_code, Area_name, number_of_pupils, gld_number, gld_percent, gld_lci, gld_uci)
 
 # Indicators 6 - Excess weight reception ####
@@ -224,8 +224,8 @@ indicator_8 <- read_csv("./Journey through indicators/2018_KS2_PUPRES_CHAR_UD.cs
   mutate(KS2_RWM_ELIG_18 = as.numeric(KS2_RWM_ELIG_18),
          KS2_RWM_EXP_18 = as.numeric(KS2_RWM_EXP_18),
          Percentage_EL = KS2_RWM_EXP_18 / KS2_RWM_ELIG_18 * 100,
-         GLD_LCI =  wilson_lower(KS2_RWM_EXP_18, KS2_RWM_ELIG_18, confidence = .95) * 100,
-         GLD_UCI =  wilson_upper(KS2_RWM_EXP_18, KS2_RWM_ELIG_18, confidence = .95) * 100)
+         GLD_LCI =  PHEindicatormethods:::wilson_lower(KS2_RWM_EXP_18, KS2_RWM_ELIG_18, confidence = .95) * 100,
+         GLD_UCI =  PHEindicatormethods:::wilson_upper(KS2_RWM_EXP_18, KS2_RWM_ELIG_18, confidence = .95) * 100)
 
 indicator_8_comp <- indicator_8 %>% 
   filter(Area_Name == comp_area)
@@ -276,8 +276,8 @@ mye_2017 <- read_excel("./Journey through indicators/mye_2017.xls",sheet = "MYE2
 indicator_13 <- indicator_13 %>% 
   left_join(mye_2017[c("Code", "Name","18_24")], by = c("GEOGRAPHY_CODE" = "Code")) %>% 
   mutate(Percentage_claimants = OBS_VALUE / `18_24` * 100,
-         claimants_LCI = wilson_lower(OBS_VALUE, `18_24`, confidence = .95) * 100,
-         claimants_UCI = wilson_upper(OBS_VALUE, `18_24`, confidence = .95) * 100)
+         claimants_LCI = PHEindicatormethods:::wilson_lower(OBS_VALUE, `18_24`, confidence = .95) * 100,
+         claimants_UCI = PHEindicatormethods:::wilson_upper(OBS_VALUE, `18_24`, confidence = .95) * 100)
 
 indicator_13_comp <- indicator_13 %>% 
   filter(GEOGRAPHY_NAME == comp_area) 
@@ -513,8 +513,8 @@ ID2015 <- read_csv("https://www.gov.uk/government/uploads/system/uploads/attachm
 
 indicator_29_comp <- indicator_29 %>% 
   filter(AreaName == comp_area) %>% 
-  mutate(LCI = wilson_lower((Value / 100) * sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), confidence = .95) * 100,
-         UCI = wilson_upper((Value/100) * sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), confidence = .95) * 100) 
+  mutate(LCI = PHEindicatormethods:::wilson_lower((Value / 100) * sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), confidence = .95) * 100,
+         UCI = PHEindicatormethods:::wilson_upper((Value/100) * sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), confidence = .95) * 100) 
 
 # Indicator 30 - Percentage of households in fuel poverty ####
 indicator_30 <- fingertips_data(IndicatorID = 90356,  AreaTypeID = 101) %>% 
@@ -562,11 +562,12 @@ indicator_34_comp <- indicator_34 %>%
 
 # Chosen area ####
 
-areas <- c("Medway","Bracknell Forest","West Berkshire","Reading","Slough","Windsor and Maidenhead","Wokingham","Milton Keynes","Brighton and Hove","Portsmouth","Southampton","Aylesbury Vale","Chiltern","South Bucks","Wycombe","Eastbourne","Hastings","Lewes","Rother","Wealden","Basingstoke and Deane","East Hampshire","Eastleigh","Fareham","Gosport","Hart","Havant","New Forest","Rushmoor","Test Valley","Winchester","Ashford","Canterbury","Dartford","Dover","Gravesham","Maidstone","Sevenoaks","Shepway","Swale","Thanet","Tonbridge and Malling","Tunbridge Wells","Cherwell","Oxford","South Oxfordshire","Vale of White Horse","West Oxfordshire","Elmbridge","Epsom and Ewell","Guildford","Mole Valley","Reigate and Banstead","Runnymede","Spelthorne","Surrey Heath","Tandridge","Waverley","Woking","Adur","Arun","Chichester","Crawley","Horsham","Mid Sussex","Worthing")
+#areas <- c("Medway","Bracknell Forest","West Berkshire","Reading","Slough","Windsor and Maidenhead","Wokingham","Milton Keynes","Brighton and Hove","Portsmouth","Southampton","Aylesbury Vale","Chiltern","South Bucks","Wycombe","Eastbourne","Hastings","Lewes","Rother","Wealden","Basingstoke and Deane","East Hampshire","Eastleigh","Fareham","Gosport","Hart","Havant","New Forest","Rushmoor","Test Valley","Winchester","Ashford","Canterbury","Dartford","Dover","Gravesham","Maidstone","Sevenoaks","Shepway","Swale","Thanet","Tonbridge and Malling","Tunbridge Wells","Cherwell","Oxford","South Oxfordshire","Vale of White Horse","West Oxfordshire","Elmbridge","Epsom and Ewell","Guildford","Mole Valley","Reigate and Banstead","Runnymede","Spelthorne","Surrey Heath","Tandridge","Waverley","Woking","Adur","Arun","Chichester","Crawley","Horsham","Mid Sussex","Worthing")
 
 LA_name_code <- read_csv("https://opendata.arcgis.com/datasets/a267b55f601a4319a9955b0197e3cb81_0.csv")
 
 areas <- c("Adur", "Arun", "Chichester", "Crawley", "Horsham", "Mid Sussex","Worthing","Brighton and Hove")
+ i = 1
 
 for (i in 1:length(areas)){
   ch_area <- areas[i]
@@ -958,8 +959,8 @@ indicator_29_ch <- subset(indicator_29, AreaName == ch_area)
 
 ID2015_ch <- subset(ID2015, `Local Authority District name (2013)` == ch_area)
 
-indicator_29_ch$LCI <- wilson_lower((indicator_29_ch$Value/100) * sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), .95)  * 100
-indicator_29_ch$UCI <- wilson_upper((indicator_29_ch$Value/100) * sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), .95) * 100
+indicator_29_ch$LCI <- PHEindicatormethods:::wilson_lower((indicator_29_ch$Value/100) * sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), .95)  * 100
+indicator_29_ch$UCI <- PHEindicatormethods:::wilson_upper((indicator_29_ch$Value/100) * sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`),sum(ID2015_ch$`Older population aged 60 and over: mid 2012 (excluding prisoners)`), .95) * 100
 
 indicator_29_colour <- ifelse(is.na(indicator_29_ch$LCI), not_applic, ifelse(indicator_29_ch$LCI > indicator_29_comp$UCI, higher, ifelse(indicator_29_ch$UCI < indicator_29_comp$LCI, lower, no_diff)))
 
