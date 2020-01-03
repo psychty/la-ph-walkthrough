@@ -1,0 +1,36 @@
+"","ID","Name","Description","Unit","Timeperiod","Number"
+"1","92196","Infant mortality rate","This is the rate of deaths in infants aged under 1 year per 1,000 live births.","Rate","2015 - 17",1
+"2","20101","Low birth weight of term babies","This is the number and proportion of babies born with a birth weight below 2.5kgs","Proportion","2017",2
+"3","20201","Breastfeeding initiation","This is the proportion of mothers who breastfeed their babies in the first 48 hours after delivery.","Proportion","2016/17",3
+"4","004","Children in out of work houeholds","This is the proportion of 0-4 year olds in households with an adult claiming out-of-work benefits.","Proportion","May 2017",4
+"5","005","Children achieving good level of development at the end of reception","This is the proportion of children assessed as achieving a good level of development (e.g. being ""school ready"") at the end of reception.","Proportion","2018/19",5
+"6","20601","Reception: Prevalence of overweight (including obesity)","This is the proportion of reception aged pupils (aged 4/5 years) measured as having excess weight.","Proportion","2018/19",6
+"7","20602","Year 6: Prevalence of overweight (including obesity)","This is the proportion of Year 6 pupils (aged 10/11 years) measured as having excess weight.","Proportion","2018/19",7
+"8","008","Expected levels RWM KS2","This is the proportion of pupils who attain the expected levels at Key Stage 2 for Reading, Writing and Mathematics.","Proportion","2019",8
+"9","10101","Children in low income families (under 16s)","This is the proportion of children aged 16 years estimated to be living in poverty.","Proportion","2016",9
+"10","21001","Emergency Hospital Admissions for Intentional Self-Harm","This is the rate of emergency hospital admissions for intentional self-harm per 100,000 population (all ages).","Rate","2017/18",10
+"11","20401","Under 18s conception rate / 1,000","This is the rate of pregnancies that occur among women aged 15-17 years, per 1,000 women aged 15-17.","Rate","2017",11
+"12","92199","Educational attainment (5 or more GCSEs): % of all children","This is the proportion of pupils attaining at least five GCSEs.","Proportion","2015/16",12
+"13","013","Youth unemployment claimaints","This is the proportion of 18-24 year olds claiming out-of-work benefits.","Proportion","November 2019",13
+"14","014","Full time hourly gross earnings males","This is the full time hourly gross earnings for males (median rate) excluding overtime.","Median","2018",14
+"15","015","Full time hourly gross earnings females","This is the full time hourly gross earnings for females (median rate) excluding overtime.","Median","2018",15
+"16","016","Housing Affordability ratio","This is the ratio of lower quartile house price to lower quartile earnings.","Ratio","2018",16
+"17","11001","Killed and seriously injured (KSI) casualties on England's roads","This is the rate of people killed or seriously injured on the roads in the area per 100,000 population (all ages).","Rate","2015 - 17",17
+"18","11202","Violent crime - violence offences per 1,000 population","This is the rate of crimes recorded as violence against the person per 1,000 population (all ages).","Rate","2018/19",18
+"19","91414","Admission episodes for alcohol-related conditions (Narrow)","This is the rate of admission episodes for alcohol related conditions (narrow definition) per 100,000 population (all ages).","Rate","2017/18",19
+"20","93014","Percentage of physically active adults","This is the proportion of adults aged 19+ undertaking at least 150 minutes of physical activity per week.","Proportion","2017/18",20
+"21","93015","Percentage of physically inactive adults","This is the proportion of adults aged 19+ undertaking less than 30 equivalence minutes of physical activity per week.","Proportion","2017/18",21
+"22","92443","Smoking Prevalence in adults (18+) - current smokers (APS)","This is the proportion of adults aged 18+ estimated to be smokers.","Proportion","2018",22
+"23","93088","Percentage of adults (aged 18+) classified as overweight or obese","This is the proportion of adults aged 18+ estimated to be overweight or obese.","Proportion","2017/18",23
+"24","22001","Cancer screening coverage - breast cancer","This is the proportion of females aged 53-70 years attending breast cancer screening in the previous 36 months.","Proportion","2018",24
+"25","91720","Cancer screening coverage - bowel cancer","This is the proportion of eligible persons aged 60-74 years attending bowel cancer screening (Faecal occult blood test) in the previous 30 months.","Proportion","2018",25
+"26","93560","Cancer screening coverage - cervical cancer (aged 25 to 49 years old)","This is the proportion of females aged 25-49 years attending cervical cancer screening in the previous 42 months (3.5 years).","Proportion","2019",26
+"27","93561","Cancer screening coverage - cervical cancer (aged 50 to 64 years old)","This is the proportion of females aged 50-64 years attending cervical cancer screening in the previous 66 months (5.5 years).","Proportion","2019",27
+"28","40501","Under 75 mortality rate from cancer","This is the rate of mortality (deaths) from all cancers in persons aged under 75 years per 100,000 population.","Rate","2016 - 18",28
+"29","40401","Under 75 mortality rate from all cardiovascular diseases","This is the rate of mortality (deaths) from all cardiovascular diseases in persons aged under 75 years per 100,000 population.","Rate","2016 - 18",29
+"30","029","Estimated proportion older people living in poverty","This is the estimated proportion of older people (aged 60+) living on low incomes. It is calculated by applying the Lower-layer super output area (LSOA) level Income Deprivation Affective Older People Index (IDAOPI) to the population denominator for that LSOA and aggregating the result up to lower tier local authority level. The estimated number is rounded to the nearest 100.","Proportion","2019",30
+"31","90356","Fuel poverty","This is the proportion of households experienceing fuel poverty (low income, high costs method).","Proportion","2017",31
+"32","41401","Hip fractures in people aged 65 and over","This is the rate of emergency admissions for hip fractures among those aged 65 years and older per 100,000 population.","Rate","2017/18",32
+"33","90360","Excess winter deaths index","This is the ratio of extra deaths from all causes that occur in the winter months (December to March) compared with the expected number based on the average of the number of non-winter deaths. The result is presented as a percentage and for example an EWM index of 20 shows that there were 20 per cent more deaths in winter compared with the non-winter period.","Index","Aug 2017 - Jul 2018",33
+"34","90366","Male life expectancy at birth","This is the average number of years a male would expect to live if they experienced the age-specific mortality rates for the local area and time period throughout his life.","Years","2015 - 17",34
+"35","90366","Female life expectancy at birth","This is the average number of years a female would expect to live if they experienced the age-specific mortality rates for the local area and time period throughout her life.","Years","2015 - 17",35

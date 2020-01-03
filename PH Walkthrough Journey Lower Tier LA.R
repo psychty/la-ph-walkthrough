@@ -140,9 +140,11 @@ indicator_4 <- indicator_4 %>%
          Denominator = `0_4`,
          Description = paste0('This is the proportion of 0-4 year olds in households with an adult claiming out-of-work benefits.'),
          Unit = 'Proportion',
-         Label = paste0(round(Value, 1), '%)'),
+         Label = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    
+  mutate(ID = as.character(ID)) %>% 
+  filter(substr(Area_code, 0,1) == 'E')
 
 rm(indicator_4_comp)
 
@@ -193,7 +195,7 @@ indicator_5 <- indicator_5 %>%
          Timeperiod = paste0(substr(Timeperiod, 1,4), '/', substr(Timeperiod, 5, 6)),
          Description = paste0('This is the proportion of children assessed as achieving a good level of development (e.g. being "school ready") at the end of reception.'),
          Unit = 'Proportion',
-         Label = paste0(round(Value, 1), '%)'),
+         Label = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
 
@@ -381,7 +383,8 @@ indicator_13 <- read_csv("https://www.nomisweb.co.uk/api/v01/dataset/NM_162_1.da
          Unit = 'Proportion',
          Label = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  filter(substr(Area_code, 0,1) == 'E')
 
 # indicator_13_comp <- indicator_13 %>% 
 #   filter(GEOGRAPHY_NAME == comp_area) 
@@ -415,21 +418,20 @@ if (!file.exists("./Journey through indicators/PROV - Home Geography Table 8.6a 
 
 # Estimates of the change from the previous year are provided for the median and mean. It is important to note that these are not adjusted to account for changes in the composition of the labour market during that period. Such factors can influence the apparent change in medians or means independently of changes in individuals' earnings. For example, when there are more low-paying jobs in the labour market in one year compared to the previous year, this acts to decrease the median. Consequently, care should be taken when drawing conclusions about changes in pay for individuals over time.				
 
-indicator_14 <- read_excel("./Journey through indicators/PROV - Home Geography Table 8.6a   Hourly pay - Excluding overtime 2019.xls", sheet = "Male", col_types = c("text", "text", "numeric", "numeric", "numeric", "text", "numeric", "text", "text", "text", "text", "text", "text", "text", "text", "text", "text", "numeric", "text", "text"), skip = 4) %>% 
+indicator_14 <- read_excel("./Journey through indicators/PROV - Home Geography Table 8.6a   Hourly pay - Excluding overtime 2019.xls", sheet = "Male", col_types = c("text", "text", "numeric", "numeric", "numeric", "text", "numeric", "text", "text", "text", "text", "text", "text", "text", "text", "text", "text", "numeric", "text", "text"), skip = 4) %>%
   select(1:5) %>% 
-  mutate(Timeperiod = "2018")
+  mutate(Timeperiod = "2018") %>% 
+  filter(substr(Code, 0,1) == 'E')
 
 colnames(indicator_14) <- c("Name", "Code", "N_jobs_thousands", "Median", "Change", "Timeperiod")
 
-indicator_14_SE <- indicator_14 %>% 
-  filter(Name == "South East")
-
-indicator_14_England <- indicator_14 %>% 
-  filter(Name == "England")
+# indicator_14_SE <- indicator_14 %>% 
+#   filter(Name == "South East")
+# 
+# indicator_14_England <- indicator_14 %>% 
+#   filter(Name == "England")
 
 indicator_14 <- indicator_14 %>% 
-  bind_rows(indicator_14_SE) %>% 
-  bind_rows(indicator_14_England) %>% 
   rename(Area_code = Code,
          Area_name = Name,
          Value = Median) %>% 
@@ -445,25 +447,26 @@ indicator_14 <- indicator_14 %>%
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
 
-rm(indicator_14_England, indicator_14_SE)
+# rm(indicator_14_England, indicator_14_SE)
 
 # Indicator 15 - Hourly earnings (female) ####
 
 indicator_15 <- read_excel("./Journey through indicators/PROV - Home Geography Table 8.6a   Hourly pay - Excluding overtime 2019.xls", sheet = "Female", col_types = c("text", "text", "numeric", "numeric", "numeric", "text", "numeric", "text", "text", "text", "text", "text", "text", "text", "text", "text", "text", "numeric", "text", "text"), skip = 4) %>% 
   select(1:5) %>% 
-  mutate(Timeperiod = "2018")
+  mutate(Timeperiod = "2018") %>% 
+  filter(substr(Code, 0,1) == 'E')
 
 colnames(indicator_15) <- c("Name", "Code", "N_jobs_thousands", "Median", "Change", "Timeperiod")
 
-indicator_15_SE <- indicator_15 %>% 
-  filter(Name == "South East")
-
-indicator_15_England <- indicator_15 %>% 
-  filter(Name == "England")
+# indicator_15_SE <- indicator_15 %>% 
+#   filter(Name == "South East")
+# 
+# indicator_15_England <- indicator_15 %>% 
+#   filter(Name == "England")
 
 indicator_15 <- indicator_15 %>% 
-  bind_rows(indicator_15_SE) %>% 
-  bind_rows(indicator_15_England) %>% 
+  # bind_rows(indicator_15_SE) %>% 
+  # bind_rows(indicator_15_England) %>% 
   rename(Area_code = Code,
          Area_name = Name,
          Value = Median) %>% 
@@ -479,7 +482,7 @@ indicator_15 <- indicator_15 %>%
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
 
-rm(indicator_15_England, indicator_15_SE)
+# rm(indicator_15_England, indicator_15_SE)
 
 # Indicator 16 - Ratio of lower quartile house price to lower quartile earnings ####
   download.file("https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/housing/datasets/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian/current/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls", "./Journey through indicators/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian.xls", mode = "wb")
@@ -536,7 +539,8 @@ indicator_16 <- indicator_16 %>%
          Unit = 'Ratio',
          Label = paste0(round(Value, 2)),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  filter(substr(Area_code,0,1) == 'E')
 
 rm(indicator_16_comp, indicator_16_SE, indicator_161, indicator_16a_comp, indicator_16b_comp)
 
@@ -859,7 +863,7 @@ indicator_29 <- indicator_29 %>%
          Notes = 'This indicator is from the 2019 Index of multiple deprivation although the population used in calculations is based on 2015 estimates.') %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
 
-rm(indicator_29_comp, indicator_29_Eng)
+rm(indicator_29_Eng)
 
 # Indicator 30 - Percentage of households in fuel poverty ####
 indicator_30 <- fingertips_data(IndicatorID = 90356,  AreaTypeID = 101) %>% 
@@ -1005,34 +1009,48 @@ main_df <- indicator_1 %>%
   bind_rows(indicator_31) %>% 
   bind_rows(indicator_32) %>% 
   bind_rows(indicator_33) %>% 
-  bind_rows(indicator_34)
+  bind_rows(indicator_34) %>% 
+  mutate(Area_name = ifelse(Area_code == 'E06000058', 'Bournemouth, Christchurch and Poole', ifelse(Area_code == 'E06000023', 'Bristol', ifelse(Area_code == 'E12000006', 'East of England region', ifelse(Area_code == 'E12000004', 'East Midlands region', ifelse(Area_code == 'E06000019', 'Herefordshire', ifelse(Area_code == 'E07000146',	'King’s Lynn and West Norfolk', ifelse(Area_code == 'E07000112', 'Folkestone and Hythe', ifelse(Area_code == 'E06000010', 'Kingston upon Hull', ifelse(Area_code == 'E06000033',	'Southend-on-Sea', ifelse(Area_code == 'E07000204',	'St Edmundsbury', ifelse(Area_code == 'E12000001',	'North East region', ifelse(Area_code == 'E12000002','North West region', ifelse(Area_code == 'E12000003',	'Yorkshire and the Humber region', ifelse(Area_code == 'E12000005','West Midlands region', ifelse(Area_code == 'E12000007', 'London region', ifelse(Area_code == 'E12000008',	'South East region', ifelse(Area_code == 'E12000009',	'South West region',  ifelse(Area_code == 'E08000013',	'St Helens', Area_name))))))))))))))))))) %>% 
+  mutate(Polarity = ifelse(ID %in% c('92196','20101','004','20601','20602','10101','21001','20401','013','11001','11202','91414','93015','92443','93088','40501','40401','41401','90360'), 'Lower is better', ifelse(ID %in% c('20201','005','008','92199','93014','22001','91720','93560','93561','90366','90366'), 'Higher is better', ifelse(ID %in% c('014','015','016','029','90356'), 'Not applicable', NA)))) %>% 
+  mutate(Label = ifelse(is.na(Value), 'There is no data for this indicator', Label))
 
 meta_areas <- main_df %>% 
   select(Area_code, Area_name) %>% 
   unique()
 
-unique(main_df$Area_name)
+LA_name_code <- read_csv("https://opendata.arcgis.com/datasets/17eb563791b648f9a7025ca408bb09c6_0.csv") %>% 
+  filter(substr(LAD18CD, 0,1) == 'E') %>% 
+  rename(Code = LAD18CD) %>% 
+  select(Code)
 
-areas <- c("Medway","Bracknell Forest","West Berkshire","Reading","Slough","Windsor and Maidenhead","Wokingham","Milton Keynes","Brighton and Hove","Portsmouth","Southampton","Aylesbury Vale","Chiltern","South Bucks","Wycombe","Eastbourne","Hastings","Lewes","Rother","Wealden","Basingstoke and Deane","East Hampshire","Eastleigh","Fareham","Gosport","Hart","Havant","New Forest","Rushmoor","Test Valley","Winchester","Ashford","Canterbury","Dartford","Dover","Gravesham","Maidstone","Sevenoaks","Shepway","Swale","Thanet","Tonbridge and Malling","Tunbridge Wells","Cherwell","Oxford","South Oxfordshire","Vale of White Horse","West Oxfordshire","Elmbridge","Epsom and Ewell","Guildford","Mole Valley","Reigate and Banstead","Runnymede","Spelthorne","Surrey Heath","Tandridge","Waverley","Woking","Adur","Arun","Chichester","Crawley","Horsham","Mid Sussex","Worthing")
+Region_name_code <- read_csv('https://opendata.arcgis.com/datasets/18b9e771acb84451a64d3bcdb3f3145c_0.csv') %>% 
+  rename(Code = RGN19CD) %>% 
+  select(Code)
 
-LA_name_code <- read_csv("https://opendata.arcgis.com/datasets/17eb563791b648f9a7025ca408bb09c6_0.csv")
+Codes_to_keep <- LA_name_code %>% 
+ bind_rows(Region_name_code) %>% 
+  add_row(Code = 'E92000001')
 
-areas <- c("Adur", "Arun", "Chichester", "Crawley", "Horsham", "Mid Sussex","Worthing","Brighton and Hove", "Eastbourne","Hastings","Lewes","Rother","Wealden")
+main_df <- main_df %>% 
+  filter(Area_code %in% Codes_to_keep$Code)
+
+areas <- c("Adur", "Arun", "Chichester", "Crawley", "Horsham", "Mid Sussex","Worthing","Brighton and Hove", "Eastbourne","Hastings","Lewes","Rother","Wealden", 'South East region', 'England')
+
 # i = 1
-  
-meta_frame <- main_df %>% 
-  select(ID, Name, Description, Unit, Timeperiod) %>% 
+main_df %>% 
+  select(ID, Name, Description, Unit, Timeperiod, Polarity) %>% 
   unique() %>% 
   mutate(Number = row_number()) %>% 
   toJSON() %>% 
   write_lines(paste0(github_repo_dir, '/lt_data_meta_extract.json'))
 
 main_df %>% 
-  select(-c(Name, Description, Unit, Timeperiod)) %>% 
+  filter(Area_name %in% areas) %>% 
+  # select(-c(Name, Description, Unit, Timeperiod)) %>%
   toJSON() %>% 
   write_lines(paste0(github_repo_dir, '/lt_data_extract.json'))
 
-
+rm(indicator_1, indicator_2, indicator_3, indicator_4, indicator_5, indicator_6, indicator_7, indicator_8, indicator_9, indicator_10, indicator_11, indicator_12, indicator_13, indicator_14, indicator_15, indicator_16, indicator_17, indicator_18, indicator_19, indicator_20, indicator_21, indicator_22, indicator_23, indicator_24, indicator_25, indicator_26_a, indicator_26_b, indicator_27, indicator_28, indicator_29, indicator_30, indicator_31, indicator_32, indicator_33, indicator_34, mye_2017_04, mye_2018_2124, Region_name_code, LA_name_code)
 
 # Read in JSNA logo (only download it if it is not available in your working directory)
 if(!file.exists("./Journey through indicators/Research Unit.png")){download.file("https://github.com/psychty/la-ph-walkthrough/raw/master/Research%20Unit.png", "./Journey through indicators/Research Unit.png", mode = 'wb')} # This downloads a png image from the West Sussex JSNA website and saves it to your working directory. The if(!file.exists()) only runs the command if the file does not exist (because we have included an ! at the beginning)
@@ -1087,23 +1105,35 @@ arrow_left = readPNG("./Journey through indicators/png/arrow_left.png")
 arrow_right = readPNG("./Journey through indicators/png/arrow_right.png")
 arrow_down = readPNG("./Journey through indicators/png/arrow_down.png")
 
-
 # Data visualisation - static pdf ####
 
 # This will be the coordinate system for placing our objects in grid later
 vplayout <- function(x,y)
   viewport(layout.pos.row = x, layout.pos.col = y)
 
-
+i = 1
 for (i in 1:length(areas)){
+
   ch_area <- areas[i]
   
-  ch_code <- as.character(subset(LA_name_code, LAD17NM == ch_area, select = "LAD18CD")) # this will look up the name of the area (ch_area) on the file specified within read_csv (which is a lookup file from ONS) and find the code of the area
+  comp_data <- main_df %>% 
+    filter(Area_name == comp_area) %>% 
+    select(Name, Value, Lower_CI, Upper_CI, Numerator) %>% 
+    rename(Comp_Value = Value,
+           Comp_Lower_CI = Lower_CI,
+           Comp_Upper_CI = Upper_CI,
+           Comp_Numerator = Numerator)
+  
+  ch_data <- main_df %>% 
+    filter(Area_name == ch_area) %>% 
+    left_join(comp_data, by = 'Name') %>% 
+    mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>% 
+    mutate(Colour = ifelse(Significance == 'Not applicable', not_applic, ifelse(Significance == 'Similar', no_diff, ifelse(Significance == 'Significantly higher' & Polarity == 'Higher is better', better, ifelse(Significance == 'Significantly higher' & Polarity == 'Lower is better', worse, ifelse(Significance == 'Significantly lower' & Polarity == 'Lower is better', better, ifelse(Significance == 'Significantly lower' & Polarity == 'Higher is better', worse, NA)))))))
+  
+  # ch_code <- as.character(subset(LA_name_code, LAD17NM == ch_area, select = "LAD18CD")) # this will look up the name of the area (ch_area) on the file specified within read_csv (which is a lookup file from ONS) and find the code of the area
   
   ch_label <-  ifelse(nchar(ch_area) > 10,sub('(.{1,10})(\\s|$)', '\\1\n', ch_area),ch_area)
   data_show <-  sub('(.{1,15})(\\s|$)', '\\1\n', paste("Data are shown\nfor ", ch_area ," \nand are compared\nwith ", comp_area, sep = ""))
-  
-
   
   pdf(paste("./Journey through indicators/PH_Outcomes_walkthrough_", ch_area,".pdf" , sep = ""), width = 11.69, height = 8.27)
   
@@ -1177,24 +1207,24 @@ for (i in 1:length(areas)){
   grid.circle(x = 0.315, y = 0.2  , r = 0.02, default.units = "npc", name = NULL, gp = gpar(fill = "#333333", col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(arrow_left, x = unit(0.315, "npc"), y = unit(0.2, "npc"),  just = "centre", width = .0175)
   
-  # Stages ##
+# Stages ##
   
   #  Pre-birth to Early years ##
   grid.circle(x = 0.05, y = 0.79  , r = 0.06, default.units = "npc", name = NULL, gp = gpar(fill = "#000000"), draw = TRUE, vp = NULL)
   grid.text("Pre-birth\nto Early\nYears", just = "centre", x = unit(0.05, "npc"), y = unit(.79, "npc"), gp = gpar(col = "#ffffff", fontsize = "8", fontface = "bold"))
   
-  # indicator 1 - infant mortality
-  indicator_1_ch <- subset(indicator_1, AreaName == ch_area) 
-  # Lower is better
-  indicator_1_colour <- ifelse(is.na(indicator_1_ch$LowerCI95.0limit), not_applic, ifelse(indicator_1_ch$LowerCI95.0limit > indicator_1_comp$UpperCI95.0limit, worse, ifelse(indicator_1_ch$UpperCI95.0limit < indicator_1_comp$LowerCI95.0limit, better, no_diff)))
+# indicator 1 - infant mortality
   
-  grid.circle(x = 0.15, y = 0.835  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_1_colour, col = "#ffffff"), draw = TRUE, vp = NULL)
+indicator_1_ch <- ch_data %>% 
+  filter(ID == '92196')
+
+  grid.circle(x = 0.15, y = 0.835  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_1_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.text("Infant\nMortality", just = "centre", x = unit(0.15, "npc"), y = unit(.835, "npc"), gp = gpar(col = "#ffffff", fontsize = "7"))
   grid.text(ifelse(is.na(indicator_1_ch$Value),"-",paste(round(indicator_1_ch$Value,0), " per 1,000", sep = "")), just = "left", x = unit(0.13, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-  grid.text(ifelse(is.na(indicator_1_ch$Value),"Data on\ninfant mortality\nunavailable",paste("Rate of deaths in\ninfants aged under\n1 year per 1,000 live\nbirths (", as.character(indicator_1_ch$Timeperiod), ")\n(", indicator_1_ch$Count, " deaths)", sep = "")), just = "left", x = unit(0.13, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+  grid.text(ifelse(is.na(indicator_1_ch$Value),"Data on\ninfant mortality\nunavailable",paste("Rate of deaths in\ninfants aged under\n1 year per 1,000 live\nbirths (", as.character(indicator_1_ch$Timeperiod), ")\n(", indicator_1_ch$Numerator, " deaths)", sep = "")), just = "left", x = unit(0.13, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
   
-  # indicator 2 - Low birth weight babies
-  indicator_2_ch <- subset(indicator_2, AreaName == ch_area) 
+# indicator 2 - Low birth weight babies
+indicator_2_ch <- subset(indicator_2, AreaName == ch_area) 
   # Lower is better
   indicator_2_colour <- ifelse(is.na(indicator_2_ch$LowerCI95.0limit), not_applic, ifelse(indicator_2_ch$LowerCI95.0limit > indicator_2_comp$UpperCI95.0limit, worse, ifelse(indicator_2_ch$UpperCI95.0limit < indicator_2_comp$LowerCI95.0limit, better, no_diff)))
   
