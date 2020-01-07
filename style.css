@@ -1,0 +1,49 @@
+
+
+p {
+  font-size: .9rem;
+}
+
+* {-webkit-font-smoothing: antialiased;}
+
+div {
+    display: inline-block;
+}
+
+body {
+background-color: #fcfaf7;
+font-family: 'Open Sans', sans-serif;
+}
+
+svg {
+  background-color: #FFF;
+  stroke: black;
+}
+
+.main {
+  width: calc(80%);
+  margin:auto;
+}
+
+.footer {
+  font-size: .8rem;
+  float: right;
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #256cb2;
+}
+
+h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #256cb2;
+  }
+
+h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #000;
+  }

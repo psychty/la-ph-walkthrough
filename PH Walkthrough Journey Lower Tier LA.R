@@ -134,7 +134,7 @@ indicator_4 <- indicator_4 %>%
          Upper_CI = PHEindicatormethods:::wilson_upper(`Children_aged_0-4_poverty`, `0_4`, confidence = .95) * 100) %>% 
     rename(Value = Percentage_children_poverty) %>% 
   mutate(ID = '004',
-         Name = 'Children in out of work houeholds',
+         Name = 'Children in out of work households',
          Numerator = `Children_aged_0-4_poverty`,
          Timeperiod = 'May 2017',
          Denominator = `0_4`,
@@ -973,7 +973,7 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
 # indicator_34_comp <- indicator_34 %>% 
   # filter(AreaName == comp_area) 
 
-# Compiling data for export ####
+# Compile single dataframe ####
 
 main_df <- indicator_1 %>% 
   bind_rows(indicator_2) %>% 
@@ -1037,18 +1037,6 @@ main_df <- main_df %>%
 areas <- c("Adur", "Arun", "Chichester", "Crawley", "Horsham", "Mid Sussex","Worthing","Brighton and Hove", "Eastbourne","Hastings","Lewes","Rother","Wealden", 'South East region', 'England')
 
 # i = 1
-main_df %>% 
-  select(ID, Name, Description, Unit, Timeperiod, Polarity) %>% 
-  unique() %>% 
-  mutate(Number = row_number()) %>% 
-  toJSON() %>% 
-  write_lines(paste0(github_repo_dir, '/lt_data_meta_extract.json'))
-
-main_df %>% 
-  filter(Area_name %in% areas) %>% 
-  # select(-c(Name, Description, Unit, Timeperiod)) %>%
-  toJSON() %>% 
-  write_lines(paste0(github_repo_dir, '/lt_data_extract.json'))
 
 rm(indicator_1, indicator_2, indicator_3, indicator_4, indicator_5, indicator_6, indicator_7, indicator_8, indicator_9, indicator_10, indicator_11, indicator_12, indicator_13, indicator_14, indicator_15, indicator_16, indicator_17, indicator_18, indicator_19, indicator_20, indicator_21, indicator_22, indicator_23, indicator_24, indicator_25, indicator_26_a, indicator_26_b, indicator_27, indicator_28, indicator_29, indicator_30, indicator_31, indicator_32, indicator_33, indicator_34, mye_2017_04, mye_2018_2124, Region_name_code, LA_name_code)
 
@@ -1111,10 +1099,10 @@ arrow_down = readPNG("./Journey through indicators/png/arrow_down.png")
 vplayout <- function(x,y)
   viewport(layout.pos.row = x, layout.pos.col = y)
 
-i = 1
-for (i in 1:length(areas)){
+areas_wo_comp <- setdiff(areas, c('South East region', 'England')) # this is areas without areas; south east region and england
 
-  ch_area <- areas[i]
+for (i in 1:length(areas_wo_comp)){
+  ch_area <- areas_wo_comp[i]
   
   comp_data <- main_df %>% 
     filter(Area_name == comp_area) %>% 
@@ -1558,5 +1546,35 @@ indicator_34_ch <- ch_data %>%
   
   dev.off()
 }
+
+# Compiling data for export to json ####
+
+meta <- main_df %>% 
+  select(ID, Name, Description, Unit, Timeperiod, Polarity) %>% 
+  unique() %>% 
+  mutate(Number = row_number()) %>%
+  mutate(x = ifelse(Number == 1, .16, ifelse(Number == 2, .24, ifelse(Number == 3, .32, ifelse(Number == 4, .43, ifelse(Number == 5, .51, ifelse(Number == 6, .73, ifelse(Number == 7, .81, ifelse(Number == 8, .89, ifelse(Number == 9, .88, ifelse(Number == 10, .8, ifelse(Number == 11, .72, ifelse(Number == 12, .6, ifelse(Number == 13, .44, ifelse(Number == 14, .36, ifelse(Number == 15, .25, ifelse(Number == 16, .17, ifelse(Number == 17, .09, ifelse(Number == 18, .1, ifelse(Number == 19, .18, ifelse(Number == 20, .26, ifelse(Number == 21, .38, ifelse(Number == 22, .54, ifelse(Number == 23, .62, ifelse(Number == 24, .74, ifelse(Number == 25, .82, ifelse(Number == 26, .9, ifelse(Number == 27, .87, ifelse(Number == 28, .79, ifelse(Number == 29, .71, ifelse(Number == 30, .52, ifelse(Number == 31, .44, ifelse(Number == 32, .36, ifelse(Number == 34, .26, ifelse(Number == 35, .18, NA))))))))))))))))))))))))))))))))))) %>% 
+  mutate(y = ifelse(Number %in% c(1:8), .05, ifelse(Number %in% c(9:17), .3, ifelse(Number %in% c(18:26), .55, ifelse(Number %in% c(27:35), .8, NA))))) 
+
+meta %>% 
+  toJSON() %>% 
+  write_lines(paste0(github_repo_dir, '/lt_data_meta_extract.json'))
+
+comp_data <- main_df %>% 
+  filter(Area_name == comp_area) %>% 
+  select(Name, Value, Lower_CI, Upper_CI, Numerator) %>% 
+  rename(Comp_Value = Value,
+         Comp_Lower_CI = Lower_CI,
+         Comp_Upper_CI = Upper_CI,
+         Comp_Numerator = Numerator)
+
+main_df %>% 
+  filter(Area_name %in% areas_wo_comp) %>% 
+  left_join(comp_data, by = 'Name') %>%
+  left_join(meta[c('Name','x','y')], by = 'Name') %>% 
+  mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>% 
+  mutate(Colour = ifelse(Significance == 'Not applicable', not_applic, ifelse(Significance == 'Similar', no_diff, ifelse(Significance == 'Significantly higher' & Polarity == 'Higher is better', better, ifelse(Significance == 'Significantly higher' & Polarity == 'Lower is better', worse, ifelse(Significance == 'Significantly lower' & Polarity == 'Lower is better', better, ifelse(Significance == 'Significantly lower' & Polarity == 'Higher is better', worse, NA))))))) %>% 
+  toJSON() %>% 
+  write_lines(paste0(github_repo_dir, '/lt_data_extract_compare_england.json'))
 
 
