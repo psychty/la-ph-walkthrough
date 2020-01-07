@@ -41,11 +41,17 @@ indicator_1 <- fingertips_data(IndicatorID = 92196, AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the rate of deaths in infants aged under 1 year per 1,000 live births.'),
-         Unit = 'Rate',
+         Unit = 'rate',
          Label = paste0(round(Value,0), ' per 1,000 live births (95% CI ', round(Lower_CI,0), '-', round(Upper_CI,0), ', ', Numerator, ' deaths)'),
+         Label_screen = paste0(round(Value,0), ' per 1,000'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>% 
-  mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>% 
+  mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('rate of deaths in'),
+         line_2 = paste0('infants aged under'),
+         line_3 = paste0('1 year per 1,000 live'),
+         line_4 = paste0('births (', Timeperiod, ')'),
+         line_5 = paste0('(', round(Numerator,0),' deaths)'))
 
 # indicator_1_comp <- indicator_1 %>% 
 #   filter(AreaName == comp_area)
@@ -62,10 +68,16 @@ indicator_2 <- fingertips_data(IndicatorID = 20101,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the number and proportion of babies born with a birth weight below 2.5kgs'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' (', round(Value,1), '%)'),
+         Label_screen = paste0(format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' (', round(Value,1), '%)'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('babies born in'),
+         line_2 = paste0(Timeperiod, ' had a low'),
+         line_3 = paste0('birthweight (2.5kgs)'),
+         line_4 = NA,
+         line_5 = NA)
 
 # indicator_2_comp <- indicator_2 %>% 
 #   filter(AreaName == comp_area)
@@ -82,10 +94,16 @@ indicator_3 <- fingertips_data(IndicatorID = 20201, AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of mothers who breastfeed their babies in the first 48 hours after delivery.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of mothers'),
+         line_2 = paste0('breastfeed their'),
+         line_3 = paste0('babies in the first'),
+         line_4 = paste0('48hrs after delivery'),
+         line_5 = paste0('in ', Timeperiod))
 
 # indicator_3_comp <- indicator_3 %>% 
 #   filter(AreaName == comp_area) 
@@ -139,12 +157,18 @@ indicator_4 <- indicator_4 %>%
          Timeperiod = 'May 2017',
          Denominator = `0_4`,
          Description = paste0('This is the proportion of 0-4 year olds in households with an adult claiming out-of-work benefits.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    
   mutate(ID = as.character(ID)) %>% 
-  filter(substr(Area_code, 0,1) == 'E')
+  filter(substr(Area_code, 0,1) == 'E') %>% 
+  mutate(line_1 = paste0('of 0-4 year olds'),
+         line_2 = paste0('in households with'),
+         line_3 = paste0('an adult claiming'),
+         line_4 = paste0('out-of-work benefits'),
+         line_5 = paste0('in ', Timeperiod))
 
 rm(indicator_4_comp)
 
@@ -194,10 +218,16 @@ indicator_5 <- indicator_5 %>%
          Name = 'Children achieving good level of development at the end of reception',
          Timeperiod = paste0(substr(Timeperiod, 1,4), '/', substr(Timeperiod, 5, 6)),
          Description = paste0('This is the proportion of children assessed as achieving a good level of development (e.g. being "school ready") at the end of reception.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of children assessed'),
+         line_2 = paste0('as achieving a good'),
+         line_3 = paste0('level of development'),
+         line_4 = paste0('at the end of reception'),
+         line_5 = paste0('in ', Timeperiod))
 
 rm(indicator_5_comp)
 
@@ -213,10 +243,16 @@ indicator_6 <- fingertips_data(IndicatorID = 20601, AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of reception aged pupils (aged 4/5 years) measured as having excess weight.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of reception aged'),
+         line_2 = paste0('pupils (4/5 years)'),
+         line_3 = paste0('measured as having'),
+         line_4 = paste0('excess weight'),
+         line_5 = paste0('in ', Timeperiod))
 
 # indicator_6_comp <- indicator_6 %>% 
 #   filter(AreaName == comp_area) 
@@ -233,10 +269,16 @@ indicator_7 <- fingertips_data(IndicatorID = 20602, AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of Year 6 pupils (aged 10/11 years) measured as having excess weight.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of Year 6 pupils'),
+         line_2 = paste0('(aged 10/11 years)'),
+         line_3 = paste0('measured as having'),
+         line_4 = paste0('excess weight'),
+         line_5 = paste0('in ', Timeperiod))
 
 #indicator_7_comp <- indicator_7 %>% 
 #  filter(AreaName == comp_area) 
@@ -264,11 +306,17 @@ indicator_8 <- read_csv("./Journey through indicators/KS2_provisional_underlying
          Denominator = t_rwm_elig,
          Value = Percentage_EL) %>% 
   mutate(Description = paste0('This is the proportion of pupils who attain the expected levels at Key Stage 2 for Reading, Writing and Mathematics.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = 'This data is provisional.') %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%   
-  mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%   
+  mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of pupils attain'),
+         line_2 = paste0('expected levels at'),
+         line_3 = paste0('Key Stage 2 for'),
+         line_4 = paste0('reading, writing, and'),
+         line_5 = paste0('mathematics in ', Timeperiod))
 
 # indicator_8_comp <- indicator_8 %>% 
 #   filter(Area_Name == comp_area)
@@ -287,10 +335,16 @@ indicator_9 <- fingertips_data(IndicatorID = 10101,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of children aged 16 years estimated to be living in poverty.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of children aged'),
+         line_2 = paste0('under 16 years'),
+         line_3 = paste0('living in poverty'),
+         line_4 = paste0('in ', Timeperiod),
+         line_5 = NA)
 
 #indicator_9_comp <- indicator_9 %>% 
 #  filter(AreaName == comp_area)
@@ -310,10 +364,16 @@ indicator_10 <- fingertips_data(IndicatorID = 21001,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the rate of emergency hospital admissions for intentional self-harm per 100,000 population (all ages).'),
-         Unit = 'Rate',
+         Unit = 'rate',
          Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ', ', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' admissions)'),
+         Label_screen = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('rate of emergency'),
+         line_2 = paste0('hospital admissions'),
+         line_3 = paste0('for intentional self-'),
+         line_4 = paste0('harm in ', Timeperiod),
+         line_5 = NA)
 
 # indicator_10_comp <- indicator_10 %>% 
 #   filter(AreaName == comp_area) 
@@ -330,11 +390,17 @@ indicator_11 <- fingertips_data(IndicatorID = 20401,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the rate of pregnancies that occur among women aged 15-17 years, per 1,000 women aged 15-17.'),
-         Unit = 'Rate',
+         Unit = 'rate',
          Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 1,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ', ', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' pregnancies)'),
+         Label_screen = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 1,000'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
-
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('in ', Timeperiod, ', ', format(round(Numerator,0), big.mark = ',', trim = TRUE), ' young'),
+         line_2 = paste0('women aged 15-18 years'),
+         line_3 = paste0('became pregnant'),
+         line_4 = NA,
+         line_5 = NA)
+         
 # indicator_11_comp <- indicator_11 %>% 
 #   filter(AreaName == comp_area) 
 
@@ -350,10 +416,16 @@ indicator_12 <- fingertips_data(IndicatorID = 92199,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of pupils attaining at least five GCSEs.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of pupils attained'),
+         line_2 = paste0('at least five GCSE'),
+         line_3 = paste0('grades at A*-C including'),
+         line_4 = paste0('English and Maths'),
+         line_5 = paste0('in ', Timeperiod))
 
 # indicator_12_comp <- indicator_12 %>% 
 #   filter(AreaName == comp_area) 
@@ -380,11 +452,17 @@ indicator_13 <- read_csv("https://www.nomisweb.co.uk/api/v01/dataset/NM_162_1.da
   mutate(ID = '013',
          Name = 'Youth unemployment claimaints',
          Description = paste0('This is the proportion of 18-24 year olds claiming out-of-work benefits.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  filter(substr(Area_code, 0,1) == 'E')
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  filter(substr(Area_code, 0,1) == 'E')  %>% 
+  mutate(line_1 = paste0('of 18-24 year olds'),
+         line_2 = paste0('claiming out-of-work'),
+         line_3 = paste0('benefits (', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' people)'),
+         line_4 = paste0('in ', Timeperiod),
+         line_5 = NA)
 
 # indicator_13_comp <- indicator_13 %>% 
 #   filter(GEOGRAPHY_NAME == comp_area) 
@@ -442,10 +520,16 @@ indicator_14 <- indicator_14 %>%
          ID = '014',
          Name = 'Full time hourly gross earnings males',
          Description = paste0('This is the full time hourly gross earnings for males (median rate) excluding overtime.'),
-         Unit = 'Median',
+         Unit = 'median',
          Label = paste0('£', Value),
+         Label_screen = paste0('£', Value),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('The full time hourly'),
+         line_2 = paste0('gross earnings for men'),
+         line_3 = paste0('(median rate) excluding'),
+         line_4 = paste0('overtime in ', Timeperiod),
+         line_5 = NA)
 
 # rm(indicator_14_England, indicator_14_SE)
 
@@ -477,11 +561,16 @@ indicator_15 <- indicator_15 %>%
          ID = '015',
          Name = 'Full time hourly gross earnings females',
          Description = paste0('This is the full time hourly gross earnings for females (median rate) excluding overtime.'),
-         Unit = 'Median',
+         Unit = 'median',
          Label = paste0('£', Value),
+         Label_screen = paste0('£', Value),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
-
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('The full time hourly'),
+         line_2 = paste0('gross earnings for women'),
+         line_3 = paste0('(median rate) excluding'),
+         line_4 = paste0('overtime in ', Timeperiod),
+         line_5 = NA)
 # rm(indicator_15_England, indicator_15_SE)
 
 # Indicator 16 - Ratio of lower quartile house price to lower quartile earnings ####
@@ -536,11 +625,17 @@ indicator_16 <- indicator_16 %>%
          ID = '016',
          Name = 'Housing Affordability ratio',
          Description = paste0('This is the ratio of lower quartile house price to lower quartile earnings.'),
-         Unit = 'Ratio',
+         Unit = 'ratio',
          Label = paste0(round(Value, 2)),
+         Label_screen = paste0(round(Value, 2)),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  filter(substr(Area_code,0,1) == 'E')
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  filter(substr(Area_code,0,1) == 'E') %>% 
+  mutate(line_1 = paste0('Housing Affordability'),
+         line_2 = paste0('ratio of lower quartile'),
+         line_3 = paste0('house price to lower'),
+         line_4 = paste0('quartile earnings'),
+         line_5 = paste0('in ', Timeperiod))
 
 rm(indicator_16_comp, indicator_16_SE, indicator_161, indicator_16a_comp, indicator_16b_comp)
 
@@ -556,10 +651,16 @@ indicator_17 <- fingertips_data(IndicatorID = 11001,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the rate of people killed or seriously injured on the roads in the area per 100,000 population (all ages).'),
-         Unit = 'Rate',
+         Unit = 'rate',
          Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ', ', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' people)'),
+         Label_screen = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('rate of people'),
+         line_2 = paste0('killed or seriously'),
+         line_3 = paste0('injured on the roads'),
+         line_4 = paste0('in ', Timeperiod),
+         line_5 = NA)
 
 # indicator_17_comp <- indicator_17 %>% 
 #   filter(AreaName == comp_area) 
@@ -576,10 +677,16 @@ indicator_18 <- fingertips_data(IndicatorID = 11202,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the rate of crimes recorded as violence against the person per 1,000 population (all ages).'),
-         Unit = 'Rate',
+         Unit = 'rate',
          Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 1,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ', ', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' offences)'),
+         Label_screen = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 1,000'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('rate of crimes'),
+         line_2 = paste0('recorded as violence'),
+         line_3 = paste0('against the person'),
+         line_4 = paste0('(', format(round(Numerator,0), big.mark = ',', trim = TRUE), ' offences)'),
+         line_5 = paste0('in ', Timeperiod))
 
 # indicator_18_comp <- indicator_18 %>% 
 #   filter(AreaName == comp_area) 
@@ -597,10 +704,16 @@ indicator_19 <- fingertips_data(IndicatorID = 91414,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the rate of admission episodes for alcohol related conditions (narrow definition) per 100,000 population (all ages).'),
-         Unit = 'Rate',
+         Unit = 'rate',
          Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ', ', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' admissions)'),
+         Label_screen = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('rate of admission'),
+         line_2 = paste0('episodes for alcohol'),
+         line_3 = paste0('related conditions'),
+         line_4 = paste0('(narrow definition) ', format(round(Numerator,0), big.mark = ',', trim = TRUE)),
+         line_5 = paste0('admissions in ', Timeperiod))
 
 # indicator_19_comp <- indicator_19 %>% 
 #   filter(AreaName == comp_area) 
@@ -618,10 +731,16 @@ indicator_20 <- fingertips_data(IndicatorID = 93014,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of adults aged 19+ undertaking at least 150 minutes of physical activity per week.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of adults undertaking'),
+         line_2 = paste0('at least 150 minutes'),
+         line_3 = paste0('of physical activity'),
+         line_4 = paste0('per week in ', Timeperiod),
+         line_5 = NA)
 
 # indicator_20_comp <- indicator_20 %>% 
 #   filter(AreaName == comp_area) 
@@ -639,10 +758,16 @@ indicator_21 <- fingertips_data(IndicatorID = 93015,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of adults aged 19+ undertaking less than 30 equivalence minutes of physical activity per week.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of adults undertaking'),
+         line_2 = paste0('less than 30 equivalent'),
+         line_3 = paste0('minutes of physical'),
+         line_4 = paste0('activity per week'),
+         line_5 = paste0('in ', Timeperiod))
 
 # indicator_21_comp <- indicator_21 %>% 
 #   filter(AreaName == comp_area) 
@@ -660,10 +785,16 @@ indicator_22 <- fingertips_data(IndicatorID = 92443,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of adults aged 18+ estimated to be smokers.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of adults aged 18+'),
+         line_2 = paste0('estimated to be'),
+         line_3 = paste0('smokers in ', Timeperiod),
+         line_4 = NA,
+         line_5 = NA)
 
 # indicator_22_comp <- indicator_22 %>% 
 #   filter(AreaName == comp_area) 
@@ -681,10 +812,16 @@ indicator_23 <- fingertips_data(IndicatorID = 93088,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of adults aged 18+ estimated to be overweight or obese.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of adults (aged 18+)'),
+         line_2 = paste0('classified as overweight'),
+         line_3 = paste0('or obese in ', Timeperiod),
+         line_4 = NA,
+         line_5 = NA)
 
 # indicator_23_comp <- indicator_23 %>% 
 #   filter(AreaName == comp_area) 
@@ -701,10 +838,16 @@ indicator_24 <- fingertips_data(IndicatorID = 22001,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of females aged 53-70 years attending breast cancer screening in the previous 36 months.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of eligible women'),
+         line_2 = paste0('aged 53-70 years'),
+         line_3 = paste0('attending breast cancer'),
+         line_4 = paste0('screening in the past'),
+         line_5 = paste0('36 months in ', Timeperiod))
 
 # indicator_24_comp <- indicator_24 %>% 
 #   filter(AreaName == comp_area) 
@@ -721,10 +864,16 @@ indicator_25 <- fingertips_data(IndicatorID = 91720,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of eligible persons aged 60-74 years attending bowel cancer screening (Faecal occult blood test) in the previous 30 months.'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of eligible people'),
+         line_2 = paste0('aged 60-74 years'),
+         line_3 = paste0('attending bowel cancer'),
+         line_4 = paste0('screening in the past'),
+         line_5 = paste0('30 months in ', Timeperiod))
 
 # indicator_25_comp <- indicator_25 %>% 
 #   filter(AreaName == comp_area) 
@@ -741,10 +890,16 @@ indicator_26_a <- fingertips_data(IndicatorID = 93560,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of females aged 25-49 years attending cervical cancer screening in the previous 42 months (3.5 years).'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of eligible women'),
+         line_2 = paste0('aged 25-49 years'),
+         line_3 = paste0('attending cervical cancer'),
+         line_4 = paste0('screening in the past'),
+         line_5 = paste0('42 months in ', Timeperiod))
 
 # indicator_26_a_comp <- indicator_26_a %>% 
   # filter(AreaName == comp_area) 
@@ -761,10 +916,16 @@ indicator_26_b <- fingertips_data(IndicatorID = 93561,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of females aged 50-64 years attending cervical cancer screening in the previous 66 months (5.5 years).'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of eligible women'),
+         line_2 = paste0('aged 50-64 years'),
+         line_3 = paste0('attending cervical cancer'),
+         line_4 = paste0('screening in the past'),
+         line_5 = paste0('66 months in ', Timeperiod))
 
 # indicator_26_b_comp <- indicator_26_b %>% 
 #   filter(AreaName == comp_area) 
@@ -797,10 +958,16 @@ indicator_27 <- fingertips_data(IndicatorID = 40501,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the rate of mortality (deaths) from all cancers in persons aged under 75 years per 100,000 population.'),
-         Unit = 'Rate',
+         Unit = 'rate',
          Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ', ', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' deaths)'),
+         Label_screen = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID))%>% 
+  mutate(line_1 = paste0('rate of deaths'),
+         line_2 = paste0('from all cancers'),
+         line_3 = paste0('in persons aged'),
+         line_4 = paste0('under 75 years'),
+         line_5 = paste0('in ', Timeperiod))
 
 # indicator_27_comp <- indicator_27 %>% 
 #   filter(AreaName == comp_area) 
@@ -818,10 +985,16 @@ indicator_28 <- fingertips_data(IndicatorID = 40401,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the rate of mortality (deaths) from all cardiovascular diseases in persons aged under 75 years per 100,000 population.'),
-         Unit = 'Rate',
+         Unit = 'rate',
          Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ', ', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' deaths)'),
+         Label_screen = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('rate of deaths from'),
+         line_2 = paste0('all cardiovascular'),
+         line_3 = paste0('diseases in persons aged'),
+         line_4 = paste0('under 75 years'),
+         line_5 = paste0('in ', Timeperiod))
 
 # indicator_28_comp <- indicator_28 %>% 
 #   filter(AreaName == comp_area) 
@@ -856,12 +1029,18 @@ indicator_29 <- indicator_29 %>%
          Upper_CI = NA,
          Timeperiod = '2019',
          Description = paste0('This is the estimated proportion of older people (aged 60+) living on low incomes. It is calculated by applying the Lower-layer super output area (LSOA) level Income Deprivation Affective Older People Index (IDAOPI) to the population denominator for that LSOA and aggregating the result up to lower tier local authority level. The estimated number is rounded to the nearest 100.'),
-         Unit = 'Proportion') %>% 
+         Unit = 'proportion') %>% 
   rename(Value = recreated_IDAOPI,
          Numerator = Older_people_IDOAPI) %>% 
   mutate(Label = paste0(round(Value, 1), '% (', format(round(Numerator, -2), big.mark = ',', trim = TRUE), ' older people)'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = 'This indicator is from the 2019 Index of multiple deprivation although the population used in calculations is based on 2015 estimates.') %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of older people'),
+         line_2 = paste0('aged 60+ living on'),
+         line_3 = paste0('low incomes from'),
+         line_4 = paste0('English indices of'),
+         line_5 = paste0('deprivation 2019'))
 
 rm(indicator_29_Eng)
 
@@ -877,10 +1056,16 @@ indicator_30 <- fingertips_data(IndicatorID = 90356,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the proportion of households experienceing fuel poverty (low income, high costs method).'),
-         Unit = 'Proportion',
+         Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of households'),
+         line_2 = paste0('experiencing'),
+         line_3 = paste0('fuel poverty (low'),
+         line_4 = paste0('income, high cost'),
+         line_5 = paste0('method) in', Timeperiod))
 
 # indicator_30_comp <- indicator_30 %>% 
 #   filter(AreaName == comp_area) 
@@ -898,10 +1083,16 @@ indicator_31 <- fingertips_data(IndicatorID = 41401,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the rate of emergency admissions for hip fractures among those aged 65 years and older per 100,000 population.'),
-         Unit = 'Rate',
+         Unit = 'rate',
          Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ', ', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' admissions)'),
+         Label_screen = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('rate of emergency'),
+         line_2 = paste0('admissions for hip'),
+         line_3 = paste0('fractures among those'),
+         line_4 = paste0('aged 65 in ', Timeperiod),
+         line_5 = paste0('(', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' admissions)'))
 
 # indicator_31_comp <- indicator_31 %>% 
 #   filter(AreaName == comp_area) 
@@ -919,10 +1110,16 @@ indicator_32 <- fingertips_data(IndicatorID = 90360,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the ratio of extra deaths from all causes that occur in the winter months (December to March) compared with the expected number based on the average of the number of non-winter deaths. The result is presented as a percentage and for example an EWM index of 20 shows that there were 20 per cent more deaths in winter compared with the non-winter period.'),
-         Unit = 'Index',
+         Unit = 'index',
          Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
          Notes = 'The number of winter deaths does not translate directly to being x more than in non-winter as the non-winter period is based on eight months of data compared with a four month winter period. Therefore we would expect half this number to take place in the eight months of winter (Dec-March) assuming identical mortality in winter and non-winter.') %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    mutate(ID = as.character(ID))
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('the proportion of'),
+         line_2 = paste0('extra deaths in winter'),
+         line_3 = paste0('compared to summer'),
+         line_4 = paste0('months (all ages)'),
+         line_5 = paste0('in ', Timeperiod))
 
 # indicator_32_comp <- indicator_32 %>% 
 #    filter(AreaName == comp_area) 
@@ -940,12 +1137,18 @@ indicator_33 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the average number of years a male would expect to live if they experienced the age-specific mortality rates for the local area and time period throughout his life.'),
-         Unit = 'Years',
+         Unit = 'life expectancy in years',
          Label = paste0(round(Value, 1), ' years'),
+         Label_screen = paste0(round(Value, 1), ' years'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    
   mutate(ID = as.character(ID)) %>% 
-  mutate(Name = 'Male life expectancy at birth')
+  mutate(Name = 'Male life expectancy at birth') %>% 
+  mutate(line_1 = paste0('male life'),
+         line_2 = paste0('expectancy'),
+         line_3 = paste0('at birth'),
+         line_4 = paste0('in ', Timeperiod),
+         line_5 = NA)
 
 # indicator_33_comp <- indicator_33 %>% 
 #   filter(AreaName == comp_area) 
@@ -963,12 +1166,18 @@ indicator_34 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 101) %>%
          Upper_CI = UpperCI95.0limit,
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the average number of years a female would expect to live if they experienced the age-specific mortality rates for the local area and time period throughout her life.'),
-         Unit = 'Years',
+         Unit = 'life expectancy in years',
          Label = paste0(round(Value, 1), ' years'),
+         Label_screen = paste0(round(Value, 1), ' years'),
          Notes = NA) %>% 
-select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Notes) %>%    
+select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    
   mutate(ID = as.character(ID)) %>% 
-  mutate(Name = 'Female life expectancy at birth')
+  mutate(Name = 'Female life expectancy at birth') %>% 
+  mutate(line_1 = paste0('female life'),
+         line_2 = paste0('expectancy'),
+         line_3 = paste0('at birth'),
+         line_4 = paste0('in ', Timeperiod),
+         line_5 = NA)
 
 # indicator_34_comp <- indicator_34 %>% 
   # filter(AreaName == comp_area) 
@@ -1012,7 +1221,13 @@ main_df <- indicator_1 %>%
   bind_rows(indicator_34) %>% 
   mutate(Area_name = ifelse(Area_code == 'E06000058', 'Bournemouth, Christchurch and Poole', ifelse(Area_code == 'E06000023', 'Bristol', ifelse(Area_code == 'E12000006', 'East of England region', ifelse(Area_code == 'E12000004', 'East Midlands region', ifelse(Area_code == 'E06000019', 'Herefordshire', ifelse(Area_code == 'E07000146',	'King’s Lynn and West Norfolk', ifelse(Area_code == 'E07000112', 'Folkestone and Hythe', ifelse(Area_code == 'E06000010', 'Kingston upon Hull', ifelse(Area_code == 'E06000033',	'Southend-on-Sea', ifelse(Area_code == 'E07000204',	'St Edmundsbury', ifelse(Area_code == 'E12000001',	'North East region', ifelse(Area_code == 'E12000002','North West region', ifelse(Area_code == 'E12000003',	'Yorkshire and the Humber region', ifelse(Area_code == 'E12000005','West Midlands region', ifelse(Area_code == 'E12000007', 'London region', ifelse(Area_code == 'E12000008',	'South East region', ifelse(Area_code == 'E12000009',	'South West region',  ifelse(Area_code == 'E08000013',	'St Helens', Area_name))))))))))))))))))) %>% 
   mutate(Polarity = ifelse(ID %in% c('92196','20101','004','20601','20602','10101','21001','20401','013','11001','11202','91414','93015','92443','93088','40501','40401','41401','90360'), 'Lower is better', ifelse(ID %in% c('20201','005','008','92199','93014','22001','91720','93560','93561','90366','90366'), 'Higher is better', ifelse(ID %in% c('014','015','016','029','90356'), 'Not applicable', NA)))) %>% 
-  mutate(Label = ifelse(is.na(Value), 'There is no data for this indicator', Label))
+  mutate(Label = ifelse(is.na(Value), 'There is no data for this indicator', Label)) %>% 
+  mutate(Label_screen = ifelse(is.na(Value), NA, Label_screen)) %>% 
+  mutate(line_1 = ifelse(is.na(Value), 'There is no', line_1)) %>% 
+  mutate(line_2 = ifelse(is.na(Value), 'data for this', line_2)) %>% 
+  mutate(line_3 = ifelse(is.na(Value), 'indicator', line_3)) %>% 
+  mutate(line_4 = ifelse(is.na(Value), NA, line_4)) %>% 
+  mutate(line_5 = ifelse(is.na(Value), NA, line_5))
 
 meta_areas <- main_df %>% 
   select(Area_code, Area_name) %>% 
@@ -1317,7 +1532,7 @@ indicator_9_ch <- ch_data %>%
   grid.circle(x = 0.61, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_12_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_12_icon, x = unit(0.61, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_12_ch$Value),"-",paste(round(indicator_12_ch$Value ,1), "%", sep = "")), just = "left", x = unit(0.592, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
-  grid.text(ifelse(is.na(indicator_12_ch$Value), "Data\nunavailable",paste("of pupils attained\nat least five GCSE\ngrades at A*-C including\nEngland  and maths\nin ", indicator_12_ch$Timeperiod, sep = "")), just = "left", x = unit(0.592, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
+  grid.text(ifelse(is.na(indicator_12_ch$Value), "Data\nunavailable",paste("of pupils attained\nat least five GCSE\ngrades at A*-C including\nenglish  and maths\nin ", indicator_12_ch$Timeperiod, sep = "")), just = "left", x = unit(0.592, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
   
   # Early working life ##
   grid.circle(x = 0.53, y = 0.6  , r = 0.06, default.units = "npc", name = NULL, gp = gpar(fill = "#000000"), draw = TRUE, vp = NULL)
@@ -1553,7 +1768,7 @@ meta <- main_df %>%
   select(ID, Name, Description, Unit, Timeperiod, Polarity) %>% 
   unique() %>% 
   mutate(Number = row_number()) %>%
-  mutate(x = ifelse(Number == 1, .16, ifelse(Number == 2, .24, ifelse(Number == 3, .32, ifelse(Number == 4, .43, ifelse(Number == 5, .51, ifelse(Number == 6, .73, ifelse(Number == 7, .81, ifelse(Number == 8, .89, ifelse(Number == 9, .88, ifelse(Number == 10, .8, ifelse(Number == 11, .72, ifelse(Number == 12, .6, ifelse(Number == 13, .44, ifelse(Number == 14, .36, ifelse(Number == 15, .25, ifelse(Number == 16, .17, ifelse(Number == 17, .09, ifelse(Number == 18, .1, ifelse(Number == 19, .18, ifelse(Number == 20, .26, ifelse(Number == 21, .38, ifelse(Number == 22, .54, ifelse(Number == 23, .62, ifelse(Number == 24, .74, ifelse(Number == 25, .82, ifelse(Number == 26, .9, ifelse(Number == 27, .87, ifelse(Number == 28, .79, ifelse(Number == 29, .71, ifelse(Number == 30, .52, ifelse(Number == 31, .44, ifelse(Number == 32, .36, ifelse(Number == 34, .26, ifelse(Number == 35, .18, NA))))))))))))))))))))))))))))))))))) %>% 
+  mutate(x = ifelse(Number == 1, .16, ifelse(Number == 2, .24, ifelse(Number == 3, .32, ifelse(Number == 4, .43, ifelse(Number == 5, .51, ifelse(Number == 6, .73, ifelse(Number == 7, .81, ifelse(Number == 8, .89, ifelse(Number == 9, .88, ifelse(Number == 10, .8, ifelse(Number == 11, .72, ifelse(Number == 12, .6, ifelse(Number == 13, .44, ifelse(Number == 14, .36, ifelse(Number == 15, .25, ifelse(Number == 16, .17, ifelse(Number == 17, .09, ifelse(Number == 18, .1, ifelse(Number == 19, .18, ifelse(Number == 20, .26, ifelse(Number == 21, .38, ifelse(Number == 22, .54, ifelse(Number == 23, .62, ifelse(Number == 24, .74, ifelse(Number == 25, .82, ifelse(Number == 26, .9, ifelse(Number == 27, .87, ifelse(Number == 28, .79, ifelse(Number == 29, .71, ifelse(Number == 30, .52, ifelse(Number == 31, .44, ifelse(Number == 32, .36, ifelse(Number == 33, .26, ifelse(Number == 34, .18, ifelse(Number == 35, .1, NA)))))))))))))))))))))))))))))))))))) %>% 
   mutate(y = ifelse(Number %in% c(1:8), .05, ifelse(Number %in% c(9:17), .3, ifelse(Number %in% c(18:26), .55, ifelse(Number %in% c(27:35), .8, NA))))) 
 
 meta %>% 
@@ -1574,6 +1789,8 @@ main_df %>%
   left_join(meta[c('Name','x','y')], by = 'Name') %>% 
   mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>% 
   mutate(Colour = ifelse(Significance == 'Not applicable', not_applic, ifelse(Significance == 'Similar', no_diff, ifelse(Significance == 'Significantly higher' & Polarity == 'Higher is better', better, ifelse(Significance == 'Significantly higher' & Polarity == 'Lower is better', worse, ifelse(Significance == 'Significantly lower' & Polarity == 'Lower is better', better, ifelse(Significance == 'Significantly lower' & Polarity == 'Higher is better', worse, NA))))))) %>% 
+  mutate(Area_name = factor(Area_name, levels = areas_wo_comp)) %>% 
+  arrange(Area_name) %>% 
   toJSON() %>% 
   write_lines(paste0(github_repo_dir, '/lt_data_extract_compare_england.json'))
 
