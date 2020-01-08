@@ -73,15 +73,15 @@ text-align: left !important;
 }
 
 .main {
-  width: 80%;
+  width: 90%;
   margin:auto;
 }
 
-@media screen and (max-width: 1400px) {
+/* @media screen and (max-width: 1300px) {
 
   .main {
-    width: 100%;
+    width: 90%;
     margin:auto;
   }
 
-}
+} */

@@ -1,8 +1,8 @@
-var width = (window.innerWidth * .8) - 20;
+var width = (window.innerWidth * .9) - 20;
 
-if(width < 1200){
-var width = (window.innerWidth) - 20;
-}
+// if(width < 1200){
+// var width = (window.innerWidth) - 20;
+// }
 
 
 // var width = document.getElementById("full_bodied").offsetWidth;
@@ -259,7 +259,7 @@ svg_lt_walkthrough
   .style('font-weight', 'bold')
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.8rem')
+  .style('font-size', '.9rem')
   .attr('id', 'label_1');
 
 svg_lt_walkthrough
@@ -273,7 +273,7 @@ svg_lt_walkthrough
   .style("fill", "black")
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.8rem')
+  .style('font-size', '.7rem')
   .attr('id', 'line_1');
 
 svg_lt_walkthrough
@@ -287,7 +287,7 @@ svg_lt_walkthrough
   .style("fill", "black")
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.8rem')
+  .style('font-size', '.7rem')
   .attr('id', 'line_2');
 
 svg_lt_walkthrough
@@ -301,7 +301,7 @@ svg_lt_walkthrough
   .style("fill", "black")
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.8rem')
+  .style('font-size', '.7rem')
   .attr('id', 'line_3');
 
 svg_lt_walkthrough
@@ -315,7 +315,7 @@ svg_lt_walkthrough
   .style("fill", "black")
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.8rem')
+  .style('font-size', '.7rem')
   .attr('id', 'line_4');
 
 svg_lt_walkthrough
@@ -329,7 +329,7 @@ svg_lt_walkthrough
   .style("fill", "black")
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.8rem')
+  .style('font-size', '.7rem')
   .attr('id', 'line_5');
 
 function update_lt_walkthrough(selected_area_option) {
@@ -420,7 +420,7 @@ svg_lt_walkthrough
   .style('font-weight', 'bold')
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.8rem')
+  .style('font-size', '.9rem')
   .attr('id', 'label_1')
   .style('opacity', 0)
   .transition()
@@ -438,7 +438,7 @@ svg_lt_walkthrough
     .style("fill", "black")
     .style('stroke','none')
     .attr('text-anchor','middle')
-    .style('font-size', '.8rem')
+    .style('font-size', '.7rem')
     .attr('id', 'line_1')
     .style('opacity', 0)
     .transition()
@@ -456,7 +456,7 @@ svg_lt_walkthrough
     .style("fill", "black")
     .style('stroke','none')
     .attr('text-anchor','middle')
-    .style('font-size', '.8rem')
+    .style('font-size', '.7rem')
     .attr('id', 'line_2')
     .style('opacity', 0)
     .transition()
@@ -474,7 +474,7 @@ svg_lt_walkthrough
     .style("fill", "black")
     .style('stroke','none')
     .attr('text-anchor','middle')
-    .style('font-size', '.8rem')
+    .style('font-size', '.7rem')
     .attr('id', 'line_3')
     .style('opacity', 0)
     .transition()
@@ -492,7 +492,7 @@ svg_lt_walkthrough
     .style("fill", "black")
     .style('stroke','none')
     .attr('text-anchor','middle')
-    .style('font-size', '.8rem')
+    .style('font-size', '.7rem')
     .attr('id', 'line_4')
     .style('opacity', 0)
     .transition()
@@ -510,7 +510,7 @@ svg_lt_walkthrough
     .style("fill", "black")
     .style('stroke','none')
     .attr('text-anchor','middle')
-    .style('font-size', '.8rem')
+    .style('font-size', '.7rem')
     .attr('id', 'line_5')
     .style('opacity', 0)
     .transition()

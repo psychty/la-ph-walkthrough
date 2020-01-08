@@ -396,9 +396,9 @@ indicator_11 <- fingertips_data(IndicatorID = 20401,  AreaTypeID = 101) %>%
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('in ', Timeperiod, ', ', format(round(Numerator,0), big.mark = ',', trim = TRUE), ' young'),
-         line_2 = paste0('women aged 15-18 years'),
-         line_3 = paste0('became pregnant'),
-         line_4 = NA,
+         line_2 = paste0('women aged 15-18'),
+         line_3 = paste0('years became '),
+         line_4 = 'pregnant',
          line_5 = NA)
          
 # indicator_11_comp <- indicator_11 %>% 
