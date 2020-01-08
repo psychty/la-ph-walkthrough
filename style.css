@@ -26,12 +26,7 @@ svg {
 }
 
 .stage_text {
-font-size: .9 !important;  
-}
-
-.main {
-  width: calc(80%);
-  margin:auto;
+font-size: .9 !important;
 }
 
 .footer {
@@ -75,4 +70,18 @@ text-align: left !important;
 
 .tt_text{
   font-size: .7rem;
+}
+
+.main {
+  width: 80%;
+  margin:auto;
+}
+
+@media screen and (max-width: 1400px) {
+
+  .main {
+    width: 100%;
+    margin:auto;
+  }
+
 }

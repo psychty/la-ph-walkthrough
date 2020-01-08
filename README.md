@@ -22,3 +22,9 @@ PH Walktrhough Journey Upper Tier LA.R | In progress
 ## To do
 Create an interactive version for the website will tooltips and forwarding links to further information.
 Create an accessible version of the analysis.
+
+## Progress
+The lower tier journey through indicators has now been made into an interactive web page.
+[here](https://wsx-ph-journey-indicators.netlify.com).
+
+This version is hosted on netlify. [![Netlify Status](https://api.netlify.com/api/v1/badges/482be6da-2160-400d-9380-394e21f6bbbf/deploy-status)](https://app.netlify.com/sites/wsx-ph-journey-indicators/deploys)

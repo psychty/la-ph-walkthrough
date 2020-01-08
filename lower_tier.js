@@ -1,4 +1,10 @@
 var width = (window.innerWidth * .8) - 20;
+
+if(width < 1200){
+var width = (window.innerWidth) - 20;
+}
+
+
 // var width = document.getElementById("full_bodied").offsetWidth;
 var height = width * .6;
 
@@ -33,6 +39,8 @@ var circle_size = d3.scaleLinear()
 .domain([0,2000])
 .range([5,40]);
 
+// possibly a font size scale?
+
 // Set up tooltip for circles
 var tooltip_lt = d3.select("#wsx_lower_tier_walkthrough")
     .append("div")
@@ -49,7 +57,7 @@ var tooltip_lt = d3.select("#wsx_lower_tier_walkthrough")
 var showTooltip_lt = function(d, i) {
 
 tooltip_lt
-  .html("<h4>" + d.Name + '</h4><p class = "tt_text">'+ d.Description + '</p><p class = "tt_text">In ' + d.Area_name + ' in ' + d.Timeperiod + ' the ' + d.Unit + ' was ' + d.Label + '.</p><p class = "tt_text">' + significance_key(d.Significance) + '. ' + polarity_key(d.Polarity))
+  .html("<h4>" + d.Name + '</h4><p class = "tt_text">'+ d.Description + '</p><p class = "tt_text">In ' + d.Area_name + ' in ' + d.Timeperiod + ' the ' + d.Unit + ' was <font color = "#1e4b7a" size = "3"><b>' + d.Label + '</b></font>.</p><p class = "tt_text">' + significance_key(d.Significance) + '. ' + polarity_key(d.Polarity))
   .style("opacity", 1)
   .style("top", (event.pageY - 10) + "px")
   .style("left", (event.pageX + 10) + "px")
@@ -67,7 +75,7 @@ var request = new XMLHttpRequest();
 
 var json = JSON.parse(request.responseText); // parse the fetched json data into a variable
 
-// List of years in the dataset
+// List of areas in the dataset
 var areas_lower_tier = d3.map(json, function (d) {
     return (d.Area_name)
     })
@@ -326,10 +334,188 @@ svg_lt_walkthrough
 
 function update_lt_walkthrough(selected_area_option) {
 
+// Set up tooltip for circles
+var tooltip_lt = d3.select("#wsx_lower_tier_walkthrough")
+  .append("div")
+  .style("opacity", 0)
+  .attr("class", "tooltip")
+  .style("position", "absolute")
+  .style("z-index", "10")
+  .style("background-color", "white")
+  .style("border", "solid")
+  .style("border-width", "1px")
+  .style("border-radius", "5px")
+  .style("padding", "10px")
+
+var showTooltip_lt = function(d, i) {
+
+tooltip_lt
+  .html("<h4>" + d.Name + '</h4><p class = "tt_text">'+ d.Description + '</p><p class = "tt_text">In ' + d.Area_name + ' in ' + d.Timeperiod + ' the ' + d.Unit + ' was <font color = "#1e4b7a" size = "3"><b>' + d.Label + '</b></font>.</p><p class = "tt_text">' + significance_key(d.Significance) + '. ' + polarity_key(d.Polarity))
+  .style("opacity", 1)
+  .style("top", (event.pageY - 10) + "px")
+  .style("left", (event.pageX + 10) + "px")
+  .style("visibility", "visible")
+  }
+
+var mouseleave = function(d) {
+  tooltip_lt.style("visibility", "hidden")
+  }
+
 var selected_area_option = d3.select('#select_area_lt_button').property("value")
 
 var selected_area_df = json.filter(function(d){
     return d.Area_name === selected_area_option})
+
+svg_lt_walkthrough
+  .selectAll("#label_1")
+  .transition()
+  .duration(750)
+  .style('opacity' ,0 )
+  .remove();
+
+svg_lt_walkthrough
+  .selectAll("#line_1")
+  .transition()
+  .duration(750)
+  .style('opacity' ,0 )
+  .remove();
+
+svg_lt_walkthrough
+  .selectAll("#line_2")
+  .transition()
+  .duration(750)
+  .style('opacity' ,0 )
+  .remove();
+
+svg_lt_walkthrough
+  .selectAll("#line_3")
+  .transition()
+  .duration(750)
+  .style('opacity' ,0 )
+  .remove();
+
+svg_lt_walkthrough
+  .selectAll("#line_4")
+  .transition()
+  .duration(750)
+  .style('opacity' ,0 )
+  .remove();
+
+svg_lt_walkthrough
+  .selectAll("#line_5")
+  .transition()
+  .duration(750)
+  .style('opacity' ,0 )
+  .remove();
+
+svg_lt_walkthrough
+  .selectAll()
+  .data(selected_area_df)
+  .enter()
+  .append('text')
+  .attr("dx", function(d){ return x_pos(d.x) })
+  .attr("dy", function(d){ return y_pos(d.y + .075) })
+  .text(function(d){ return d.Label_screen})
+  .style("fill", "black")
+  .style('font-weight', 'bold')
+  .style('stroke','none')
+  .attr('text-anchor','middle')
+  .style('font-size', '.8rem')
+  .attr('id', 'label_1')
+  .style('opacity', 0)
+  .transition()
+  .duration(750)
+  .style('opacity', 1);
+
+  svg_lt_walkthrough
+    .selectAll()
+    .data(selected_area_df)
+    .enter()
+    .append('text')
+    .attr("dx", function(d){ return x_pos(d.x) })
+    .attr("dy", function(d){ return y_pos(d.y + .1) })
+    .text(function(d){ return d.line_1})
+    .style("fill", "black")
+    .style('stroke','none')
+    .attr('text-anchor','middle')
+    .style('font-size', '.8rem')
+    .attr('id', 'line_1')
+    .style('opacity', 0)
+    .transition()
+    .duration(750)
+    .style('opacity', 1);
+
+  svg_lt_walkthrough
+    .selectAll()
+    .data(selected_area_df)
+    .enter()
+    .append('text')
+    .attr("dx", function(d){ return x_pos(d.x) })
+    .attr("dy", function(d){ return y_pos(d.y + .12) })
+    .text(function(d){ return d.line_2})
+    .style("fill", "black")
+    .style('stroke','none')
+    .attr('text-anchor','middle')
+    .style('font-size', '.8rem')
+    .attr('id', 'line_2')
+    .style('opacity', 0)
+    .transition()
+    .duration(750)
+    .style('opacity', 1);
+
+  svg_lt_walkthrough
+    .selectAll()
+    .data(selected_area_df)
+    .enter()
+    .append('text')
+    .attr("dx", function(d){ return x_pos(d.x) })
+    .attr("dy", function(d){ return y_pos(d.y + .14) })
+    .text(function(d){ return d.line_3})
+    .style("fill", "black")
+    .style('stroke','none')
+    .attr('text-anchor','middle')
+    .style('font-size', '.8rem')
+    .attr('id', 'line_3')
+    .style('opacity', 0)
+    .transition()
+    .duration(750)
+    .style('opacity', 1);
+
+  svg_lt_walkthrough
+    .selectAll()
+    .data(selected_area_df)
+    .enter()
+    .append('text')
+    .attr("dx", function(d){ return x_pos(d.x) })
+    .attr("dy", function(d){ return y_pos(d.y + .16) })
+    .text(function(d){ return d.line_4})
+    .style("fill", "black")
+    .style('stroke','none')
+    .attr('text-anchor','middle')
+    .style('font-size', '.8rem')
+    .attr('id', 'line_4')
+    .style('opacity', 0)
+    .transition()
+    .duration(750)
+    .style('opacity', 1);
+
+  svg_lt_walkthrough
+    .selectAll()
+    .data(selected_area_df)
+    .enter()
+    .append('text')
+    .attr("dx", function(d){ return x_pos(d.x) })
+    .attr("dy", function(d){ return y_pos(d.y + .18) })
+    .text(function(d){ return d.line_5})
+    .style("fill", "black")
+    .style('stroke','none')
+    .attr('text-anchor','middle')
+    .style('font-size', '.8rem')
+    .attr('id', 'line_5')
+    .style('opacity', 0)
+    .transition()
+    .duration(750)
+    .style('opacity', 1);
 
 svg_lt_walkthrough
   .selectAll('.outcomes')
@@ -345,12 +531,3 @@ svg_lt_walkthrough
     var selected_area_option = d3.select('#select_area_lt_button').property("value")
   update_lt_walkthrough(selected_area_option)
   })
-
-// update_lt_walkthrough(selected_area_option)
-// Create values
-// var nat_change = d3.max(wsx_coc, function (d) {
-  // return +d.natchange;});
-
-// console.table(adur_lc)
-
-// wsx_lower_tier_walkthrough

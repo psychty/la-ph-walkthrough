@@ -1024,7 +1024,7 @@ indicator_29_Eng <- indicator_29 %>%
 indicator_29 <- indicator_29 %>% 
   bind_rows(indicator_29_Eng) %>% 
   mutate(ID = '029',
-         Name = 'Estimated proportion older people living in poverty',
+         Name = 'Estimated proportion of older people living in poverty',
          Lower_CI = NA,
          Upper_CI = NA,
          Timeperiod = '2019',
