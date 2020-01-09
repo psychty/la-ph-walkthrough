@@ -10,7 +10,7 @@ var height = width * .6;
 
 var stage_circles = [{'line_1':'Pre-birth', 'line_2': 'to early', 'line_3': 'years', "x":.05, "y":.1},{'line_1':'School', 'line_2': 'years', "x":.6, "y":.1},{"line_1":'Early', 'line_2': 'working', 'line_3':'life', "x":.52, "y":.35},{"line_1":'Mid working', 'line_2':'life to', 'line_3':'retirement', "x":.47, "y":.6},{"line_1":'Retirement', 'line_2':'to older age', "x":.6, "y":.85}]
 
-var stage_arrows = [{"x":.11, "y":.1, "img":'right_blue.png'},{"x":.37, "y":.1, "img":'right_blue.png'},{"x":.67, "y":.1, "img":'right_blue.png'},{"x":.95, "y":.1, "img":'right_blue.png'},{"x":.95, "y":.35, "img":'right_blue.png'},{"x":.665, "y":.35, "img":'right_blue.png'},{"x":.3, "y":.35, "img":'right_blue.png'},{"x":.05, "y":.35, "img":'right_blue.png'},{"x":.05, "y":.6, "img":'right_brown.png'},{"x":.315, "y":.6, "img":'right_blue.png'},{"x":.675, "y":.6, "img":'right_blue.png'},{"x":.95, "y":.6, "img":'right_blue.png'},{"x":.95, "y":.85, "img":'right_blue.png'},{"x":.3, "y":.85, "img":'right_blue.png'}]
+var stage_arrows = [{"x":.11, "y":.1, "img":'./images/right_white.svg'},{"x":.37, "y":.1, "img":'./images/right_white.svg'},{"x":.67, "y":.1, "img":'./images/right_white.svg'},{"x":.95, "y":.1, "img":'./images/down_white.svg'},{"x":.95, "y":.35, "img":'./images/left_white.svg'},{"x":.665, "y":.35, "img":'./images/left_white.svg'},{"x":.3, "y":.35, "img":'./images/left_white.svg'},{"x":.05, "y":.35, "img":'./images/down_white.svg'},{"x":.05, "y":.6, "img":'./images/right_white.svg'},{"x":.315, "y":.6, "img":'./images/right_white.svg'},{"x":.675, "y":.6, "img":'./images/right_white.svg'},{"x":.95, "y":.6, "img":'./images/down_white.svg'},{"x":.95, "y":.85, "img":'./images/left_white.svg'},{"x":.3, "y":.85, "img":'./images/left_white.svg'}]
 
 var significance_key = d3.scaleOrdinal()
 .domain(['Not applicable', 'Significantly lower','Similar','Significantly higher'])
@@ -57,7 +57,7 @@ var tooltip_lt = d3.select("#wsx_lower_tier_walkthrough")
 var showTooltip_lt = function(d, i) {
 
 tooltip_lt
-  .html("<h4>" + d.Name + '</h4><p class = "tt_text">'+ d.Description + '</p><p class = "tt_text">In ' + d.Area_name + ' in ' + d.Timeperiod + ' the ' + d.Unit + ' was <font color = "#1e4b7a" size = "3"><b>' + d.Label + '</b></font>.</p><p class = "tt_text">' + significance_key(d.Significance) + '. ' + polarity_key(d.Polarity))
+  .html("<h4>" + d.Name + '</h4><p class = "tt_text">In ' + d.Area_name + ' in ' + d.Timeperiod + ' the ' + d.Unit + ' was <font color = "#1e4b7a" size = "3"><b>' + d.Label + '</b></font>.</p><p class = "tt_text">' + significance_key(d.Significance) + '. ' + polarity_key(d.Polarity))
   .style("opacity", 1)
   .style("top", (event.pageY - 10) + "px")
   .style("left", (event.pageX + 10) + "px")
@@ -188,7 +188,13 @@ svg_lt_walkthrough
   .style("fill", "white")
   .style('stroke','white')
   .attr('text-anchor','middle')
-  .style('font-size', '.8rem')
+  // .style('font-size', '.8rem')
+  .attr("font-size", function (d) {
+    if (width < 1200) {
+    return ".8rem"; }
+    else {
+    return '.9rem';}
+  })
   .attr('id', 'stage_line_1');
 
 svg_lt_walkthrough
@@ -202,7 +208,12 @@ svg_lt_walkthrough
   .style("fill", "white")
   .style('stroke','white')
   .attr('text-anchor','middle')
-  .style('font-size', '.8rem')
+  .attr("font-size", function (d) {
+    if (width < 1200) {
+    return ".8rem"; }
+    else {
+    return '.9rem';}
+  })
   .attr('id', 'stage_line_2');
 
 svg_lt_walkthrough
@@ -216,7 +227,12 @@ svg_lt_walkthrough
   .style("fill", "white")
   .style('stroke','white')
   .attr('text-anchor','middle')
-  .style('font-size', '.8rem')
+  .attr("font-size", function (d) {
+    if (width < 1200) {
+    return ".8rem"; }
+    else {
+    return '.9rem';}
+  })
   .attr('id', 'stage_line_3');
 
 // Small circles for arrows
@@ -230,22 +246,42 @@ svg_lt_walkthrough
   .attr("cy", function(d){ return y_pos(d.y) } )
   .attr("r",  function(d){ return arrow_size(width)});
 
+var groups = svg_lt_walkthrough.selectAll("arrows")
+  .data(stage_arrows)
+  .enter()
+  .append("g");
+
+var images = groups.selectAll("bar")
+  .data(stage_arrows)
+  .enter()
+  .append("svg:image")
+  .attr("x", function(d) { return x_pos(d.x); })
+  .attr('y', function(d) { return y_pos(d.y); })
+  .attr('height', 25)
+  .attr("xlink:href", function(d) {return d.img; });
+
+
 var selected_area_df = json.filter(function(d){
     return d.Area_name === selected_area_option})
 
+
 svg_lt_walkthrough
-.selectAll('.outcomes')
-.data(selected_area_df)
-.enter()
-.append("circle")
-.attr('class','outcomes')
-.attr("cx", function(d){ return x_pos(d.x) } )
-.attr("cy", function(d){ return y_pos(d.y) } )
-.attr("r",  function(d){ return circle_size(width)})
-.attr('fill',  function(d){ return d.Colour})
-.attr('stroke', 'none')
-.on("mousemove", showTooltip_lt)
-.on('mouseout', mouseleave);
+  .selectAll('.outcomes')
+  .data(selected_area_df)
+  .enter()
+  .append("circle")
+  .attr('class','outcomes')
+  .attr("cx", function(d){ return x_pos(d.x) } )
+  .attr("cy", function(d){ return y_pos(d.y) } )
+  .attr("r",  function(d){ return circle_size(width)})
+  .attr('fill',  function(d){ return d.Colour})
+  .attr('stroke', 'none')
+  .on("mousemove", showTooltip_lt)
+  .on('click', function(d) {console.log(d3.select(this).property("value"))
+                })
+  .on('mouseout', mouseleave);
+
+
 
 svg_lt_walkthrough
   .selectAll()
@@ -259,7 +295,12 @@ svg_lt_walkthrough
   .style('font-weight', 'bold')
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.9rem')
+  .attr("font-size", function (d) {
+    if (width < 1200) {
+    return ".9rem"; }
+    else {
+    return '1rem';}
+  })
   .attr('id', 'label_1');
 
 svg_lt_walkthrough
@@ -273,7 +314,12 @@ svg_lt_walkthrough
   .style("fill", "black")
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.7rem')
+  .attr("font-size", function (d) {
+    if (width < 1200) {
+    return ".7rem"; }
+    else {
+    return '.8rem';}
+  })
   .attr('id', 'line_1');
 
 svg_lt_walkthrough
@@ -287,7 +333,12 @@ svg_lt_walkthrough
   .style("fill", "black")
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.7rem')
+  .attr("font-size", function (d) {
+    if (width < 1200) {
+    return ".7rem"; }
+    else {
+    return '.8rem';}
+  })
   .attr('id', 'line_2');
 
 svg_lt_walkthrough
@@ -301,7 +352,12 @@ svg_lt_walkthrough
   .style("fill", "black")
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.7rem')
+  .attr("font-size", function (d) {
+    if (width < 1200) {
+    return ".7rem"; }
+    else {
+    return '.8rem';}
+  })
   .attr('id', 'line_3');
 
 svg_lt_walkthrough
@@ -315,7 +371,12 @@ svg_lt_walkthrough
   .style("fill", "black")
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.7rem')
+  .attr("font-size", function (d) {
+    if (width < 1200) {
+    return ".7rem"; }
+    else {
+    return '.8rem';}
+  })
   .attr('id', 'line_4');
 
 svg_lt_walkthrough
@@ -329,7 +390,12 @@ svg_lt_walkthrough
   .style("fill", "black")
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.7rem')
+  .attr("font-size", function (d) {
+    if (width < 1200) {
+    return ".7rem"; }
+    else {
+    return '.8rem';}
+  })
   .attr('id', 'line_5');
 
 function update_lt_walkthrough(selected_area_option) {
@@ -420,7 +486,12 @@ svg_lt_walkthrough
   .style('font-weight', 'bold')
   .style('stroke','none')
   .attr('text-anchor','middle')
-  .style('font-size', '.9rem')
+  .attr("font-size", function (d) {
+    if (width < 1200) {
+    return ".9rem"; }
+    else {
+    return '1rem';}
+  })
   .attr('id', 'label_1')
   .style('opacity', 0)
   .transition()
@@ -438,7 +509,13 @@ svg_lt_walkthrough
     .style("fill", "black")
     .style('stroke','none')
     .attr('text-anchor','middle')
-    .style('font-size', '.7rem')
+    // .style('font-size', '.7rem')
+    .attr("font-size", function (d) {
+      if (width < 1200) {
+      return ".7rem"; }
+      else {
+      return '.8rem';}
+    })
     .attr('id', 'line_1')
     .style('opacity', 0)
     .transition()
@@ -456,7 +533,12 @@ svg_lt_walkthrough
     .style("fill", "black")
     .style('stroke','none')
     .attr('text-anchor','middle')
-    .style('font-size', '.7rem')
+    .attr("font-size", function (d) {
+      if (width < 1200) {
+      return ".7rem"; }
+      else {
+      return '.8rem';}
+    })
     .attr('id', 'line_2')
     .style('opacity', 0)
     .transition()
@@ -474,7 +556,12 @@ svg_lt_walkthrough
     .style("fill", "black")
     .style('stroke','none')
     .attr('text-anchor','middle')
-    .style('font-size', '.7rem')
+    .attr("font-size", function (d) {
+      if (width < 1200) {
+      return ".7rem"; }
+      else {
+      return '.8rem';}
+    })
     .attr('id', 'line_3')
     .style('opacity', 0)
     .transition()
@@ -492,7 +579,12 @@ svg_lt_walkthrough
     .style("fill", "black")
     .style('stroke','none')
     .attr('text-anchor','middle')
-    .style('font-size', '.7rem')
+    .attr("font-size", function (d) {
+      if (width < 1200) {
+      return ".7rem"; }
+      else {
+      return '.8rem';}
+    })
     .attr('id', 'line_4')
     .style('opacity', 0)
     .transition()
@@ -510,7 +602,12 @@ svg_lt_walkthrough
     .style("fill", "black")
     .style('stroke','none')
     .attr('text-anchor','middle')
-    .style('font-size', '.7rem')
+    .attr("font-size", function (d) {
+      if (width < 1200) {
+      return ".7rem"; }
+      else {
+      return '.8rem';}
+    })
     .attr('id', 'line_5')
     .style('opacity', 0)
     .transition()
@@ -531,3 +628,169 @@ svg_lt_walkthrough
     var selected_area_option = d3.select('#select_area_lt_button').property("value")
   update_lt_walkthrough(selected_area_option)
   })
+
+
+
+
+
+  svg_lt_walkthrough
+    .append('text')
+    .attr("dx", function(d){ return x_pos(selected_area_df[0].x) })
+    .attr("dy", function(d){ return y_pos(selected_area_df[0].y - 0.01) })
+    .text('Infant')
+    .style("fill", "#FFFFFF")
+    .style('font-weight', 'bold')
+    .style('stroke','none')
+    .attr('text-anchor','middle')
+    .attr("font-size", function (d) {
+      if (width < 1200) {
+      return ".8rem"; }
+      else {
+      return '.9rem';}
+      })
+    .attr('id', 'indicator_1_line_1');
+
+    svg_lt_walkthrough
+      .append('text')
+      .attr("dx", function(d){ return x_pos(selected_area_df[0].x) })
+      .attr("dy", function(d){ return y_pos(selected_area_df[0].y + 0.01) })
+      .text('mortality')
+      .style("fill", "#FFFFFF")
+      .style('font-weight', 'bold')
+      .style('stroke','none')
+      .attr('text-anchor','middle')
+      .attr("font-size", function (d) {
+        if (width < 1200) {
+        return ".8rem"; }
+        else {
+        return '.9rem';}
+        })
+      .attr('id', 'indicator_1_line_2');
+
+svg_lt_walkthrough
+  .append('text')
+  .attr("dx", function(d){ return x_pos(selected_area_df[3].x) })
+  .attr("dy", function(d){ return y_pos(selected_area_df[3].y - 0.017) })
+  .text('Out of')
+  .style("fill", "#FFFFFF")
+  .style('font-weight', 'bold')
+  .style('stroke','none')
+  .attr('text-anchor','middle')
+  .attr("font-size", function (d) {
+  if (width < 1200) {
+  return ".8rem"; }
+  else {
+  return '.9rem';}
+      })
+ .attr('id', 'indicator_4_line_1');
+
+svg_lt_walkthrough
+ .append('text')
+ .attr("dx", function(d){ return x_pos(selected_area_df[3].x) })
+ .attr("dy", function(d){ return y_pos(selected_area_df[3].y) })
+ .text('work')
+ .style("fill", "#FFFFFF")
+ .style('font-weight', 'bold')
+ .style('stroke','none')
+ .attr('text-anchor','middle')
+ .attr("font-size", function (d) {
+    if (width < 1200) {
+    return ".8rem"; }
+    else {
+    return '.9rem';}
+        })
+ .attr('id', 'indicator_4_line_2');
+
+svg_lt_walkthrough
+  .append('text')
+  .attr("dx", function(d){ return x_pos(selected_area_df[3].x) })
+  .attr("dy", function(d){ return y_pos(selected_area_df[3].y + 0.017) })
+  .text('benefits')
+  .style("fill", "#FFFFFF")
+  .style('font-weight', 'bold')
+  .style('stroke','none')
+  .attr('text-anchor','middle')
+  .attr("font-size", function (d) {
+   if (width < 1200) {
+   return ".8rem"; }
+   else {
+   return '.9rem';}
+       })
+  .attr('id', 'indicator_4_line_3');
+
+// svg_lt_walkthrough
+// .append('text')
+// .attr("dx", function(d){ return x_pos(selected_area_df[7].x) })
+// .attr("dy", function(d){ return y_pos(selected_area_df[7].y + 0.025) })
+// .text('KS2')
+// .style("fill", "#FFFFFF")
+// .style('font-weight', 'bold')
+// .style('stroke','none')
+// .attr('text-anchor','middle')
+// .attr("font-size", function (d) {
+//    if (width < 1200) {
+//    return ".8rem"; }
+//    else {
+//    return '.9rem';}
+//        })
+// .attr('id', 'indicator_8_line_1');
+
+svg_lt_walkthrough
+.append('text')
+.attr("dx", function(d){ return x_pos(selected_area_df[17].x) })
+.attr("dy", function(d){ return y_pos(selected_area_df[17].y - 0.01) })
+.text('Violent')
+.style("fill", "#FFFFFF")
+.style('font-weight', 'bold')
+.style('stroke','none')
+.attr('text-anchor','middle')
+.attr("font-size", function (d) {
+   if (width < 1200) {
+   return ".8rem"; }
+   else {
+   return '.9rem';}
+       })
+.attr('id', 'indicator_18_line_1');
+
+svg_lt_walkthrough
+.append('text')
+.attr("dx", function(d){ return x_pos(selected_area_df[17].x) })
+.attr("dy", function(d){ return y_pos(selected_area_df[17].y + 0.01) })
+.text('crime')
+.style("fill", "#FFFFFF")
+.style('font-weight', 'bold')
+.style('stroke','none')
+.attr('text-anchor','middle')
+.attr("font-size", function (d) {
+   if (width < 1200) {
+   return ".8rem"; }
+   else {
+   return '.9rem';}
+       })
+.attr('id', 'indicator_18_line_2');
+
+var groups_ind = svg_lt_walkthrough.selectAll()
+  .data(selected_area_df)
+  .enter()
+  .append("g");
+
+
+if(width < 1300){
+var scaled_icon_size = 30
+  }
+
+if(width > 1300){
+  var scaled_icon_size = 50
+  }
+
+console.log(width)
+console.log(scaled_icon_size)
+
+var images = groups_ind.selectAll()
+  .data(selected_area_df)
+  .enter()
+  .append("svg:image")
+  .attr("x", function(d) { return x_pos(d.x) - scaled_icon_size/2; })
+  .attr('y', function(d) { return y_pos(d.y) - scaled_icon_size/2; })
+  .attr('height', scaled_icon_size)
+  .attr("xlink:href", function(d) {return d.img_path; });

@@ -42,7 +42,7 @@ indicator_1 <- fingertips_data(IndicatorID = 92196, AreaTypeID = 101) %>%
          Numerator = Count) %>% 
   mutate(Description = paste0('This is the rate of deaths in infants aged under 1 year per 1,000 live births.'),
          Unit = 'rate',
-         Label = paste0(round(Value,0), ' per 1,000 live births (95% CI ', round(Lower_CI,0), '-', round(Upper_CI,0), ', ', Numerator, ' deaths)'),
+         Label = paste0(round(Value,0), ' per 1,000 live births (95% CI ', round(Lower_CI,0), '-', round(Upper_CI,0), ', ', format(Numerator, big.mark = ',', trim = TRUE), ' deaths)'),
          Label_screen = paste0(round(Value,0), ' per 1,000'),
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>% 
@@ -51,7 +51,8 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('infants aged under'),
          line_3 = paste0('1 year per 1,000 live'),
          line_4 = paste0('births (', Timeperiod, ')'),
-         line_5 = paste0('(', round(Numerator,0),' deaths)'))
+         line_5 = paste0('(', format(round(Numerator,0),big.mark = ',', trim = TRUE), ' deaths)')) %>% 
+  mutate(img_path = NA)
 
 # indicator_1_comp <- indicator_1 %>% 
 #   filter(AreaName == comp_area)
@@ -77,7 +78,8 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0(Timeperiod, ' had a low'),
          line_3 = paste0('birthweight (2.5kgs)'),
          line_4 = NA,
-         line_5 = NA)
+         line_5 = NA) %>% 
+  mutate(img_path = './images/low_birthweight_icon.svg')
 
 # indicator_2_comp <- indicator_2 %>% 
 #   filter(AreaName == comp_area)
@@ -103,7 +105,8 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('breastfeed their'),
          line_3 = paste0('babies in the first'),
          line_4 = paste0('48hrs after delivery'),
-         line_5 = paste0('in ', Timeperiod))
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = './images/bottle.svg')
 
 # indicator_3_comp <- indicator_3 %>% 
 #   filter(AreaName == comp_area) 
@@ -215,7 +218,7 @@ indicator_5 <- indicator_5 %>%
          Lower_CI = gld_lci,
          Upper_CI = gld_uci) %>% 
   mutate(ID = '005',
-         Name = 'Children achieving good level of development at the end of reception',
+         Name = 'Children achieving a good level of development at the end of reception',
          Timeperiod = paste0(substr(Timeperiod, 1,4), '/', substr(Timeperiod, 5, 6)),
          Description = paste0('This is the proportion of children assessed as achieving a good level of development (e.g. being "school ready") at the end of reception.'),
          Unit = 'proportion',
@@ -227,7 +230,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('as achieving a good'),
          line_3 = paste0('level of development'),
          line_4 = paste0('at the end of reception'),
-         line_5 = paste0('in ', Timeperiod))
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = './images/letter-block-toy.svg')
+
 
 rm(indicator_5_comp)
 
@@ -252,7 +257,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('pupils (4/5 years)'),
          line_3 = paste0('measured as having'),
          line_4 = paste0('excess weight'),
-         line_5 = paste0('in ', Timeperiod))
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = './images/fried-potatoes.svg')
+
 
 # indicator_6_comp <- indicator_6 %>% 
 #   filter(AreaName == comp_area) 
@@ -278,7 +285,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('(aged 10/11 years)'),
          line_3 = paste0('measured as having'),
          line_4 = paste0('excess weight'),
-         line_5 = paste0('in ', Timeperiod))
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = './images/cup-cake.svg')
+
 
 #indicator_7_comp <- indicator_7 %>% 
 #  filter(AreaName == comp_area) 
@@ -316,7 +325,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('expected levels at'),
          line_3 = paste0('Key Stage 2 for'),
          line_4 = paste0('reading, writing, and'),
-         line_5 = paste0('mathematics in ', Timeperiod))
+         line_5 = paste0('mathematics in ', Timeperiod)) %>% 
+  mutate(img_path = './images/sharpener.svg')
+
 
 # indicator_8_comp <- indicator_8 %>% 
 #   filter(Area_Name == comp_area)
@@ -344,7 +355,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('under 16 years'),
          line_3 = paste0('living in poverty'),
          line_4 = paste0('in ', Timeperiod),
-         line_5 = NA)
+         line_5 = NA) %>% 
+  mutate(img_path = './images/saving-pig.svg')
+
 
 #indicator_9_comp <- indicator_9 %>% 
 #  filter(AreaName == comp_area)
@@ -373,7 +386,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('hospital admissions'),
          line_3 = paste0('for intentional self-'),
          line_4 = paste0('harm in ', Timeperiod),
-         line_5 = NA)
+         line_5 = NA) %>% 
+  mutate(img_path = './images/emergency-ambulance.svg')
+
 
 # indicator_10_comp <- indicator_10 %>% 
 #   filter(AreaName == comp_area) 
@@ -399,8 +414,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('women aged 15-18'),
          line_3 = paste0('years became '),
          line_4 = 'pregnant',
-         line_5 = NA)
-         
+         line_5 = NA) %>% 
+  mutate(img_path = './images/baby-stroller.svg')
+
 # indicator_11_comp <- indicator_11 %>% 
 #   filter(AreaName == comp_area) 
 
@@ -425,7 +441,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('at least five GCSE'),
          line_3 = paste0('grades at A*-C including'),
          line_4 = paste0('English and Maths'),
-         line_5 = paste0('in ', Timeperiod))
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = './images/cap.svg')
+
 
 # indicator_12_comp <- indicator_12 %>% 
 #   filter(AreaName == comp_area) 
@@ -462,7 +480,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('claiming out-of-work'),
          line_3 = paste0('benefits (', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' people)'),
          line_4 = paste0('in ', Timeperiod),
-         line_5 = NA)
+         line_5 = NA) %>% 
+  mutate(img_path = './images/wrench.svg')
+
 
 # indicator_13_comp <- indicator_13 %>% 
 #   filter(GEOGRAPHY_NAME == comp_area) 
@@ -526,10 +546,12 @@ indicator_14 <- indicator_14 %>%
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('The full time hourly'),
-         line_2 = paste0('gross earnings for men'),
-         line_3 = paste0('(median rate) excluding'),
-         line_4 = paste0('overtime in ', Timeperiod),
-         line_5 = NA)
+         line_2 = paste0('gross earnings for'),
+         line_3 = paste0('men (median rate)'),
+         line_4 = paste0('excluding overtime'),
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = './images/wallet.svg')
+
 
 # rm(indicator_14_England, indicator_14_SE)
 
@@ -567,10 +589,12 @@ indicator_15 <- indicator_15 %>%
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('The full time hourly'),
-         line_2 = paste0('gross earnings for women'),
-         line_3 = paste0('(median rate) excluding'),
-         line_4 = paste0('overtime in ', Timeperiod),
-         line_5 = NA)
+         line_2 = paste0('gross earnings for'),
+         line_3 = paste0('women (median rate)'),
+         line_4 = paste0('excluding overtime'),
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = './images/wallet.svg')
+
 # rm(indicator_15_England, indicator_15_SE)
 
 # Indicator 16 - Ratio of lower quartile house price to lower quartile earnings ####
@@ -635,7 +659,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('ratio of lower quartile'),
          line_3 = paste0('house price to lower'),
          line_4 = paste0('quartile earnings'),
-         line_5 = paste0('in ', Timeperiod))
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = './images/for-sale-post.svg')
+
 
 rm(indicator_16_comp, indicator_16_SE, indicator_161, indicator_16a_comp, indicator_16b_comp)
 
@@ -660,7 +686,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('killed or seriously'),
          line_3 = paste0('injured on the roads'),
          line_4 = paste0('in ', Timeperiod),
-         line_5 = NA)
+         line_5 = NA) %>% 
+  mutate(img_path = './images/overturned-car.svg')
+
 
 # indicator_17_comp <- indicator_17 %>% 
 #   filter(AreaName == comp_area) 
@@ -686,7 +714,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('recorded as violence'),
          line_3 = paste0('against the person'),
          line_4 = paste0('(', format(round(Numerator,0), big.mark = ',', trim = TRUE), ' offences)'),
-         line_5 = paste0('in ', Timeperiod))
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = NA)
+
 
 # indicator_18_comp <- indicator_18 %>% 
 #   filter(AreaName == comp_area) 
@@ -713,7 +743,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('episodes for alcohol'),
          line_3 = paste0('related conditions'),
          line_4 = paste0('(narrow definition) ', format(round(Numerator,0), big.mark = ',', trim = TRUE)),
-         line_5 = paste0('admissions in ', Timeperiod))
+         line_5 = paste0('admissions in ', Timeperiod)) %>% 
+  mutate(img_path = './images/glass-and-bottle-of-wine.svg')
+
 
 # indicator_19_comp <- indicator_19 %>% 
 #   filter(AreaName == comp_area) 
@@ -740,7 +772,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('at least 150 minutes'),
          line_3 = paste0('of physical activity'),
          line_4 = paste0('per week in ', Timeperiod),
-         line_5 = NA)
+         line_5 = NA) %>% 
+  mutate(img_path = './images/sprinting.svg')
+
 
 # indicator_20_comp <- indicator_20 %>% 
 #   filter(AreaName == comp_area) 
@@ -767,7 +801,8 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('less than 30 equivalent'),
          line_3 = paste0('minutes of physical'),
          line_4 = paste0('activity per week'),
-         line_5 = paste0('in ', Timeperiod))
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = './images/sofa-with-armrest.svg')
 
 # indicator_21_comp <- indicator_21 %>% 
 #   filter(AreaName == comp_area) 
@@ -794,7 +829,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('estimated to be'),
          line_3 = paste0('smokers in ', Timeperiod),
          line_4 = NA,
-         line_5 = NA)
+         line_5 = NA) %>% 
+  mutate(img_path = './images/cigarette-with-smoke.svg')
+
 
 # indicator_22_comp <- indicator_22 %>% 
 #   filter(AreaName == comp_area) 
@@ -821,7 +858,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('classified as overweight'),
          line_3 = paste0('or obese in ', Timeperiod),
          line_4 = NA,
-         line_5 = NA)
+         line_5 = NA) %>% 
+  mutate(img_path = './images/fast-food.svg')
+
 
 # indicator_23_comp <- indicator_23 %>% 
 #   filter(AreaName == comp_area) 
@@ -847,7 +886,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('aged 53-70 years'),
          line_3 = paste0('attending breast cancer'),
          line_4 = paste0('screening in the past'),
-         line_5 = paste0('36 months in ', Timeperiod))
+         line_5 = paste0('36 months in ', Timeperiod)) %>% 
+  mutate(img_path = './images/brassiere.svg')
+
 
 # indicator_24_comp <- indicator_24 %>% 
 #   filter(AreaName == comp_area) 
@@ -873,7 +914,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('aged 60-74 years'),
          line_3 = paste0('attending bowel cancer'),
          line_4 = paste0('screening in the past'),
-         line_5 = paste0('30 months in ', Timeperiod))
+         line_5 = paste0('30 months in ', Timeperiod)) %>% 
+  mutate(img_path = './images/underpants.svg')
+
 
 # indicator_25_comp <- indicator_25 %>% 
 #   filter(AreaName == comp_area) 
@@ -899,7 +942,8 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('aged 25-49 years'),
          line_3 = paste0('attending cervical cancer'),
          line_4 = paste0('screening in the past'),
-         line_5 = paste0('42 months in ', Timeperiod))
+         line_5 = paste0('42 months in ', Timeperiod)) %>% 
+  mutate(img_path = './images/laboratory-microscope.svg')
 
 # indicator_26_a_comp <- indicator_26_a %>% 
   # filter(AreaName == comp_area) 
@@ -925,7 +969,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('aged 50-64 years'),
          line_3 = paste0('attending cervical cancer'),
          line_4 = paste0('screening in the past'),
-         line_5 = paste0('66 months in ', Timeperiod))
+         line_5 = paste0('66 months in ', Timeperiod)) %>% 
+  mutate(img_path = './images/laboratory-microscope.svg')
+
 
 # indicator_26_b_comp <- indicator_26_b %>% 
 #   filter(AreaName == comp_area) 
@@ -967,7 +1013,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('from all cancers'),
          line_3 = paste0('in persons aged'),
          line_4 = paste0('under 75 years'),
-         line_5 = paste0('in ', Timeperiod))
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = './images/awareness-ribbon.svg')
+
 
 # indicator_27_comp <- indicator_27 %>% 
 #   filter(AreaName == comp_area) 
@@ -994,7 +1042,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('all cardiovascular'),
          line_3 = paste0('diseases in persons aged'),
          line_4 = paste0('under 75 years'),
-         line_5 = paste0('in ', Timeperiod))
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = './images/cardio.svg')
+
 
 # indicator_28_comp <- indicator_28 %>% 
 #   filter(AreaName == comp_area) 
@@ -1040,7 +1090,8 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('aged 60+ living on'),
          line_3 = paste0('low incomes from'),
          line_4 = paste0('English indices of'),
-         line_5 = paste0('deprivation 2019'))
+         line_5 = paste0('deprivation 2019')) %>% 
+  mutate(img_path = './images/coins-stack.svg')
 
 rm(indicator_29_Eng)
 
@@ -1065,7 +1116,8 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('experiencing'),
          line_3 = paste0('fuel poverty (low'),
          line_4 = paste0('income, high cost'),
-         line_5 = paste0('method) in', Timeperiod))
+         line_5 = paste0('method) in', Timeperiod)) %>% 
+  mutate(img_path = './images/flame.svg')
 
 # indicator_30_comp <- indicator_30 %>% 
 #   filter(AreaName == comp_area) 
@@ -1092,7 +1144,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('admissions for hip'),
          line_3 = paste0('fractures among those'),
          line_4 = paste0('aged 65 in ', Timeperiod),
-         line_5 = paste0('(', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' admissions)'))
+         line_5 = paste0('(', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' admissions)')) %>% 
+  mutate(img_path = './images/hip-bone.svg')
+
 
 # indicator_31_comp <- indicator_31 %>% 
 #   filter(AreaName == comp_area) 
@@ -1119,7 +1173,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('extra deaths in winter'),
          line_3 = paste0('compared to summer'),
          line_4 = paste0('months (all ages)'),
-         line_5 = paste0('in ', Timeperiod))
+         line_5 = paste0('in ', Timeperiod)) %>% 
+  mutate(img_path = './images/mitten.svg')
+
 
 # indicator_32_comp <- indicator_32 %>% 
 #    filter(AreaName == comp_area) 
@@ -1148,7 +1204,9 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('expectancy'),
          line_3 = paste0('at birth'),
          line_4 = paste0('in ', Timeperiod),
-         line_5 = NA)
+         line_5 = NA) %>% 
+  mutate(img_path = './images/headstone.svg')
+
 
 # indicator_33_comp <- indicator_33 %>% 
 #   filter(AreaName == comp_area) 
@@ -1177,7 +1235,8 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_2 = paste0('expectancy'),
          line_3 = paste0('at birth'),
          line_4 = paste0('in ', Timeperiod),
-         line_5 = NA)
+         line_5 = NA) %>% 
+  mutate(img_path = './images/headstone.svg')
 
 # indicator_34_comp <- indicator_34 %>% 
   # filter(AreaName == comp_area) 
@@ -1765,10 +1824,10 @@ indicator_34_ch <- ch_data %>%
 # Compiling data for export to json ####
 
 meta <- main_df %>% 
-  select(ID, Name, Description, Unit, Timeperiod, Polarity) %>% 
+  select(ID, Name, Description, Unit, Timeperiod, Polarity, img_path) %>% 
   unique() %>% 
   mutate(Number = row_number()) %>%
-  mutate(x = ifelse(Number == 1, .16, ifelse(Number == 2, .24, ifelse(Number == 3, .32, ifelse(Number == 4, .43, ifelse(Number == 5, .51, ifelse(Number == 6, .73, ifelse(Number == 7, .81, ifelse(Number == 8, .89, ifelse(Number == 9, .88, ifelse(Number == 10, .8, ifelse(Number == 11, .72, ifelse(Number == 12, .6, ifelse(Number == 13, .44, ifelse(Number == 14, .36, ifelse(Number == 15, .25, ifelse(Number == 16, .17, ifelse(Number == 17, .09, ifelse(Number == 18, .1, ifelse(Number == 19, .18, ifelse(Number == 20, .26, ifelse(Number == 21, .38, ifelse(Number == 22, .54, ifelse(Number == 23, .62, ifelse(Number == 24, .74, ifelse(Number == 25, .82, ifelse(Number == 26, .9, ifelse(Number == 27, .87, ifelse(Number == 28, .79, ifelse(Number == 29, .71, ifelse(Number == 30, .52, ifelse(Number == 31, .44, ifelse(Number == 32, .36, ifelse(Number == 33, .26, ifelse(Number == 34, .18, ifelse(Number == 35, .1, NA)))))))))))))))))))))))))))))))))))) %>% 
+  mutate(x = ifelse(Number == 1, .16, ifelse(Number == 2, .24, ifelse(Number == 3, .32, ifelse(Number == 4, .43, ifelse(Number == 5, .51, ifelse(Number == 6, .73, ifelse(Number == 7, .81, ifelse(Number == 8, .89, ifelse(Number == 9, .88, ifelse(Number == 10, .8, ifelse(Number == 11, .72, ifelse(Number == 12, .6, ifelse(Number == 13, .44, ifelse(Number == 14, .36, ifelse(Number == 15, .26, ifelse(Number == 16, .18, ifelse(Number == 17, .1, ifelse(Number == 18, .1, ifelse(Number == 19, .18, ifelse(Number == 20, .26, ifelse(Number == 21, .38, ifelse(Number == 22, .54, ifelse(Number == 23, .62, ifelse(Number == 24, .71, ifelse(Number == 25, .81, ifelse(Number == 26, .9, ifelse(Number == 27, .87, ifelse(Number == 28, .79, ifelse(Number == 29, .71, ifelse(Number == 30, .52, ifelse(Number == 31, .44, ifelse(Number == 32, .36, ifelse(Number == 33, .26, ifelse(Number == 34, .18, ifelse(Number == 35, .1, NA)))))))))))))))))))))))))))))))))))) %>% 
   mutate(y = ifelse(Number %in% c(1:8), .05, ifelse(Number %in% c(9:17), .3, ifelse(Number %in% c(18:26), .55, ifelse(Number %in% c(27:35), .8, NA))))) 
 
 meta %>% 

@@ -18,6 +18,12 @@ div {
 body {
 background-color: #fcfaf7;
 font-family: 'Open Sans', sans-serif;
+text-align:center; /* used to center div in IE */
+}
+
+#wrapper {
+    margin:0 auto; /*centers the div horizontally in all browsers (except IE)*/
+    text-align:left; /*resets text alignment from body tag */
 }
 
 svg {
