@@ -92,6 +92,11 @@ text-align: left !important;
 
 } */
 
+.icons_yo {
+  z-index: 100;
+  visibility: visible;
+}
+
 .fyi {
   font-size: .7rem;
   font-weight: bold;

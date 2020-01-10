@@ -87,7 +87,6 @@ var mouseleave = function(d) {
   }
 
 // Modal
-
 var choose_an_indicator = function(d, i) {
     selected_indicator = d['ID']
 
@@ -147,7 +146,6 @@ d3.select("#related_indicator")
   .attr('id', 'ind_text_6');
 
 modal.style.display = "block";
-
 }
 
 // data frame
@@ -324,23 +322,18 @@ svg_lt_walkthrough
   .enter()
   .append("circle")
   .attr('id', "stage_arrow_circles")
-  .attr("cx", function(d){ return x_pos(d.x) } )
-  .attr("cy", function(d){ return y_pos(d.y) } )
+  .attr("cx", function(d){ return x_pos(d.x)})
+  .attr("cy", function(d){ return y_pos(d.y)})
   .attr("r",  function(d){ return arrow_size(width)});
 
-  var groups = svg_lt_walkthrough.selectAll("arrows")
-    .data(stage_arrows)
-    .enter()
-    .append("g");
-
-  var images_arrows = groups.selectAll("bar")
-    .data(stage_arrows)
-    .enter()
-    .append("svg:image")
-    .attr("x", function(d) { return x_pos(d.x) - 12; })
-    .attr('y', function(d) { return y_pos(d.y) - 12; })
-    .attr('height', 24)
-    .attr("xlink:href", function(d) {return d.img; });
+var images_arrows = svg_lt_walkthrough.selectAll("bar")
+  .data(stage_arrows)
+  .enter()
+  .append("svg:image")
+  .attr("x", function(d) { return x_pos(d.x) - 12; })
+  .attr('y', function(d) { return y_pos(d.y) - 12; })
+  .attr('height', 24)
+  .attr("xlink:href", function(d) {return d.img; });
 
 var selected_area_df = json.filter(function(d){
     return d.Area_name === selected_area_option
@@ -477,21 +470,138 @@ svg_lt_walkthrough
   .attr('id', 'line_5');
 
 // Icons
-var groups_ind = svg_lt_walkthrough.selectAll()
-  .data(selected_area_df)
-  .enter()
-  .append("g")
-  .attr('id', 'indicator_icon_images');
-
-var images = groups_ind.selectAll()
+var images = svg_lt_walkthrough.selectAll()
   .data(selected_area_df)
   .enter()
   .append("svg:image")
-  .attr("x", function(d, i) { return x_pos(d.x) - scaled_icon_size/2; })
-  .attr('y', function(d, i) { return y_pos(d.y) - scaled_icon_size/2; })
+  .attr("x", function(d) { return x_pos(d.x) - scaled_icon_size/2; })
+  .attr('y', function(d) { return y_pos(d.y) - scaled_icon_size/2; })
   .attr('height', scaled_icon_size)
   .on('click', choose_an_indicator)
-  .attr("xlink:href", function(d) {return d.img_path; });
+  .attr('class', 'icons_yo')
+  .attr("xlink:href", function(d) {return d.img_path; })
+  .attr('id', 'indicator_icon_images');
+
+  svg_lt_walkthrough
+    .append('text')
+    .attr("dx", function(d){ return x_pos(selected_area_df[0].x) })
+    .attr("dy", function(d){ return y_pos(selected_area_df[0].y - 0.01) })
+    .text('Infant')
+    .style("fill", "#FFFFFF")
+    .style('font-weight', 'bold')
+    .style('stroke','none')
+    .attr('text-anchor','middle')
+    .attr("font-size", function (d) {
+      if (width < 1200) {
+      return ".8rem"; }
+      else {
+      return '.9rem';}
+      })
+    .attr('id', 'indicator_1_line_1');
+
+    svg_lt_walkthrough
+      .append('text')
+      .attr("dx", function(d){ return x_pos(selected_area_df[0].x) })
+      .attr("dy", function(d){ return y_pos(selected_area_df[0].y + 0.01) })
+      .text('mortality')
+      .style("fill", "#FFFFFF")
+      .style('font-weight', 'bold')
+      .style('stroke','none')
+      .attr('text-anchor','middle')
+      .attr("font-size", function (d) {
+        if (width < 1200) {
+        return ".8rem"; }
+        else {
+        return '.9rem';}
+        })
+      .attr('id', 'indicator_1_line_2');
+
+svg_lt_walkthrough
+  .append('text')
+  .attr("dx", function(d){ return x_pos(selected_area_df[3].x) })
+  .attr("dy", function(d){ return y_pos(selected_area_df[3].y - 0.017) })
+  .text('Out of')
+  .style("fill", "#FFFFFF")
+  .style('font-weight', 'bold')
+  .style('stroke','none')
+  .attr('text-anchor','middle')
+  .attr("font-size", function (d) {
+  if (width < 1200) {
+  return ".8rem"; }
+  else {
+  return '.9rem';}
+      })
+ .attr('id', 'indicator_4_line_1');
+
+svg_lt_walkthrough
+ .append('text')
+ .attr("dx", function(d){ return x_pos(selected_area_df[3].x) })
+ .attr("dy", function(d){ return y_pos(selected_area_df[3].y) })
+ .text('work')
+ .style("fill", "#FFFFFF")
+ .style('font-weight', 'bold')
+ .style('stroke','none')
+ .attr('text-anchor','middle')
+ .attr("font-size", function (d) {
+    if (width < 1200) {
+    return ".8rem"; }
+    else {
+    return '.9rem';}
+        })
+ .attr('id', 'indicator_4_line_2');
+
+svg_lt_walkthrough
+  .append('text')
+  .attr("dx", function(d){ return x_pos(selected_area_df[3].x) })
+  .attr("dy", function(d){ return y_pos(selected_area_df[3].y + 0.017) })
+  .text('benefits')
+  .style("fill", "#FFFFFF")
+  .style('font-weight', 'bold')
+  .style('stroke','none')
+  .attr('text-anchor','middle')
+  .attr("font-size", function (d) {
+   if (width < 1200) {
+   return ".8rem"; }
+   else {
+   return '.9rem';}
+       })
+  .attr('id', 'indicator_4_line_3');
+
+svg_lt_walkthrough
+.append('text')
+.attr("dx", function(d){ return x_pos(selected_area_df[17].x) })
+.attr("dy", function(d){ return y_pos(selected_area_df[17].y - 0.01) })
+.text('Violent')
+.style("fill", "#FFFFFF")
+.style('font-weight', 'bold')
+.style('stroke','none')
+.attr('text-anchor','middle')
+// .on('click', choose_an_indicator)
+.attr("font-size", function (d) {
+   if (width < 1200) {
+   return ".8rem"; }
+   else {
+   return '.9rem';}
+       })
+.attr('id', 'indicator_18_line_1');
+
+svg_lt_walkthrough
+.append('text')
+.attr("dx", function(d){ return x_pos(selected_area_df[17].x) })
+.attr("dy", function(d){ return y_pos(selected_area_df[17].y + 0.01) })
+.text('crime')
+.style("fill", "#FFFFFF")
+.style('font-weight', 'bold')
+.style('stroke','none')
+.attr('text-anchor','middle')
+.attr("font-size", function (d) {
+   if (width < 1200) {
+   return ".8rem"; }
+   else {
+   return '.9rem';}
+       })
+.attr('id', 'indicator_18_line_2');
+
 
 function update_lt_walkthrough(selected_area_option) {
 
@@ -726,7 +836,7 @@ svg_lt_walkthrough
     var scaled_icon_size = 50
     }
 
-  var images = groups_ind.selectAll()
+  var images = svg_lt_walkthrough.selectAll()
     .data(selected_area_df)
     .enter()
     .append("svg:image")
@@ -743,123 +853,3 @@ svg_lt_walkthrough
     var selected_area_option = d3.select('#select_area_lt_button').property("value")
   update_lt_walkthrough(selected_area_option)
   })
-
-  svg_lt_walkthrough
-    .append('text')
-    .attr("dx", function(d){ return x_pos(selected_area_df[0].x) })
-    .attr("dy", function(d){ return y_pos(selected_area_df[0].y - 0.01) })
-    .text('Infant')
-    .style("fill", "#FFFFFF")
-    .style('font-weight', 'bold')
-    .style('stroke','none')
-    .attr('text-anchor','middle')
-    .attr("font-size", function (d) {
-      if (width < 1200) {
-      return ".8rem"; }
-      else {
-      return '.9rem';}
-      })
-    .attr('id', 'indicator_1_line_1');
-
-    svg_lt_walkthrough
-      .append('text')
-      .attr("dx", function(d){ return x_pos(selected_area_df[0].x) })
-      .attr("dy", function(d){ return y_pos(selected_area_df[0].y + 0.01) })
-      .text('mortality')
-      .style("fill", "#FFFFFF")
-      .style('font-weight', 'bold')
-      .style('stroke','none')
-      .attr('text-anchor','middle')
-      .attr("font-size", function (d) {
-        if (width < 1200) {
-        return ".8rem"; }
-        else {
-        return '.9rem';}
-        })
-      .attr('id', 'indicator_1_line_2');
-
-svg_lt_walkthrough
-  .append('text')
-  .attr("dx", function(d){ return x_pos(selected_area_df[3].x) })
-  .attr("dy", function(d){ return y_pos(selected_area_df[3].y - 0.017) })
-  .text('Out of')
-  .style("fill", "#FFFFFF")
-  .style('font-weight', 'bold')
-  .style('stroke','none')
-  .attr('text-anchor','middle')
-  .attr("font-size", function (d) {
-  if (width < 1200) {
-  return ".8rem"; }
-  else {
-  return '.9rem';}
-      })
- .attr('id', 'indicator_4_line_1');
-
-svg_lt_walkthrough
- .append('text')
- .attr("dx", function(d){ return x_pos(selected_area_df[3].x) })
- .attr("dy", function(d){ return y_pos(selected_area_df[3].y) })
- .text('work')
- .style("fill", "#FFFFFF")
- .style('font-weight', 'bold')
- .style('stroke','none')
- .attr('text-anchor','middle')
- .attr("font-size", function (d) {
-    if (width < 1200) {
-    return ".8rem"; }
-    else {
-    return '.9rem';}
-        })
- .attr('id', 'indicator_4_line_2');
-
-svg_lt_walkthrough
-  .append('text')
-  .attr("dx", function(d){ return x_pos(selected_area_df[3].x) })
-  .attr("dy", function(d){ return y_pos(selected_area_df[3].y + 0.017) })
-  .text('benefits')
-  .style("fill", "#FFFFFF")
-  .style('font-weight', 'bold')
-  .style('stroke','none')
-  .attr('text-anchor','middle')
-  .attr("font-size", function (d) {
-   if (width < 1200) {
-   return ".8rem"; }
-   else {
-   return '.9rem';}
-       })
-  .attr('id', 'indicator_4_line_3');
-
-svg_lt_walkthrough
-.append('text')
-.attr("dx", function(d){ return x_pos(selected_area_df[17].x) })
-.attr("dy", function(d){ return y_pos(selected_area_df[17].y - 0.01) })
-.text('Violent')
-.style("fill", "#FFFFFF")
-.style('font-weight', 'bold')
-.style('stroke','none')
-.attr('text-anchor','middle')
-// .on('click', choose_an_indicator)
-.attr("font-size", function (d) {
-   if (width < 1200) {
-   return ".8rem"; }
-   else {
-   return '.9rem';}
-       })
-.attr('id', 'indicator_18_line_1');
-
-svg_lt_walkthrough
-.append('text')
-.attr("dx", function(d){ return x_pos(selected_area_df[17].x) })
-.attr("dy", function(d){ return y_pos(selected_area_df[17].y + 0.01) })
-.text('crime')
-.style("fill", "#FFFFFF")
-.style('font-weight', 'bold')
-.style('stroke','none')
-.attr('text-anchor','middle')
-.attr("font-size", function (d) {
-   if (width < 1200) {
-   return ".8rem"; }
-   else {
-   return '.9rem';}
-       })
-.attr('id', 'indicator_18_line_2');
