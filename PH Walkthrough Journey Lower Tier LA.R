@@ -309,7 +309,7 @@ indicator_8 <- read_csv("./Journey through indicators/KS2_provisional_underlying
          Lower_CI =  PHEindicatormethods:::wilson_lower(t_rwm_exp, t_rwm_elig, confidence = .95) * 100,
          Upper_CI =  PHEindicatormethods:::wilson_upper(t_rwm_exp, t_rwm_elig, confidence = .95) * 100) %>% 
   mutate(ID = '008',
-         Name = 'Expected levels RWM KS2',
+         Name = 'Expected levels or reading, writing, and maths at Key Stage 2',
          Timeperiod = '2019') %>% 
   rename(Numerator = t_rwm_exp,
          Denominator = t_rwm_elig,

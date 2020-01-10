@@ -1,12 +1,23 @@
 var width = (window.innerWidth * .9) - 20;
-
-// if(width < 1200){
-// var width = (window.innerWidth) - 20;
-// }
-
-
-// var width = document.getElementById("full_bodied").offsetWidth;
 var height = width * .6;
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+ modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
 
 var stage_circles = [{'line_1':'Pre-birth', 'line_2': 'to early', 'line_3': 'years', "x":.05, "y":.1},{'line_1':'School', 'line_2': 'years', "x":.6, "y":.1},{"line_1":'Early', 'line_2': 'working', 'line_3':'life', "x":.52, "y":.35},{"line_1":'Mid working', 'line_2':'life to', 'line_3':'retirement', "x":.47, "y":.6},{"line_1":'Retirement', 'line_2':'to older age', "x":.6, "y":.85}]
 
@@ -20,6 +31,7 @@ var polarity_key = d3.scaleOrdinal()
 .domain(['Not applicable', 'Lower is better','Similar','Higher is better'])
 .range(['', 'For this indicator, a lower value is better.', 'For this indicator, a higher value is better.'])
 
+// We want the infographic to redraw at the scale of the users screen. We have identified (through trial and error) the best position within the width
 // Add some scale functions to place circles on the svg
 var x_pos = d3.scaleLinear()
 .range([0, width]);
@@ -39,7 +51,13 @@ var circle_size = d3.scaleLinear()
 .domain([0,2000])
 .range([5,40]);
 
-// possibly a font size scale?
+if(width < 1300){
+var scaled_icon_size = 30
+  }
+
+if(width > 1300){
+  var scaled_icon_size = 50
+  }
 
 // Set up tooltip for circles
 var tooltip_lt = d3.select("#wsx_lower_tier_walkthrough")
@@ -57,7 +75,7 @@ var tooltip_lt = d3.select("#wsx_lower_tier_walkthrough")
 var showTooltip_lt = function(d, i) {
 
 tooltip_lt
-  .html("<h4>" + d.Name + '</h4><p class = "tt_text">In ' + d.Area_name + ' in ' + d.Timeperiod + ' the ' + d.Unit + ' was <font color = "#1e4b7a" size = "3"><b>' + d.Label + '</b></font>.</p><p class = "tt_text">' + significance_key(d.Significance) + '. ' + polarity_key(d.Polarity))
+  .html("<h4>" + d.Name + '</h4><p class = "tt_text">In ' + d.Area_name + ' in ' + d.Timeperiod + ' the ' + d.Unit + ' was <font color = "#1e4b7a" size = "3"><b>' + d.Label + '</b></font>. </p><p class = "tt_text">' + significance_key(d.Significance) + '. ' + polarity_key(d.Polarity))
   .style("opacity", 1)
   .style("top", (event.pageY - 10) + "px")
   .style("left", (event.pageX + 10) + "px")
@@ -68,7 +86,71 @@ var mouseleave = function(d) {
   tooltip_lt.style("visibility", "hidden")
   }
 
-// Components of change
+// Modal
+
+var choose_an_indicator = function(d, i) {
+    selected_indicator = d['ID']
+
+d3.select("#indicator_chosen_title")
+.selectAll('text')
+.remove()
+
+d3.select("#indicator_chosen_title")
+  .append('text')
+  .data(selected_area_df)
+  .text(d.Name)
+  .attr('id', 'ind_text_1');
+
+d3.select("#indicator_description")
+ .selectAll('text')
+ .remove()
+
+d3.select("#indicator_description")
+  .append('text')
+  .text(d.Description + ' ' + polarity_key(d.Polarity))
+  .attr('id', 'ind_text_2');
+
+d3.select("#indicator_label")
+  .selectAll('text')
+  .remove()
+
+d3.select("#indicator_label")
+  .append('text')
+  .html('In ' + d.Area_name + ' in ' + d.Timeperiod + ' the ' + d.Unit + ' was <font color = "#1e4b7a" size = "3"><b>' + d.Label + '</b></font>. ' + significance_key(d.Significance) + '.</p>')
+  .attr('id', 'ind_text_3');
+
+// d3.select("#indicator_trends")
+//   .selectAll('text')
+//   .remove()
+//
+// d3.select("#indicator_trends")
+//   .append('text')
+//   .text('Here we will display recent trends for this indicator')
+//   .attr('id', 'ind_text_4');
+
+d3.select("#indicator_further_info")
+  .selectAll('text')
+  .remove()
+
+d3.select("#indicator_further_info")
+  .append('text')
+  .text('Information about the source of data, and quick caveats or "You should know..." points')
+  .attr('id', 'ind_text_5');
+
+d3.select("#related_indicator")
+  .selectAll('text')
+  .remove()
+
+d3.select("#related_indicator")
+  .append('text')
+  .text('Here could be a list of relevant indicators to look at, perhaps links to profiles on fingertips or to other sections of our JSNA site.')
+  .attr('id', 'ind_text_6');
+
+modal.style.display = "block";
+
+}
+
+// data frame
 var request = new XMLHttpRequest();
   request.open("GET", "./lt_data_extract_compare_england.json", false);
   request.send(null);
@@ -246,24 +328,23 @@ svg_lt_walkthrough
   .attr("cy", function(d){ return y_pos(d.y) } )
   .attr("r",  function(d){ return arrow_size(width)});
 
-var groups = svg_lt_walkthrough.selectAll("arrows")
-  .data(stage_arrows)
-  .enter()
-  .append("g");
+  var groups = svg_lt_walkthrough.selectAll("arrows")
+    .data(stage_arrows)
+    .enter()
+    .append("g");
 
-var images = groups.selectAll("bar")
-  .data(stage_arrows)
-  .enter()
-  .append("svg:image")
-  .attr("x", function(d) { return x_pos(d.x); })
-  .attr('y', function(d) { return y_pos(d.y); })
-  .attr('height', 25)
-  .attr("xlink:href", function(d) {return d.img; });
-
+  var images_arrows = groups.selectAll("bar")
+    .data(stage_arrows)
+    .enter()
+    .append("svg:image")
+    .attr("x", function(d) { return x_pos(d.x) - 12; })
+    .attr('y', function(d) { return y_pos(d.y) - 12; })
+    .attr('height', 24)
+    .attr("xlink:href", function(d) {return d.img; });
 
 var selected_area_df = json.filter(function(d){
-    return d.Area_name === selected_area_option})
-
+    return d.Area_name === selected_area_option
+  })
 
 svg_lt_walkthrough
   .selectAll('.outcomes')
@@ -277,11 +358,8 @@ svg_lt_walkthrough
   .attr('fill',  function(d){ return d.Colour})
   .attr('stroke', 'none')
   .on("mousemove", showTooltip_lt)
-  .on('click', function(d) {console.log(d3.select(this).property("value"))
-                })
+  .on('click', choose_an_indicator)
   .on('mouseout', mouseleave);
-
-
 
 svg_lt_walkthrough
   .selectAll()
@@ -397,6 +475,23 @@ svg_lt_walkthrough
     return '.8rem';}
   })
   .attr('id', 'line_5');
+
+// Icons
+var groups_ind = svg_lt_walkthrough.selectAll()
+  .data(selected_area_df)
+  .enter()
+  .append("g")
+  .attr('id', 'indicator_icon_images');
+
+var images = groups_ind.selectAll()
+  .data(selected_area_df)
+  .enter()
+  .append("svg:image")
+  .attr("x", function(d, i) { return x_pos(d.x) - scaled_icon_size/2; })
+  .attr('y', function(d, i) { return y_pos(d.y) - scaled_icon_size/2; })
+  .attr('height', scaled_icon_size)
+  .on('click', choose_an_indicator)
+  .attr("xlink:href", function(d) {return d.img_path; });
 
 function update_lt_walkthrough(selected_area_option) {
 
@@ -622,16 +717,32 @@ svg_lt_walkthrough
   .attr('fill',  function(d){ return d.Colour})
   .on("mousemove", showTooltip_lt)
   .on('mouseout', mouseleave);
+
+  if(width < 1300){
+  var scaled_icon_size = 30
+    }
+
+  if(width > 1300){
+    var scaled_icon_size = 50
+    }
+
+  var images = groups_ind.selectAll()
+    .data(selected_area_df)
+    .enter()
+    .append("svg:image")
+    .attr("x", function(d) { return x_pos(d.x) - scaled_icon_size/2; })
+    .attr('y', function(d) { return y_pos(d.y) - scaled_icon_size/2; })
+    .attr('height', scaled_icon_size)
+    .attr("xlink:href", function(d) {return d.img_path; })
+    .on('click', choose_an_indicator)
+    .attr('id', 'indicator_icon_images');
+
   }
 
   d3.select("#select_area_lt_button").on("change", function(d) {
     var selected_area_option = d3.select('#select_area_lt_button').property("value")
   update_lt_walkthrough(selected_area_option)
   })
-
-
-
-
 
   svg_lt_walkthrough
     .append('text')
@@ -718,23 +829,6 @@ svg_lt_walkthrough
        })
   .attr('id', 'indicator_4_line_3');
 
-// svg_lt_walkthrough
-// .append('text')
-// .attr("dx", function(d){ return x_pos(selected_area_df[7].x) })
-// .attr("dy", function(d){ return y_pos(selected_area_df[7].y + 0.025) })
-// .text('KS2')
-// .style("fill", "#FFFFFF")
-// .style('font-weight', 'bold')
-// .style('stroke','none')
-// .attr('text-anchor','middle')
-// .attr("font-size", function (d) {
-//    if (width < 1200) {
-//    return ".8rem"; }
-//    else {
-//    return '.9rem';}
-//        })
-// .attr('id', 'indicator_8_line_1');
-
 svg_lt_walkthrough
 .append('text')
 .attr("dx", function(d){ return x_pos(selected_area_df[17].x) })
@@ -744,6 +838,7 @@ svg_lt_walkthrough
 .style('font-weight', 'bold')
 .style('stroke','none')
 .attr('text-anchor','middle')
+// .on('click', choose_an_indicator)
 .attr("font-size", function (d) {
    if (width < 1200) {
    return ".8rem"; }
@@ -768,29 +863,3 @@ svg_lt_walkthrough
    return '.9rem';}
        })
 .attr('id', 'indicator_18_line_2');
-
-var groups_ind = svg_lt_walkthrough.selectAll()
-  .data(selected_area_df)
-  .enter()
-  .append("g");
-
-
-if(width < 1300){
-var scaled_icon_size = 30
-  }
-
-if(width > 1300){
-  var scaled_icon_size = 50
-  }
-
-console.log(width)
-console.log(scaled_icon_size)
-
-var images = groups_ind.selectAll()
-  .data(selected_area_df)
-  .enter()
-  .append("svg:image")
-  .attr("x", function(d) { return x_pos(d.x) - scaled_icon_size/2; })
-  .attr('y', function(d) { return y_pos(d.y) - scaled_icon_size/2; })
-  .attr('height', scaled_icon_size)
-  .attr("xlink:href", function(d) {return d.img_path; });

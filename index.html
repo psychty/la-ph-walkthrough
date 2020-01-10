@@ -21,9 +21,6 @@
 
 <!-- How about a tooltip that says hover over the circle to see more or click for even more detail. This could open up a smaller window and grey out the background with the ability to move left or right through the life course? (example GoT deaths). It could include info on trends over time. It could have links to fingertips or sources of more info, or related indicators etc -->
 
-<!-- create a lightbox app -->
-<!-- https://www.w3schools.com/howto/howto_css_modals.asp -->
-<!-- https://webdesign.tutsplus.com/articles/super-simple-lightbox-with-css-and-jquery--webdesign-3528 -->
 
 <h3>Sussex Lower tier local authorities compared to England; Updated January 2020</h3>
 <span class="mr-1">Area:</span>
@@ -31,6 +28,22 @@
 
 <div id = 'wsx_lower_tier_walkthrough'></div>
 <p>Infographic images designed by Freepik and OCHA from Flaticon</p>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+<!-- Modal content -->
+<div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 id = 'indicator_chosen_title'></h2>
+    <p id = 'indicator_description'></p>
+    <p id = 'indicator_label'></p>
+    <!-- <p id = 'indicator_trends'></p> -->
+    <p id = 'indicator_further_info'></p>
+    <p id = 'related_indicator'></p>
+    <p class = 'fyi'>Click on the x or anywhere outside of this box to return to the infographic.</p>
+  </div>
+</div>
 
 <p class = 'footer'>Made by Dr Rich Tyler<br><a href='https://psychty.github.io' target="_blank">psychty.github.io</a><br>2020 </p>
 
