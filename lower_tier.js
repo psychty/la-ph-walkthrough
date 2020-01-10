@@ -333,7 +333,8 @@ var images_arrows = svg_lt_walkthrough.selectAll("bar")
   .attr("x", function(d) { return x_pos(d.x) - 12; })
   .attr('y', function(d) { return y_pos(d.y) - 12; })
   .attr('height', 24)
-  .attr("xlink:href", function(d) {return d.img; });
+  .attr("xlink:href", function(d) {return d.img; })
+  .attr('id', 'arrow_images');
 
 var selected_area_df = json.filter(function(d){
     return d.Area_name === selected_area_option
@@ -469,19 +470,6 @@ svg_lt_walkthrough
   })
   .attr('id', 'line_5');
 
-// Icons
-var images = svg_lt_walkthrough.selectAll()
-  .data(selected_area_df)
-  .enter()
-  .append("svg:image")
-  .attr("x", function(d) { return x_pos(d.x) - scaled_icon_size/2; })
-  .attr('y', function(d) { return y_pos(d.y) - scaled_icon_size/2; })
-  .attr('height', scaled_icon_size)
-  .on('click', choose_an_indicator)
-  .attr('class', 'icons_yo')
-  .attr("xlink:href", function(d) {return d.img_path; })
-  .attr('id', 'indicator_icon_images');
-
   svg_lt_walkthrough
     .append('text')
     .attr("dx", function(d){ return x_pos(selected_area_df[0].x) })
@@ -602,6 +590,20 @@ svg_lt_walkthrough
        })
 .attr('id', 'indicator_18_line_2');
 
+// Icons
+svg_lt_walkthrough.selectAll('icons_yo')
+  .data(selected_area_df)
+  .enter()
+  .append("svg:image")
+  .attr("x", function(d) { return x_pos(d.x) - scaled_icon_size/2; })
+  .attr('y', function(d) { return y_pos(d.y) - scaled_icon_size/2; })
+  .attr('height', scaled_icon_size)
+  .on("mousemove", showTooltip_lt)
+  .on('mouseout', mouseleave)
+  .on('click', choose_an_indicator)
+  .attr('class', 'icons_yo')
+  .attr("xlink:href", function(d) {return d.img_path; })
+  .attr('id', 'indicator_icon_images');
 
 function update_lt_walkthrough(selected_area_option) {
 
@@ -621,7 +623,7 @@ var tooltip_lt = d3.select("#wsx_lower_tier_walkthrough")
 var showTooltip_lt = function(d, i) {
 
 tooltip_lt
-  .html("<h4>" + d.Name + '</h4><p class = "tt_text">'+ d.Description + '</p><p class = "tt_text">In ' + d.Area_name + ' in ' + d.Timeperiod + ' the ' + d.Unit + ' was <font color = "#1e4b7a" size = "3"><b>' + d.Label + '</b></font>.</p><p class = "tt_text">' + significance_key(d.Significance) + '. ' + polarity_key(d.Polarity))
+.html("<h4>" + d.Name + '</h4><p class = "tt_text">In ' + d.Area_name + ' in ' + d.Timeperiod + ' the ' + d.Unit + ' was <font color = "#1e4b7a" size = "3"><b>' + d.Label + '</b></font>. </p><p class = "tt_text">' + significance_key(d.Significance) + '. ' + polarity_key(d.Polarity))
   .style("opacity", 1)
   .style("top", (event.pageY - 10) + "px")
   .style("left", (event.pageX + 10) + "px")
@@ -822,34 +824,22 @@ svg_lt_walkthrough
 svg_lt_walkthrough
   .selectAll('.outcomes')
   .data(selected_area_df)
+  .on("mousemove", showTooltip_lt)
+  .on('mouseout', mouseleave)
   .transition()
   .duration(1750)
-  .attr('fill',  function(d){ return d.Colour})
+  .attr('fill',  function(d){ return d.Colour});
+
+svg_lt_walkthrough
+  .selectAll('.icons_yo')
+  .data(selected_area_df)
   .on("mousemove", showTooltip_lt)
-  .on('mouseout', mouseleave);
-
-  if(width < 1300){
-  var scaled_icon_size = 30
-    }
-
-  if(width > 1300){
-    var scaled_icon_size = 50
-    }
-
-  var images = svg_lt_walkthrough.selectAll()
-    .data(selected_area_df)
-    .enter()
-    .append("svg:image")
-    .attr("x", function(d) { return x_pos(d.x) - scaled_icon_size/2; })
-    .attr('y', function(d) { return y_pos(d.y) - scaled_icon_size/2; })
-    .attr('height', scaled_icon_size)
-    .attr("xlink:href", function(d) {return d.img_path; })
-    .on('click', choose_an_indicator)
-    .attr('id', 'indicator_icon_images');
+  .on('mouseout', mouseleave)
+  .on('click', choose_an_indicator);
 
   }
 
-  d3.select("#select_area_lt_button").on("change", function(d) {
-    var selected_area_option = d3.select('#select_area_lt_button').property("value")
+d3.select("#select_area_lt_button").on("change", function(d) {
+var selected_area_option = d3.select('#select_area_lt_button').property("value")
   update_lt_walkthrough(selected_area_option)
   })
