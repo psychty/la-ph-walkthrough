@@ -270,7 +270,7 @@ svg_lt_walkthrough
   .attr('text-anchor','middle')
   // .style('font-size', '.8rem')
   .attr("font-size", function (d) {
-    if (width < 1200) {
+    if (width < 1300) {
     return ".8rem"; }
     else {
     return '.9rem';}
@@ -289,7 +289,7 @@ svg_lt_walkthrough
   .style('stroke','white')
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
-    if (width < 1200) {
+    if (width < 1300) {
     return ".8rem"; }
     else {
     return '.9rem';}
@@ -308,7 +308,7 @@ svg_lt_walkthrough
   .style('stroke','white')
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
-    if (width < 1200) {
+    if (width < 1300) {
     return ".8rem"; }
     else {
     return '.9rem';}
@@ -368,7 +368,7 @@ svg_lt_walkthrough
   .style('stroke','none')
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
-    if (width < 1200) {
+    if (width < 1300) {
     return ".9rem"; }
     else {
     return '1rem';}
@@ -387,8 +387,8 @@ svg_lt_walkthrough
   .style('stroke','none')
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
-    if (width < 1200) {
-    return ".7rem"; }
+    if (width < 1300) {
+    return ".65rem"; }
     else {
     return '.8rem';}
   })
@@ -406,8 +406,8 @@ svg_lt_walkthrough
   .style('stroke','none')
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
-    if (width < 1200) {
-    return ".7rem"; }
+    if (width < 1300) {
+    return ".65rem"; }
     else {
     return '.8rem';}
   })
@@ -425,8 +425,8 @@ svg_lt_walkthrough
   .style('stroke','none')
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
-    if (width < 1200) {
-    return ".7rem"; }
+    if (width < 1300) {
+    return ".65rem"; }
     else {
     return '.8rem';}
   })
@@ -444,8 +444,8 @@ svg_lt_walkthrough
   .style('stroke','none')
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
-    if (width < 1200) {
-    return ".7rem"; }
+    if (width < 1300) {
+    return ".65rem"; }
     else {
     return '.8rem';}
   })
@@ -463,8 +463,8 @@ svg_lt_walkthrough
   .style('stroke','none')
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
-    if (width < 1200) {
-    return ".7rem"; }
+    if (width < 1300) {
+    return ".65rem"; }
     else {
     return '.8rem';}
   })
@@ -480,10 +480,10 @@ svg_lt_walkthrough
     .style('stroke','none')
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
-      if (width < 1200) {
-      return ".8rem"; }
+      if (width < 1300) {
+      return ".7rem"; }
       else {
-      return '.9rem';}
+      return '.8rem';}
       })
     .attr('id', 'indicator_1_line_1');
 
@@ -497,10 +497,10 @@ svg_lt_walkthrough
       .style('stroke','none')
       .attr('text-anchor','middle')
       .attr("font-size", function (d) {
-        if (width < 1200) {
-        return ".8rem"; }
+        if (width < 1300) {
+        return ".7rem"; }
         else {
-        return '.9rem';}
+        return '.8rem';}
         })
       .attr('id', 'indicator_1_line_2');
 
@@ -514,10 +514,10 @@ svg_lt_walkthrough
   .style('stroke','none')
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
-  if (width < 1200) {
-  return ".8rem"; }
+  if (width < 1300) {
+  return ".7rem"; }
   else {
-  return '.9rem';}
+  return '.8rem';}
       })
  .attr('id', 'indicator_4_line_1');
 
@@ -531,10 +531,10 @@ svg_lt_walkthrough
  .style('stroke','none')
  .attr('text-anchor','middle')
  .attr("font-size", function (d) {
-    if (width < 1200) {
-    return ".8rem"; }
+    if (width < 1300) {
+    return ".7rem"; }
     else {
-    return '.9rem';}
+    return '.8rem';}
         })
  .attr('id', 'indicator_4_line_2');
 
@@ -548,10 +548,10 @@ svg_lt_walkthrough
   .style('stroke','none')
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
-   if (width < 1200) {
-   return ".8rem"; }
+   if (width < 1300) {
+   return ".7rem"; }
    else {
-   return '.9rem';}
+   return '.8rem';}
        })
   .attr('id', 'indicator_4_line_3');
 
@@ -566,10 +566,10 @@ svg_lt_walkthrough
 .attr('text-anchor','middle')
 // .on('click', choose_an_indicator)
 .attr("font-size", function (d) {
-   if (width < 1200) {
-   return ".8rem"; }
+   if (width < 1300) {
+   return ".7rem"; }
    else {
-   return '.9rem';}
+   return '.8rem';}
        })
 .attr('id', 'indicator_18_line_1');
 
@@ -583,10 +583,10 @@ svg_lt_walkthrough
 .style('stroke','none')
 .attr('text-anchor','middle')
 .attr("font-size", function (d) {
-   if (width < 1200) {
-   return ".8rem"; }
+   if (width < 1300) {
+   return ".7rem"; }
    else {
-   return '.9rem';}
+   return '.8rem';}
        })
 .attr('id', 'indicator_18_line_2');
 
@@ -694,7 +694,7 @@ svg_lt_walkthrough
   .style('stroke','none')
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
-    if (width < 1200) {
+    if (width < 1300) {
     return ".9rem"; }
     else {
     return '1rem';}
@@ -718,8 +718,8 @@ svg_lt_walkthrough
     .attr('text-anchor','middle')
     // .style('font-size', '.7rem')
     .attr("font-size", function (d) {
-      if (width < 1200) {
-      return ".7rem"; }
+      if (width < 1300) {
+      return ".65rem"; }
       else {
       return '.8rem';}
     })
@@ -741,8 +741,8 @@ svg_lt_walkthrough
     .style('stroke','none')
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
-      if (width < 1200) {
-      return ".7rem"; }
+      if (width < 1300) {
+      return ".65rem"; }
       else {
       return '.8rem';}
     })
@@ -764,8 +764,8 @@ svg_lt_walkthrough
     .style('stroke','none')
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
-      if (width < 1200) {
-      return ".7rem"; }
+      if (width < 1300) {
+      return ".65rem"; }
       else {
       return '.8rem';}
     })
@@ -787,8 +787,8 @@ svg_lt_walkthrough
     .style('stroke','none')
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
-      if (width < 1200) {
-      return ".7rem"; }
+      if (width < 1300) {
+      return ".65rem"; }
       else {
       return '.8rem';}
     })
@@ -810,8 +810,8 @@ svg_lt_walkthrough
     .style('stroke','none')
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
-      if (width < 1200) {
-      return ".7rem"; }
+      if (width < 1300) {
+      return ".65rem"; }
       else {
       return '.8rem';}
     })
