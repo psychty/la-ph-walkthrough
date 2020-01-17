@@ -106,7 +106,7 @@ select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Low
          line_3 = paste0('babies in the first'),
          line_4 = paste0('48hrs after delivery'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/bottle.svg')
+  mutate(img_path = './images/breastfeeding.svg')
 
 # indicator_3_comp <- indicator_3 %>% 
 #   filter(AreaName == comp_area) 
