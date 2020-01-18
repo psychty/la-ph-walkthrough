@@ -1288,6 +1288,7 @@ main_df <- indicator_1 %>%
   mutate(line_4 = ifelse(is.na(Value), NA, line_4)) %>% 
   mutate(line_5 = ifelse(is.na(Value), NA, line_5))
 
+
 meta_areas <- main_df %>% 
   select(Area_code, Area_name) %>% 
   unique()

@@ -23,13 +23,21 @@
 
 <!-- svg images are not rendering in safari - i think it could be that inline svg is not supported in safari. should we also look at fall backs for svg images (and for when the broswer is too small to plot the text.) -->
 
+<h3>Sussex Upper tier local authorities compared to England; Updated January 2020</h3>
+<span class="mr-1">Area:</span>
+<select id='select_area_ut_button'></select>
+
+<div id = 'wsx_upper_tier_walkthrough'></div>
+<p>Infographic images designed by Freepik from Flaticon</p>
+
+
 
 <h3>Sussex Lower tier local authorities compared to England; Updated January 2020</h3>
 <span class="mr-1">Area:</span>
 <select id='select_area_lt_button'></select>
 
 <div id = 'wsx_lower_tier_walkthrough'></div>
-<p>Infographic images designed by Freepik and OCHA from Flaticon</p>
+<p>Infographic images designed by Freepik from Flaticon</p>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -58,6 +66,7 @@
 <script src="https://d3js.org/d3-format.v1.min.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src = 'upper_tier.js'></script>
 <script src = 'lower_tier.js'></script>
 </body>
 </html>
