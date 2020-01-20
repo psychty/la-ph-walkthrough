@@ -1379,6 +1379,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
               update_ut_walkthrough(selected_ut_area_option)
               })
 
+console.log(window.innerWidth)
 
       }, 400);
   });

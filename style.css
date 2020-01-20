@@ -83,14 +83,7 @@ text-align: left !important;
   margin:auto;
 }
 
-/* @media screen and (max-width: 1300px) {
 
-  .main {
-    width: 90%;
-    margin:auto;
-  }
-
-} */
 
 .icons_yo {
   z-index: 100;
@@ -140,4 +133,20 @@ text-align: left !important;
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+/* This query hides the data viz if the window size width drops below 1150px and shows a message to the user. */
+
+.small_screen_show {
+  display: none;
+}
+
+@media screen and (max-width: 1150px) {
+    .small_screen_adapt {
+        display: none !important;
+    }
+
+    .small_screen_show {
+        display: block !important;
+    }
 }
