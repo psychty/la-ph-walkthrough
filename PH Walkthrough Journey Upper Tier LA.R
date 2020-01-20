@@ -72,11 +72,11 @@ indicator_2 <- fingertips_data(IndicatorID = 20101,  AreaTypeID = 202) %>%
          Label_screen = paste0(format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' (', round(Value,1), '%)'),
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('babies born in'),
-         line_2 = paste0(Timeperiod, ' had a low'),
-         line_3 = paste0('birthweight (2.5kgs)'),
-         line_4 = NA,
-         line_5 = NA) %>% 
+  mutate(line_1 = paste0('babies born'),
+         line_2 = paste0('in ', Timeperiod),
+         line_3 = paste0('had a low'),
+         line_4 = paste0('birthweight'),
+         line_5 = paste0('(<2.5kgs)')) %>% 
   mutate(img_path = './images/low_birthweight_icon.svg')
 
 # Indicator 3 - Newborn blood spot ####
@@ -512,8 +512,34 @@ indicator_18 <- fingertips_data(IndicatorID = 11001,  AreaTypeID = 202) %>%
          line_5 = NA) %>% 
   mutate(img_path = './images/overturned-car.svg')
 
-# Indicator 19 - Emergency admissions for intentional self-harm ####
-indicator_19 <- fingertips_data(IndicatorID = 21001,  AreaTypeID = 202) %>% 
+# Indicator 19 - Adult smoking prevalence ####
+indicator_19 <- fingertips_data(IndicatorID = 92443,  AreaTypeID = 202) %>% 
+  filter(Sex == "Persons" & Age == "18+ yrs") %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) %>%  # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+  rename(ID = IndicatorID,
+         Name = IndicatorName,
+         Area_code = AreaCode,
+         Area_name = AreaName,
+         Lower_CI = LowerCI95.0limit,
+         Upper_CI = UpperCI95.0limit,
+         Numerator = Count) %>% 
+  mutate(Description = paste0('This is the proportion of adults aged 18+ estimated to be smokers.'),
+         Unit = 'proportion',
+         Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
+         Notes = NA) %>% 
+  select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of adults aged'),
+         line_2 = paste0('18+ estimated'),
+         line_3 = paste0('to be smokers'),
+         line_4 = paste0('in ', Timeperiod),
+         line_5 = NA) %>% 
+  mutate(img_path = './images/cigarette-with-smoke.svg')
+
+
+# Indicator 20 - Emergency admissions for intentional self-harm ####
+indicator_20 <- fingertips_data(IndicatorID = 21001,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons") %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -539,30 +565,6 @@ indicator_19 <- fingertips_data(IndicatorID = 21001,  AreaTypeID = 202) %>%
          line_5 = NA) %>% 
   mutate(img_path = './images/emergency-ambulance.svg')
 
-# Indicator 20 - Adult smoking prevalence ####
-indicator_20 <- fingertips_data(IndicatorID = 92443,  AreaTypeID = 202) %>% 
-  filter(Sex == "Persons" & Age == "18+ yrs") %>% 
-  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
-  filter(Timeperiod == unique(Timeperiod)[1]) %>%  # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
-  rename(ID = IndicatorID,
-         Name = IndicatorName,
-         Area_code = AreaCode,
-         Area_name = AreaName,
-         Lower_CI = LowerCI95.0limit,
-         Upper_CI = UpperCI95.0limit,
-         Numerator = Count) %>% 
-  mutate(Description = paste0('This is the proportion of adults aged 18+ estimated to be smokers.'),
-         Unit = 'proportion',
-         Label = paste0(round(Value, 1), '%'),
-         Label_screen = paste0(round(Value, 1), '%'),
-         Notes = NA) %>% 
-  select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of adults aged'),
-         line_2 = paste0('18+ estimated'),
-         line_3 = paste0('to be smokers'),
-         line_4 = paste0('in ', Timeperiod),
-         line_5 = NA) %>% 
-  mutate(img_path = './images/cigarette-with-smoke.svg')
 
 # Indicator 21 Hospital admissions for alcohol-related conditions (Narrow), all ages ####
 indicator_21 <- fingertips_data(IndicatorID = 91414,  AreaTypeID = 202) %>% 
@@ -707,10 +709,10 @@ indicator_26 <- fingertips_data(IndicatorID = 93088,  AreaTypeID = 202) %>%
          Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of adults (aged 18+)'),
-         line_2 = paste0('classified as overweight'),
-         line_3 = paste0('or obese in ', Timeperiod),
-         line_4 = NA,
+  mutate(line_1 = paste0('of adults (18+)'),
+         line_2 = paste0('classified as'),
+         line_3 = paste0('overweight or'),
+         line_4 = paste0('obese in ', Timeperiod),
          line_5 = NA) %>% 
   mutate(img_path = './images/fast-food.svg')
 
@@ -1155,8 +1157,8 @@ meta <- main_df %>%
   select(ID, Name, Description, Unit, Timeperiod, Polarity, img_path) %>% 
   unique() %>% 
   mutate(Number = row_number()) %>%
-  mutate(x = ifelse(Number == 1, .16, ifelse(Number == 2, .24, ifelse(Number == 3, .32, ifelse(Number == 4, .43, ifelse(Number == 5, .51, ifelse(Number == 6, .59, ifelse(Number == 7, .72, ifelse(Number == 8, .8, ifelse(Number == 9, .89, ifelse(Number == 10, .9, ifelse(Number == 11, .82, ifelse(Number == 12, .74, ifelse(Number == 13, .66, ifelse(Number == 14, .58, ifelse(Number == 15, .5, ifelse(Number == 16, .42, ifelse(Number == 17, .24, ifelse(Number == 18, .16, ifelse(Number == 19, .14, ifelse(Number == 20, .22, ifelse(Number == 21, .3, ifelse(Number == 22, .38, ifelse(Number == 23, .46, ifelse(Number == 24, .54, ifelse(Number == 25, .62, ifelse(Number == 26, .7, ifelse(Number == 27, .78, ifelse(Number == 28, .86, ifelse(Number == 29, .94, ifelse(Number == 30, .94, ifelse(Number == 31, .86, ifelse(Number == 32, .78, ifelse(Number == 33, .7, ifelse(Number == 34, .62, ifelse(Number == 35, .54,  ifelse(Number == 36, .4, ifelse(Number == 37, .32, ifelse(Number == 38, .24, ifelse(Number == 39, .16, NA)))))))))))))))))))))))))))))))))))))))) %>% 
-  mutate(y = ifelse(Number %in% c(1:9), .05, ifelse(Number %in% c(10:18), .3, ifelse(Number %in% c(19:29), .55, ifelse(Number %in% c(30:39), .8, NA))))) 
+  mutate(x = ifelse(Number == 1, .16, ifelse(Number == 2, .24, ifelse(Number == 3, .32, ifelse(Number == 4, .43, ifelse(Number == 5, .51, ifelse(Number == 6, .59, ifelse(Number == 7, .74, ifelse(Number == 8, .82, ifelse(Number == 9, .9, ifelse(Number == 10, .9, ifelse(Number == 11, .82, ifelse(Number == 12, .74, ifelse(Number == 13, .66, ifelse(Number == 14, .58, ifelse(Number == 15, .5, ifelse(Number == 16, .42, ifelse(Number == 17, .24, ifelse(Number == 18, .16, ifelse(Number == 19, .08, ifelse(Number == 20, .1, ifelse(Number == 21, .19, ifelse(Number == 22, .28, ifelse(Number == 23, .37, ifelse(Number == 24, .46, ifelse(Number == 25, .54, ifelse(Number == 26, .68, ifelse(Number == 27, .76, ifelse(Number == 28, .84, ifelse(Number == 29, .92, ifelse(Number == 30, .9, ifelse(Number == 31, .81, ifelse(Number == 32, .72, ifelse(Number == 33, .56, ifelse(Number == 34, .48, ifelse(Number == 35, .4,  ifelse(Number == 36, .32, ifelse(Number == 37, .24, ifelse(Number == 38, .16, ifelse(Number == 39, .08, NA)))))))))))))))))))))))))))))))))))))))) %>% 
+  mutate(y = ifelse(Number %in% c(1:9), .05, ifelse(Number %in% c(10:19), .3, ifelse(Number %in% c(20:29), .55, ifelse(Number %in% c(30:39), .8, NA))))) 
 
 
 meta %>% 

@@ -19,9 +19,10 @@ window.onclick = function(event) {
   }
 }
 
-var ut_stage_circles = [{'line_1':'Pre-birth', 'line_2': 'to early', 'line_3': 'years', "x":.05, "y":.1},{'line_1':'School', 'line_2': 'years', "x":.67, "y":.1},{"line_1":'Early', 'line_2': 'working', 'line_3':'life', "x":.32, "y":.35},{"line_1":'Mid working', 'line_2':'life to', 'line_3':'retirement', "x":.55, "y":.6},{"line_1":'Retirement', 'line_2':'to older age', "x":.6, "y":.85}]
+var ut_stage_circles = [{'line_1':'Pre-birth', 'line_2': 'to early', 'line_3': 'years', "x":.05, "y":.1},{'line_1':'School', 'line_2': 'years', "x":.67, "y":.1},{"line_1":'Early', 'line_2': 'working', 'line_3':'life', "x":.32, "y":.35},{"line_1":'Mid working', 'line_2':'life to', 'line_3':'retirement', "x":.61, "y":.6},{"line_1":'Retirement', 'line_2':'to older age', "x":.635, "y":.85}]
 
-var ut_stage_arrows = [{"x":.11, "y":.1, "img":'./images/right_white.svg'},{"x":.37, "y":.1, "img":'./images/right_white.svg'},{"x":.76, "y":.1, "img":'./images/right_white.svg'},{"x":.95, "y":.1, "img":'./images/down_white.svg'},{"x":.95, "y":.35, "img":'./images/left_white.svg'},{"x":.7, "y":.35, "img":'./images/left_white.svg'},{"x":.45, "y":.35, "img":'./images/left_white.svg'},{"x":.05, "y":.35, "img":'./images/down_white.svg'},{"x":.05, "y":.6, "img":'./images/right_white.svg'},{"x":.315, "y":.6, "img":'./images/right_white.svg'},{"x":.675, "y":.6, "img":'./images/right_white.svg'},{"x":.95, "y":.6, "img":'./images/down_white.svg'},{"x":.95, "y":.85, "img":'./images/left_white.svg'},{"x":.3, "y":.85, "img":'./images/left_white.svg'}]
+
+var ut_stage_arrows = [{"x":.11, "y":.1, "img":'./images/right_white.svg'},{"x":.37, "y":.1, "img":'./images/right_white.svg'},{"x":.78, "y":.1, "img":'./images/right_white.svg'},{"x":.96, "y":.1, "img":'./images/down_white.svg'},{"x":.96, "y":.35, "img":'./images/left_white.svg'},{"x":.62, "y":.35, "img":'./images/left_white.svg'},{"x":.04, "y":.35, "img":'./images/down_white.svg'},{"x":.04, "y":.6, "img":'./images/right_white.svg'},{"x":.315, "y":.6, "img":'./images/right_white.svg'},{"x":.8, "y":.6, "img":'./images/right_white.svg'},{"x":.96, "y":.6, "img":'./images/down_white.svg'},{"x":.96, "y":.85, "img":'./images/left_white.svg'},{"x":.275, "y":.85, "img":'./images/left_white.svg'}]
 
 var significance_key = d3.scaleOrdinal()
 .domain(['Not applicable', 'Significantly upper','Similar','Significantly higher'])
@@ -82,7 +83,7 @@ tooltip_ut
   .style("visibility", "visible")
   }
 
-var mouseleave = function(d) {
+var mouseleave_ut = function(d) {
   tooltip_ut.style("visibility", "hidden")
   }
 
@@ -176,63 +177,63 @@ var svg_ut_walkthrough = d3.select("#wsx_upper_tier_walkthrough")
 // Walkthrough dotted lines
 svg_ut_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.05)})
+  .attr('x1', function(d){ return x_pos(0.04)})
   .attr('y1', function(d){ return y_pos(0.1)})
-  .attr('x2', function(d){ return x_pos(0.95)})
+  .attr('x2', function(d){ return x_pos(0.96)})
   .attr('y2', function(d){ return y_pos(0.1)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
 
 svg_ut_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.95)})
+  .attr('x1', function(d){ return x_pos(0.96)})
   .attr('y1', function(d){ return y_pos(0.1)})
-  .attr('x2', function(d){ return x_pos(0.95)})
+  .attr('x2', function(d){ return x_pos(0.96)})
   .attr('y2', function(d){ return y_pos(0.35)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
 
 svg_ut_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.05)})
+  .attr('x1', function(d){ return x_pos(0.04)})
   .attr('y1', function(d){ return y_pos(0.35)})
-  .attr('x2', function(d){ return x_pos(0.95)})
+  .attr('x2', function(d){ return x_pos(0.96)})
   .attr('y2', function(d){ return y_pos(0.35)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
 
 svg_ut_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.05)})
+  .attr('x1', function(d){ return x_pos(0.04)})
   .attr('y1', function(d){ return y_pos(0.35)})
-  .attr('x2', function(d){ return x_pos(0.05)})
+  .attr('x2', function(d){ return x_pos(0.04)})
   .attr('y2', function(d){ return y_pos(0.6)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
 
 svg_ut_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.05)})
+  .attr('x1', function(d){ return x_pos(0.04)})
   .attr('y1', function(d){ return y_pos(0.6)})
-  .attr('x2', function(d){ return x_pos(0.95)})
+  .attr('x2', function(d){ return x_pos(0.96)})
   .attr('y2', function(d){ return y_pos(0.6)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
 
 svg_ut_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.95)})
+  .attr('x1', function(d){ return x_pos(0.96)})
   .attr('y1', function(d){ return y_pos(0.6)})
-  .attr('x2', function(d){ return x_pos(0.95)})
+  .attr('x2', function(d){ return x_pos(0.96)})
   .attr('y2', function(d){ return y_pos(0.85)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
 
 svg_ut_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.05)})
+  .attr('x1', function(d){ return x_pos(0.04)})
   .attr('y1', function(d){ return y_pos(0.85)})
-  .attr('x2', function(d){ return x_pos(0.95)})
+  .attr('x2', function(d){ return x_pos(0.96)})
   .attr('y2', function(d){ return y_pos(0.85)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
@@ -345,7 +346,7 @@ svg_ut_walkthrough
   .attr('stroke', 'none')
   .on("mousemove", showTooltip_ut)
   .on('click', choose_an_indicator)
-  .on('mouseout', mouseleave);
+  .on('mouseout', mouseleave_ut);
 
 svg_ut_walkthrough
   .selectAll()
@@ -505,7 +506,7 @@ svg_ut_walkthrough.selectAll('icons_yo')
   .attr('y', function(d) { return y_pos(d.y) - scaled_icon_size/2; })
   .attr('height', scaled_icon_size)
   .on("mousemove", showTooltip_ut)
-  .on('mouseout', mouseleave)
+  .on('mouseout', mouseleave_ut)
   .on('click', choose_an_indicator)
   .attr('class', 'icons_yo')
   .attr("xlink:href", function(d) {return d.img_path; })
@@ -536,7 +537,7 @@ tooltip_ut
   .style("visibility", "visible")
   }
 
-var mouseleave = function(d) {
+var mouseleave_ut = function(d) {
   tooltip_ut.style("visibility", "hidden")
   }
 
@@ -731,7 +732,7 @@ svg_ut_walkthrough
   .selectAll('.outcomes')
   .data(selected_ut_area_df)
   .on("mousemove", showTooltip_ut)
-  .on('mouseout', mouseleave)
+  .on('mouseout', mouseleave_ut)
   .transition()
   .duration(1750)
   .attr('fill',  function(d){ return d.Colour});
@@ -740,7 +741,7 @@ svg_ut_walkthrough
   .selectAll('.icons_yo')
   .data(selected_ut_area_df)
   .on("mousemove", showTooltip_ut)
-  .on('mouseout', mouseleave)
+  .on('mouseout', mouseleave_ut)
   .on('click', choose_an_indicator);
 
   }
@@ -751,12 +752,12 @@ svg_ut_walkthrough
     })
 
 // This function listens to if there is a window size change
-var globalResizeTimer = null;
+var globalResizeTimer_ut = null;
 
 $(window).resize(function() {
 
-if(globalResizeTimer != null) window.clearTimeout(globalResizeTimer);
-  globalResizeTimer = window.setTimeout(function() {
+if(globalResizeTimer_ut != null) window.clearTimeout(globalResizeTimer_ut);
+  globalResizeTimer_ut = window.setTimeout(function() {
 
 var width = (window.innerWidth * .9) - 20;
 var height = width * .6;
@@ -803,63 +804,63 @@ var svg_ut_walkthrough = d3.select("#wsx_upper_tier_walkthrough")
 // Walkthrough dotted lines
 svg_ut_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.05)})
+.attr('x1', function(d){ return x_pos(0.04)})
 .attr('y1', function(d){ return y_pos(0.1)})
-.attr('x2', function(d){ return x_pos(0.95)})
+.attr('x2', function(d){ return x_pos(0.96)})
 .attr('y2', function(d){ return y_pos(0.1)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
 
 svg_ut_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.95)})
+.attr('x1', function(d){ return x_pos(0.96)})
 .attr('y1', function(d){ return y_pos(0.1)})
-.attr('x2', function(d){ return x_pos(0.95)})
+.attr('x2', function(d){ return x_pos(0.96)})
 .attr('y2', function(d){ return y_pos(0.35)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
 
 svg_ut_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.05)})
+.attr('x1', function(d){ return x_pos(0.04)})
 .attr('y1', function(d){ return y_pos(0.35)})
-.attr('x2', function(d){ return x_pos(0.95)})
+.attr('x2', function(d){ return x_pos(0.96)})
 .attr('y2', function(d){ return y_pos(0.35)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
 
 svg_ut_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.05)})
+.attr('x1', function(d){ return x_pos(0.04)})
 .attr('y1', function(d){ return y_pos(0.35)})
-.attr('x2', function(d){ return x_pos(0.05)})
+.attr('x2', function(d){ return x_pos(0.04)})
 .attr('y2', function(d){ return y_pos(0.6)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
 
 svg_ut_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.05)})
+.attr('x1', function(d){ return x_pos(0.04)})
 .attr('y1', function(d){ return y_pos(0.6)})
-.attr('x2', function(d){ return x_pos(0.95)})
+.attr('x2', function(d){ return x_pos(0.96)})
 .attr('y2', function(d){ return y_pos(0.6)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
 
 svg_ut_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.95)})
+.attr('x1', function(d){ return x_pos(0.96)})
 .attr('y1', function(d){ return y_pos(0.6)})
-.attr('x2', function(d){ return x_pos(0.95)})
+.attr('x2', function(d){ return x_pos(0.96)})
 .attr('y2', function(d){ return y_pos(0.85)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
 
 svg_ut_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.05)})
+.attr('x1', function(d){ return x_pos(0.04)})
 .attr('y1', function(d){ return y_pos(0.85)})
-.attr('x2', function(d){ return x_pos(0.95)})
+.attr('x2', function(d){ return x_pos(0.96)})
 .attr('y2', function(d){ return y_pos(0.85)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
@@ -973,7 +974,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
           .attr('stroke', 'none')
           .on("mousemove", showTooltip_ut)
           .on('click', choose_an_indicator)
-          .on('mouseout', mouseleave);
+          .on('mouseout', mouseleave_ut);
 
         svg_ut_walkthrough
           .selectAll()
@@ -1133,7 +1134,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
           .attr('y', function(d) { return y_pos(d.y) - scaled_icon_size/2; })
           .attr('height', scaled_icon_size)
           .on("mousemove", showTooltip_ut)
-          .on('mouseout', mouseleave)
+          .on('mouseout', mouseleave_ut)
           .on('click', choose_an_indicator)
           .attr('class', 'icons_yo')
           .attr("xlink:href", function(d) {return d.img_path; })
@@ -1164,7 +1165,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
             .style("visibility", "visible")
             }
 
-          var mouseleave = function(d) {
+          var mouseleave_ut = function(d) {
             tooltip_ut.style("visibility", "hidden")
             }
 
@@ -1359,7 +1360,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
             .selectAll('.outcomes')
             .data(selected_ut_area_df)
             .on("mousemove", showTooltip_ut)
-            .on('mouseout', mouseleave)
+            .on('mouseout', mouseleave_ut)
             .transition()
             .duration(1750)
             .attr('fill',  function(d){ return d.Colour});
@@ -1368,7 +1369,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
             .selectAll('.icons_yo')
             .data(selected_ut_area_df)
             .on("mousemove", showTooltip_ut)
-            .on('mouseout', mouseleave)
+            .on('mouseout', mouseleave_ut)
             .on('click', choose_an_indicator);
 
             }
