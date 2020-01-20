@@ -155,9 +155,9 @@ indicator_5 <- fingertips_data(IndicatorID = 20201, AreaTypeID = 202) %>%
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('of mothers'),
-         line_2 = paste0('breastfeed their'),
-         line_3 = paste0('babies in the first'),
-         line_4 = paste0('48hrs after delivery'),
+         line_2 = paste0('breastfeed'),
+         line_3 = paste0('their babies'),
+         line_4 = paste0('within 48hrs'),
          line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/breastfeeding.svg')
 
@@ -222,9 +222,9 @@ indicator_7 <- fingertips_data(IndicatorID = 20601, AreaTypeID = 202) %>%
          Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of reception aged'),
-         line_2 = paste0('pupils (4/5 years)'),
-         line_3 = paste0('measured as having'),
+  mutate(line_1 = paste0('of reception'),
+         line_2 = paste0('pupils (4-5'),
+         line_3 = paste0('years) with'),
          line_4 = paste0('excess weight'),
          line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/fried-potatoes.svg')
@@ -246,9 +246,9 @@ indicator_8 <- fingertips_data(IndicatorID = 20602, AreaTypeID = 202) %>%
          Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of Year 6 pupils'),
-         line_2 = paste0('(aged 10/11 years)'),
-         line_3 = paste0('measured as having'),
+  mutate(line_1 = paste0('of Year 6'),
+         line_2 = paste0('pupils (10-11'),
+         line_3 = paste0('years) with'),
          line_4 = paste0('excess weight'),
          line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/cup-cake.svg')
@@ -278,8 +278,8 @@ indicator_9 <- fingertips_data(IndicatorID = 92672, AreaTypeID = 202) %>%
   mutate(line_1 = paste0('of pupils attain'),
          line_2 = paste0('expected levels at'),
          line_3 = paste0('Key Stage 2 for'),
-         line_4 = paste0('reading, writing, and'),
-         line_5 = paste0('mathematics in ', Timeperiod)) %>% 
+         line_4 = paste0('reading, writing,'),
+         line_5 = paste0('and maths in ', Timeperiod)) %>% 
   mutate(img_path = './images/sharpener.svg')
 
 # Indicator 10 - under 16s living in poverty ####
@@ -455,11 +455,11 @@ indicator_16 <- fingertips_data(IndicatorID = 10401,  AreaTypeID = 202) %>%
          Label_screen = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000'),
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('rate of emergency'),
-         line_2 = paste0('hospital admissions'),
-         line_3 = paste0('for intentional self-'),
-         line_4 = paste0('harm in ', Timeperiod),
-         line_5 = NA) %>% 
+  mutate(line_1 = paste0('rate of first'),
+         line_2 = paste0('time entrants'),
+         line_3 = paste0('to the youth'),
+         line_4 = paste0('justice system'),
+         line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/handcuffs.svg')
 
 # Indicator 17 - Outdoor space for exercise ####
@@ -481,11 +481,11 @@ indicator_17 <- fingertips_data(IndicatorID = 11601,  AreaTypeID = 202) %>%
          Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of people'),
-         line_2 = paste0('aged 16+'),
-         line_3 = paste0('using outdoor,'),
-         line_4 = paste0('space for exercise/'),
-         line_5 = paste0('health in ', Timeperiod)) %>% 
+  mutate(line_1 = paste0('of people (16+)'),
+         line_2 = paste0('using outdoor'),
+         line_3 = paste0('space for'),
+         line_4 = paste0('exercise/health'),
+         line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/tree.svg')
 
 # Indicator 18 - KSI roads ####
@@ -506,10 +506,10 @@ indicator_18 <- fingertips_data(IndicatorID = 11001,  AreaTypeID = 202) %>%
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('rate of people'),
-         line_2 = paste0('killed or seriously'),
-         line_3 = paste0('injured on the roads'),
-         line_4 = paste0('in ', Timeperiod),
-         line_5 = NA) %>% 
+         line_2 = paste0('killed or'),
+         line_3 = paste0('seriously injured'),
+         line_4 = paste0('on the roads'),
+         line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/overturned-car.svg')
 
 # Indicator 19 - Adult smoking prevalence ####
@@ -537,7 +537,6 @@ indicator_19 <- fingertips_data(IndicatorID = 92443,  AreaTypeID = 202) %>%
          line_5 = NA) %>% 
   mutate(img_path = './images/cigarette-with-smoke.svg')
 
-
 # Indicator 20 - Emergency admissions for intentional self-harm ####
 indicator_20 <- fingertips_data(IndicatorID = 21001,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons") %>% 
@@ -559,15 +558,39 @@ indicator_20 <- fingertips_data(IndicatorID = 21001,  AreaTypeID = 202) %>%
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('rate of emergency'),
-         line_2 = paste0('hospital admissions'),
-         line_3 = paste0('for intentional self-'),
-         line_4 = paste0('harm in ', Timeperiod),
-         line_5 = NA) %>% 
+         line_2 = paste0('hospital'),
+         line_3 = paste0('admissions for'),
+         line_4 = paste0('intentional self-'),
+         line_5 = paste0('harm in ', Timeperiod)) %>% 
   mutate(img_path = './images/emergency-ambulance.svg')
 
+# Indicator 21 - Successful completion of drug treatment (non-opiate users) ####
+indicator_21 <- fingertips_data(IndicatorID = 90245,  AreaTypeID = 202) %>% 
+  filter(Sex == "Persons" & Age == "18+ yrs") %>% 
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1]) %>%  # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+  rename(ID = IndicatorID,
+         Name = IndicatorName,
+         Area_code = AreaCode,
+         Area_name = AreaName,
+         Lower_CI = LowerCI95.0limit,
+         Upper_CI = UpperCI95.0limit,
+         Numerator = Count) %>% 
+  mutate(Description = paste0('This is the number of users of non-opiates that left drug treatment successfully (free of drug(s) of dependence) who do not then re-present to treatment again within 6 months as a percentage of the total number of non-opiate users in treatment.'),
+         Unit = 'proportion',
+         Label = paste0(round(Value, 1), '%'),
+         Label_screen = paste0(round(Value, 1), '%'),
+         Notes = NA) %>% 
+  select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+  mutate(line_1 = paste0('of adults aged'),
+         line_2 = paste0('18+ successfully'),
+         line_3 = paste0('completing non-'),
+         line_4 = paste0('opiate drug'),
+         line_5 = paste0('treatment in ', Timeperiod)) %>% 
+  mutate(img_path = './images/syringe.svg')
 
-# Indicator 21 Hospital admissions for alcohol-related conditions (Narrow), all ages ####
-indicator_21 <- fingertips_data(IndicatorID = 91414,  AreaTypeID = 202) %>% 
+# Indicator 22 Hospital admissions for alcohol-related conditions (Narrow), all ages ####
+indicator_22 <- fingertips_data(IndicatorID = 91414,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons") %>% 
   arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -587,34 +610,9 @@ indicator_21 <- fingertips_data(IndicatorID = 91414,  AreaTypeID = 202) %>%
   mutate(line_1 = paste0('rate of admission'),
          line_2 = paste0('episodes for alcohol'),
          line_3 = paste0('related conditions'),
-         line_4 = paste0('(narrow definition) ', format(round(Numerator,0), big.mark = ',', trim = TRUE)),
-         line_5 = paste0('admissions in ', Timeperiod)) %>% 
-  mutate(img_path = './images/glass-and-bottle-of-wine.svg')
-
-# Indicator 22 - Successful completion of drug treatment (non-opiate users) ####
-indicator_22 <- fingertips_data(IndicatorID = 90245,  AreaTypeID = 202) %>% 
-  filter(Sex == "Persons" & Age == "18+ yrs") %>% 
-  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
-  filter(Timeperiod == unique(Timeperiod)[1]) %>%  # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
-  rename(ID = IndicatorID,
-         Name = IndicatorName,
-         Area_code = AreaCode,
-         Area_name = AreaName,
-         Lower_CI = LowerCI95.0limit,
-         Upper_CI = UpperCI95.0limit,
-         Numerator = Count) %>% 
-  mutate(Description = paste0('This is the number of users of non-opiates that left drug treatment successfully (free of drug(s) of dependence) who do not then re-present to treatment again within 6 months as a percentage of the total number of non-opiate users in treatment.'),
-         Unit = 'proportion',
-         Label = paste0(round(Value, 1), '%'),
-         Label_screen = paste0(round(Value, 1), '%'),
-         Notes = NA) %>% 
-  select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of adults aged'),
-         line_2 = paste0('18+ successfully'),
-         line_3 = paste0('completing non-opiate'),
-         line_4 = paste0('drug treatment'),
+         line_4 = paste0('(narrow definition)'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/syringe.svg')
+  mutate(img_path = './images/glass-and-bottle-of-wine.svg')
 
 # Indicator 23 - Physically active adults (current method) ####
 indicator_23 <- fingertips_data(IndicatorID = 93014,  AreaTypeID = 202) %>% 
@@ -634,11 +632,11 @@ indicator_23 <- fingertips_data(IndicatorID = 93014,  AreaTypeID = 202) %>%
          Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of adults undertaking'),
-         line_2 = paste0('at least 150 minutes'),
-         line_3 = paste0('of physical activity'),
-         line_4 = paste0('per week in ', Timeperiod),
-         line_5 = NA) %>% 
+  mutate(line_1 = paste0('of adults doing'),
+         line_2 = paste0('at least 150'),
+         line_3 = paste0('minutes of physical'),
+         line_4 = paste0('activity per week '),
+         line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/sprinting.svg')
 
 # Indicator 24 - Physically inactive adults (current method) ####
@@ -659,8 +657,8 @@ indicator_24 <- fingertips_data(IndicatorID = 93015,  AreaTypeID = 202) %>%
          Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of adults undertaking'),
-         line_2 = paste0('less than 30 equivalent'),
+  mutate(line_1 = paste0('of adults doing'),
+         line_2 = paste0('less than 30'),
          line_3 = paste0('minutes of physical'),
          line_4 = paste0('activity per week'),
          line_5 = paste0('in ', Timeperiod)) %>% 
@@ -684,11 +682,11 @@ indicator_25 <- fingertips_data(IndicatorID = 22303,  AreaTypeID = 202) %>%
          Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of adults aged'),
-         line_2 = paste0('16+ who reported'),
-         line_3 = paste0('low happiness'),
-         line_4 = paste0('in ', Timeperiod),
-         line_5 = NA) %>% 
+  mutate(line_1 = paste0('of adults'),
+         line_2 = paste0('aged 16+'),
+         line_3 = paste0('who reported'),
+         line_4 = paste0('low happiness'),
+         line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/indifferent.svg')
 
 # Indicator 26 - Excess weight ####
@@ -709,11 +707,11 @@ indicator_26 <- fingertips_data(IndicatorID = 93088,  AreaTypeID = 202) %>%
          Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of adults (18+)'),
-         line_2 = paste0('classified as'),
-         line_3 = paste0('overweight or'),
-         line_4 = paste0('obese in ', Timeperiod),
-         line_5 = NA) %>% 
+  mutate(line_1 = paste0('of adults'),
+         line_2 = paste0('aged 18+'),
+         line_3 = paste0('classified as'),
+         line_4 = paste0('overweight or'),
+         line_5 = paste0('obese in ', Timeperiod)) %>% 
   mutate(img_path = './images/fast-food.svg')
 
 # Indicator 27 - Breast screening ####
@@ -734,10 +732,10 @@ indicator_27 <- fingertips_data(IndicatorID = 22001,  AreaTypeID = 202) %>%
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('of eligible women'),
-         line_2 = paste0('aged 53-70 years'),
-         line_3 = paste0('attending breast cancer'),
-         line_4 = paste0('screening in the past'),
-         line_5 = paste0('36 months in ', Timeperiod)) %>% 
+         line_2 = paste0('attending breast'),
+         line_3 = paste0('cancer screening'),
+         line_4 = paste0('in past 36 months'),
+         line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/brassiere.svg')
 
 # Indicator 28 - Bowel screening ####
@@ -758,10 +756,10 @@ indicator_28 <- fingertips_data(IndicatorID = 91720,  AreaTypeID = 202) %>%
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('of eligible people'),
-         line_2 = paste0('aged 60-74 years'),
-         line_3 = paste0('attending bowel cancer'),
-         line_4 = paste0('screening in the past'),
-         line_5 = paste0('30 months in ', Timeperiod)) %>% 
+         line_2 = paste0('attending bowel'),
+         line_3 = paste0('cancer screening'),
+         line_4 = paste0('in past 30 months'),
+         line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/underpants.svg')
 
 # Indicator 29 - Cumulative percentage of 40-74 year olds receiving Health Checks ####
@@ -781,11 +779,11 @@ indicator_29 <- fingertips_data(IndicatorID = 91100,  AreaTypeID = 202) %>%
          Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of eligible people'),
-         line_2 = paste0('aged 40-74 years'),
-         line_3 = paste0('offered NHS Health'),
-         line_4 = paste0('Check who received'),
-         line_5 = paste0('one in ', Timeperiod)) %>% 
+  mutate(line_1 = paste0('of eligible'),
+         line_2 = paste0('people offered'),
+         line_3 = paste0('NHS Health Check'),
+         line_4 = paste0('who received one'),
+         line_5 = paste0(Timeperiod)) %>% 
   mutate(img_path = './images/report.svg')
 
 # Indicator 30 - Late diagnosis of HIV ####
@@ -905,7 +903,7 @@ indicator_34 <- fingertips_data(IndicatorID = 30314,  AreaTypeID = 202) %>%
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('of eligible'),
          line_2 = paste0('adults aged 65+'),
-         line_3 = paste0('who have received'),
+         line_3 = paste0('who received'),
          line_4 = paste0('the flu vaccine'),
          line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/virus.svg')
@@ -929,10 +927,10 @@ indicator_35 <- fingertips_data(IndicatorID = 41401,  AreaTypeID = 202) %>%
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('rate of emergency'),
-         line_2 = paste0('admissions for hip'),
-         line_3 = paste0('fractures among those'),
-         line_4 = paste0('aged 65 in ', Timeperiod),
-         line_5 = paste0('(', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' admissions)')) %>% 
+         line_2 = paste0('admissions for'),
+         line_3 = paste0('hip fractures'),
+         line_4 = paste0('among those'),
+         line_5 = paste0('aged 65+ in ', Timeperiod)) %>% 
   mutate(img_path = './images/hip-bone.svg')
 
 # Indicator 36 - Male slope inequality in life expectancy at birth ####
@@ -1157,7 +1155,7 @@ meta <- main_df %>%
   select(ID, Name, Description, Unit, Timeperiod, Polarity, img_path) %>% 
   unique() %>% 
   mutate(Number = row_number()) %>%
-  mutate(x = ifelse(Number == 1, .16, ifelse(Number == 2, .24, ifelse(Number == 3, .32, ifelse(Number == 4, .43, ifelse(Number == 5, .51, ifelse(Number == 6, .59, ifelse(Number == 7, .74, ifelse(Number == 8, .82, ifelse(Number == 9, .9, ifelse(Number == 10, .9, ifelse(Number == 11, .82, ifelse(Number == 12, .74, ifelse(Number == 13, .66, ifelse(Number == 14, .58, ifelse(Number == 15, .5, ifelse(Number == 16, .42, ifelse(Number == 17, .24, ifelse(Number == 18, .16, ifelse(Number == 19, .08, ifelse(Number == 20, .1, ifelse(Number == 21, .19, ifelse(Number == 22, .28, ifelse(Number == 23, .37, ifelse(Number == 24, .46, ifelse(Number == 25, .54, ifelse(Number == 26, .68, ifelse(Number == 27, .76, ifelse(Number == 28, .84, ifelse(Number == 29, .92, ifelse(Number == 30, .9, ifelse(Number == 31, .81, ifelse(Number == 32, .72, ifelse(Number == 33, .56, ifelse(Number == 34, .48, ifelse(Number == 35, .4,  ifelse(Number == 36, .32, ifelse(Number == 37, .24, ifelse(Number == 38, .16, ifelse(Number == 39, .08, NA)))))))))))))))))))))))))))))))))))))))) %>% 
+  mutate(x = ifelse(Number == 1, .16, ifelse(Number == 2, .24, ifelse(Number == 3, .32, ifelse(Number == 4, .43, ifelse(Number == 5, .51, ifelse(Number == 6, .59, ifelse(Number == 7, .74, ifelse(Number == 8, .82, ifelse(Number == 9, .9, ifelse(Number == 10, .92, ifelse(Number == 11, .83, ifelse(Number == 12, .74, ifelse(Number == 13, .66, ifelse(Number == 14, .58, ifelse(Number == 15, .5, ifelse(Number == 16, .42, ifelse(Number == 17, .24, ifelse(Number == 18, .16, ifelse(Number == 19, .08, ifelse(Number == 20, .1, ifelse(Number == 21, .19, ifelse(Number == 22, .28, ifelse(Number == 23, .37, ifelse(Number == 24, .46, ifelse(Number == 25, .54, ifelse(Number == 26, .68, ifelse(Number == 27, .76, ifelse(Number == 28, .84, ifelse(Number == 29, .92, ifelse(Number == 30, .92, ifelse(Number == 31, .83, ifelse(Number == 32, .725, ifelse(Number == 33, .56, ifelse(Number == 34, .48, ifelse(Number == 35, .4,  ifelse(Number == 36, .32, ifelse(Number == 37, .24, ifelse(Number == 38, .16, ifelse(Number == 39, .08, NA)))))))))))))))))))))))))))))))))))))))) %>% 
   mutate(y = ifelse(Number %in% c(1:9), .05, ifelse(Number %in% c(10:19), .3, ifelse(Number %in% c(20:29), .55, ifelse(Number %in% c(30:39), .8, NA))))) 
 
 

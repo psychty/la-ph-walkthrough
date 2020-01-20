@@ -21,7 +21,7 @@ window.onclick = function(event) {
 
 var stage_circles = [{'line_1':'Pre-birth', 'line_2': 'to early', 'line_3': 'years', "x":.05, "y":.1},{'line_1':'School', 'line_2': 'years', "x":.6, "y":.1},{"line_1":'Early', 'line_2': 'working', 'line_3':'life', "x":.52, "y":.35},{"line_1":'Mid working', 'line_2':'life to', 'line_3':'retirement', "x":.47, "y":.6},{"line_1":'Retirement', 'line_2':'to older age', "x":.6, "y":.85}]
 
-var stage_arrows = [{"x":.11, "y":.1, "img":'./images/right_white.svg'},{"x":.37, "y":.1, "img":'./images/right_white.svg'},{"x":.67, "y":.1, "img":'./images/right_white.svg'},{"x":.95, "y":.1, "img":'./images/down_white.svg'},{"x":.95, "y":.35, "img":'./images/left_white.svg'},{"x":.665, "y":.35, "img":'./images/left_white.svg'},{"x":.3, "y":.35, "img":'./images/left_white.svg'},{"x":.05, "y":.35, "img":'./images/down_white.svg'},{"x":.05, "y":.6, "img":'./images/right_white.svg'},{"x":.315, "y":.6, "img":'./images/right_white.svg'},{"x":.675, "y":.6, "img":'./images/right_white.svg'},{"x":.95, "y":.6, "img":'./images/down_white.svg'},{"x":.95, "y":.85, "img":'./images/left_white.svg'},{"x":.3, "y":.85, "img":'./images/left_white.svg'}]
+var stage_arrows = [{"x":.11, "y":.1, "img":'./images/right_white.svg'},{"x":.37, "y":.1, "img":'./images/right_white.svg'},{"x":.67, "y":.1, "img":'./images/right_white.svg'},{"x":.96, "y":.1, "img":'./images/down_white.svg'},{"x":.96, "y":.35, "img":'./images/left_white.svg'},{"x":.65, "y":.35, "img":'./images/left_white.svg'},{"x":.31, "y":.35, "img":'./images/left_white.svg'},{"x":.04, "y":.35, "img":'./images/down_white.svg'},{"x":.04, "y":.6, "img":'./images/right_white.svg'},{"x":.315, "y":.6, "img":'./images/right_white.svg'},{"x":.675, "y":.6, "img":'./images/right_white.svg'},{"x":.96, "y":.6, "img":'./images/down_white.svg'},{"x":.96, "y":.85, "img":'./images/left_white.svg'},{"x":.3, "y":.85, "img":'./images/left_white.svg'}]
 
 var significance_key = d3.scaleOrdinal()
 .domain(['Not applicable', 'Significantly lower','Similar','Significantly higher'])
@@ -176,63 +176,63 @@ var svg_lt_walkthrough = d3.select("#wsx_lower_tier_walkthrough")
 // Walkthrough dotted lines
 svg_lt_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.05)})
+  .attr('x1', function(d){ return x_pos(0.04)})
   .attr('y1', function(d){ return y_pos(0.1)})
-  .attr('x2', function(d){ return x_pos(0.95)})
+  .attr('x2', function(d){ return x_pos(0.96)})
   .attr('y2', function(d){ return y_pos(0.1)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
 
 svg_lt_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.95)})
+  .attr('x1', function(d){ return x_pos(0.96)})
   .attr('y1', function(d){ return y_pos(0.1)})
-  .attr('x2', function(d){ return x_pos(0.95)})
+  .attr('x2', function(d){ return x_pos(0.96)})
   .attr('y2', function(d){ return y_pos(0.35)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
 
 svg_lt_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.05)})
+  .attr('x1', function(d){ return x_pos(0.04)})
   .attr('y1', function(d){ return y_pos(0.35)})
-  .attr('x2', function(d){ return x_pos(0.95)})
+  .attr('x2', function(d){ return x_pos(0.96)})
   .attr('y2', function(d){ return y_pos(0.35)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
 
 svg_lt_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.05)})
+  .attr('x1', function(d){ return x_pos(0.04)})
   .attr('y1', function(d){ return y_pos(0.35)})
-  .attr('x2', function(d){ return x_pos(0.05)})
+  .attr('x2', function(d){ return x_pos(0.04)})
   .attr('y2', function(d){ return y_pos(0.6)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
 
 svg_lt_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.05)})
+  .attr('x1', function(d){ return x_pos(0.04)})
   .attr('y1', function(d){ return y_pos(0.6)})
-  .attr('x2', function(d){ return x_pos(0.95)})
+  .attr('x2', function(d){ return x_pos(0.96)})
   .attr('y2', function(d){ return y_pos(0.6)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
 
 svg_lt_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.95)})
+  .attr('x1', function(d){ return x_pos(0.96)})
   .attr('y1', function(d){ return y_pos(0.6)})
-  .attr('x2', function(d){ return x_pos(0.95)})
+  .attr('x2', function(d){ return x_pos(0.96)})
   .attr('y2', function(d){ return y_pos(0.85)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
 
 svg_lt_walkthrough
   .append("line")
-  .attr('x1', function(d){ return x_pos(0.05)})
+  .attr('x1', function(d){ return x_pos(0.04)})
   .attr('y1', function(d){ return y_pos(0.85)})
-  .attr('x2', function(d){ return x_pos(0.95)})
+  .attr('x2', function(d){ return x_pos(0.96)})
   .attr('y2', function(d){ return y_pos(0.85)})
   .attr('stroke', 'black')
   .style('stroke-dasharray', ('2,4'));
@@ -890,63 +890,63 @@ var svg_lt_walkthrough = d3.select("#wsx_lower_tier_walkthrough")
 // Walkthrough dotted lines
 svg_lt_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.05)})
+.attr('x1', function(d){ return x_pos(0.04)})
 .attr('y1', function(d){ return y_pos(0.1)})
-.attr('x2', function(d){ return x_pos(0.95)})
+.attr('x2', function(d){ return x_pos(0.96)})
 .attr('y2', function(d){ return y_pos(0.1)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
 
 svg_lt_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.95)})
+.attr('x1', function(d){ return x_pos(0.96)})
 .attr('y1', function(d){ return y_pos(0.1)})
-.attr('x2', function(d){ return x_pos(0.95)})
+.attr('x2', function(d){ return x_pos(0.96)})
 .attr('y2', function(d){ return y_pos(0.35)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
 
 svg_lt_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.05)})
+.attr('x1', function(d){ return x_pos(0.04)})
 .attr('y1', function(d){ return y_pos(0.35)})
-.attr('x2', function(d){ return x_pos(0.95)})
+.attr('x2', function(d){ return x_pos(0.96)})
 .attr('y2', function(d){ return y_pos(0.35)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
 
 svg_lt_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.05)})
+.attr('x1', function(d){ return x_pos(0.04)})
 .attr('y1', function(d){ return y_pos(0.35)})
-.attr('x2', function(d){ return x_pos(0.05)})
+.attr('x2', function(d){ return x_pos(0.04)})
 .attr('y2', function(d){ return y_pos(0.6)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
 
 svg_lt_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.05)})
+.attr('x1', function(d){ return x_pos(0.04)})
 .attr('y1', function(d){ return y_pos(0.6)})
-.attr('x2', function(d){ return x_pos(0.95)})
+.attr('x2', function(d){ return x_pos(0.96)})
 .attr('y2', function(d){ return y_pos(0.6)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
 
 svg_lt_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.95)})
+.attr('x1', function(d){ return x_pos(0.96)})
 .attr('y1', function(d){ return y_pos(0.6)})
-.attr('x2', function(d){ return x_pos(0.95)})
+.attr('x2', function(d){ return x_pos(0.96)})
 .attr('y2', function(d){ return y_pos(0.85)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));
 
 svg_lt_walkthrough
 .append("line")
-.attr('x1', function(d){ return x_pos(0.05)})
+.attr('x1', function(d){ return x_pos(0.04)})
 .attr('y1', function(d){ return y_pos(0.85)})
-.attr('x2', function(d){ return x_pos(0.95)})
+.attr('x2', function(d){ return x_pos(0.96)})
 .attr('y2', function(d){ return y_pos(0.85)})
 .attr('stroke', 'black')
 .style('stroke-dasharray', ('2,4'));

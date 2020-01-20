@@ -47,11 +47,11 @@ indicator_1 <- fingertips_data(IndicatorID = 92196, AreaTypeID = 101) %>%
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>% 
   mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('rate of deaths in'),
-         line_2 = paste0('infants aged under'),
-         line_3 = paste0('1 year per 1,000 live'),
-         line_4 = paste0('births (', Timeperiod, ')'),
-         line_5 = paste0('(', format(round(Numerator,0),big.mark = ',', trim = TRUE), ' deaths)')) %>% 
+  mutate(line_1 = paste0('rate of deaths'),
+         line_2 = paste0('in infants aged'),
+         line_3 = paste0('<1 year per'),
+         line_4 = paste0('1,000 live births'),
+         line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = NA)
 
 # indicator_1_comp <- indicator_1 %>% 
@@ -76,8 +76,8 @@ indicator_2 <- fingertips_data(IndicatorID = 20101,  AreaTypeID = 101) %>%
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('babies born in'),
          line_2 = paste0(Timeperiod, ' had a low'),
-         line_3 = paste0('birthweight (2.5kgs)'),
-         line_4 = NA,
+         line_3 = paste0('birthweight'),
+         line_4 = paste0('(<2.5kgs)'),
          line_5 = NA) %>% 
   mutate(img_path = './images/low_birthweight_icon.svg')
 
@@ -102,9 +102,9 @@ indicator_3 <- fingertips_data(IndicatorID = 20201, AreaTypeID = 101) %>%
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('of mothers'),
-         line_2 = paste0('breastfeed their'),
-         line_3 = paste0('babies in the first'),
-         line_4 = paste0('48hrs after delivery'),
+         line_2 = paste0('breastfeed'),
+         line_3 = paste0('their babies'),
+         line_4 = paste0('within 48hrs'),
          line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/breastfeeding.svg')
 
@@ -226,8 +226,8 @@ indicator_5 <- indicator_5 %>%
          Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of children assessed'),
-         line_2 = paste0('as achieving a good'),
+  mutate(line_1 = paste0('of children '),
+         line_2 = paste0('achieving a good'),
          line_3 = paste0('level of development'),
          line_4 = paste0('at the end of reception'),
          line_5 = paste0('in ', Timeperiod)) %>% 
@@ -683,10 +683,10 @@ indicator_17 <- fingertips_data(IndicatorID = 11001,  AreaTypeID = 101) %>%
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('rate of people'),
-         line_2 = paste0('killed or seriously'),
-         line_3 = paste0('injured on the roads'),
-         line_4 = paste0('in ', Timeperiod),
-         line_5 = NA) %>% 
+         line_2 = paste0('killed or'),
+         line_3 = paste0('seriously injured'),
+         line_4 = paste0('on the roads'),
+         line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/overturned-car.svg')
 
 
@@ -825,13 +825,12 @@ indicator_22 <- fingertips_data(IndicatorID = 92443,  AreaTypeID = 101) %>%
          Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of adults aged 18+'),
-         line_2 = paste0('estimated to be'),
-         line_3 = paste0('smokers in ', Timeperiod),
-         line_4 = NA,
+  mutate(line_1 = paste0('of adults aged'),
+         line_2 = paste0('18+ estimated'),
+         line_3 = paste0('to be smokers'),
+         line_4 = paste0('in ', Timeperiod),
          line_5 = NA) %>% 
   mutate(img_path = './images/cigarette-with-smoke.svg')
-
 
 # indicator_22_comp <- indicator_22 %>% 
 #   filter(AreaName == comp_area) 
@@ -854,13 +853,12 @@ indicator_23 <- fingertips_data(IndicatorID = 93088,  AreaTypeID = 101) %>%
          Label_screen = paste0(round(Value, 1), '%'),
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('of adults (aged 18+)'),
-         line_2 = paste0('classified as overweight'),
-         line_3 = paste0('or obese in ', Timeperiod),
-         line_4 = NA,
-         line_5 = NA) %>% 
+  mutate(line_1 = paste0('of adults'),
+         line_2 = paste0('aged 18+'),
+         line_3 = paste0('classified as'),
+         line_4 = paste0('overweight or'),
+         line_5 = paste0('obese in ', Timeperiod)) %>% 
   mutate(img_path = './images/fast-food.svg')
-
 
 # indicator_23_comp <- indicator_23 %>% 
 #   filter(AreaName == comp_area) 
@@ -883,10 +881,10 @@ indicator_24 <- fingertips_data(IndicatorID = 22001,  AreaTypeID = 101) %>%
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('of eligible women'),
-         line_2 = paste0('aged 53-70 years'),
-         line_3 = paste0('attending breast cancer'),
-         line_4 = paste0('screening in the past'),
-         line_5 = paste0('36 months in ', Timeperiod)) %>% 
+         line_2 = paste0('attending breast'),
+         line_3 = paste0('cancer screening'),
+         line_4 = paste0('in past 36 months'),
+         line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/brassiere.svg')
 
 
@@ -911,10 +909,10 @@ indicator_25 <- fingertips_data(IndicatorID = 91720,  AreaTypeID = 101) %>%
          Notes = NA) %>% 
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('of eligible people'),
-         line_2 = paste0('aged 60-74 years'),
-         line_3 = paste0('attending bowel cancer'),
-         line_4 = paste0('screening in the past'),
-         line_5 = paste0('30 months in ', Timeperiod)) %>% 
+         line_2 = paste0('attending bowel'),
+         line_3 = paste0('cancer screening'),
+         line_4 = paste0('in past 30 months'),
+         line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/underpants.svg')
 
 
@@ -940,8 +938,8 @@ indicator_26_a <- fingertips_data(IndicatorID = 93560,  AreaTypeID = 101) %>%
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('of eligible women'),
          line_2 = paste0('aged 25-49 years'),
-         line_3 = paste0('attending cervical cancer'),
-         line_4 = paste0('screening in the past'),
+         line_3 = paste0('attending cervical'),
+         line_4 = paste0('cancer screening in past'),
          line_5 = paste0('42 months in ', Timeperiod)) %>% 
   mutate(img_path = './images/laboratory-microscope.svg')
 
@@ -967,8 +965,8 @@ indicator_26_b <- fingertips_data(IndicatorID = 93561,  AreaTypeID = 101) %>%
 select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('of eligible women'),
          line_2 = paste0('aged 50-64 years'),
-         line_3 = paste0('attending cervical cancer'),
-         line_4 = paste0('screening in the past'),
+         line_3 = paste0('attending cervical'),
+         line_4 = paste0('cancer screening in past'),
          line_5 = paste0('66 months in ', Timeperiod)) %>% 
   mutate(img_path = './images/laboratory-microscope.svg')
 
@@ -1378,41 +1376,41 @@ areas_wo_comp <- setdiff(areas, c('South East region', 'England')) # this is are
 
 for (i in 1:length(areas_wo_comp)){
   ch_area <- areas_wo_comp[i]
-  
-  comp_data <- main_df %>% 
-    filter(Area_name == comp_area) %>% 
-    select(Name, Value, Lower_CI, Upper_CI, Numerator) %>% 
+
+  comp_data <- main_df %>%
+    filter(Area_name == comp_area) %>%
+    select(Name, Value, Lower_CI, Upper_CI, Numerator) %>%
     rename(Comp_Value = Value,
            Comp_Lower_CI = Lower_CI,
            Comp_Upper_CI = Upper_CI,
            Comp_Numerator = Numerator)
-  
-  ch_data <- main_df %>% 
-    filter(Area_name == ch_area) %>% 
-    left_join(comp_data, by = 'Name') %>% 
-    mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>% 
+
+  ch_data <- main_df %>%
+    filter(Area_name == ch_area) %>%
+    left_join(comp_data, by = 'Name') %>%
+    mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>%
     mutate(Colour = ifelse(Significance == 'Not applicable', not_applic, ifelse(Significance == 'Similar', no_diff, ifelse(Significance == 'Significantly higher' & Polarity == 'Higher is better', better, ifelse(Significance == 'Significantly higher' & Polarity == 'Lower is better', worse, ifelse(Significance == 'Significantly lower' & Polarity == 'Lower is better', better, ifelse(Significance == 'Significantly lower' & Polarity == 'Higher is better', worse, NA)))))))
-  
+
   # ch_code <- as.character(subset(LA_name_code, LAD17NM == ch_area, select = "LAD18CD")) # this will look up the name of the area (ch_area) on the file specified within read_csv (which is a lookup file from ONS) and find the code of the area
-  
+
   ch_label <-  ifelse(nchar(ch_area) > 10,sub('(.{1,10})(\\s|$)', '\\1\n', ch_area),ch_area)
   data_show <-  sub('(.{1,15})(\\s|$)', '\\1\n', paste("Data are shown\nfor ", ch_area ," \nand are compared\nwith ", comp_area, sep = ""))
-  
+
   pdf(paste("./Journey through indicators/PH_Outcomes_walkthrough_", ch_area,".pdf" , sep = ""), width = 11.69, height = 8.27)
-  
+
   grid.newpage() # Create a blank page
   pushViewport(viewport(layout = grid.layout(30, 20))) # Define grid layout for page (e.g. think like excel, 30 cells by 20 cells)
-  
+
   # Header
   grid.rect(x = unit(0.5, "npc"), y = unit(0.95, "npc"), width = unit(1.1, "npc"), height = unit(0.12, "npc"), just = "centre", hjust = NULL, vjust = NULL,default.units = "npc", name = NULL, gp=gpar(fill = "#333333", col = "#333333"), draw = TRUE, vp = NULL)
   grid.text(paste("West Sussex Public Health Outcomes (Data correct as of ", format(Sys.Date(), "%B %Y"), ")", sep = ""), just = "left",  x = unit(0.025, "npc"), y = unit(.97, "npc"), gp = gpar(col = "#ffffff", fontsize = "12", fontface = "bold"))
-  
+
   grid.text(paste(ch_label), just = "left", x = unit(0.025, "npc"), y = unit(ifelse(nchar(ch_area) > 10,.93,.94), "npc"), gp = gpar(col = "#ffffff", fontsize = ifelse(nchar(ch_area) > 10,"13","18"), fontface = "bold"))
-  
+
   grid.text("Note: At Lower Tier Authority Level some outcomes\nare based on small numbers / sample sizes", just = "left", x = unit(0.15, "npc"), y = unit(.93, "npc"), gp = gpar(col = "#ffffff", fontsize = "8", fontface = "italic"))
   grid.text("Some issues affect people of all ages, outcomes have been\nplaced in the life stage where the impact may be greatest.", just = "left", x = unit(0.38, "npc"), y = unit(.93, "npc"), gp = gpar(col = "#ffffff", fontsize = "8", fontface = "italic"))
   grid.text(data_show, just = "left", y = unit(.94, "npc"), x = unit(0.65, "npc"), gp = gpar(col = "#ffffff", fontsize = "8"))
-  
+
   grid.clip(x = 0.775,y = 0.94, width = 0.03, just = "left")
   grid.circle(x = 0.775, y = 0.94  , r = 0.04, default.units = "npc", name = NULL, gp = gpar(fill = higher, col = "#333333"), draw = TRUE, vp = NULL)
   grid.clip(x = 0.775,y = 0.94, width = 0.03, just = "right")
@@ -1421,7 +1419,7 @@ for (i in 1:length(areas_wo_comp)){
   grid.text("Better/\nHigher", just = "centre", x = unit(0.775, "npc"), y = unit(.94, "npc"), gp = gpar(col = "#ffffff", fontsize = "8"))
   grid.circle(x = 0.835, y = 0.94  , r = 0.04, default.units = "npc", name = NULL, gp = gpar(fill = no_diff, col = "#333333"), draw = TRUE, vp = NULL)
   grid.text("No\ndiff.", just = "centre", x = unit(0.835, "npc"), y = unit(.94, "npc"), gp = gpar(col = "#ffffff", fontsize = "8", fontface = "bold"))
-  
+
   grid.clip(x = 0.895, y = 0.94, width = 0.03, just = "left")
   grid.circle(x = 0.895, y = 0.94  , r = 0.04, default.units = "npc", name = NULL, gp = gpar(fill = lower, col = "#333333"), draw = TRUE, vp = NULL)
   grid.clip(x = 0.895, y = 0.94, width = 0.03, just = "right")
@@ -1430,7 +1428,7 @@ for (i in 1:length(areas_wo_comp)){
   grid.text("Worse/\nLower", just = "centre", x = unit(0.895, "npc"), y = unit(.94, "npc"), gp = gpar(col = "#ffffff", fontsize = "8", fontface = "bold"))
   grid.circle(x = 0.955, y = 0.94  , r = 0.04, default.units = "npc", name = NULL, gp = gpar(fill = not_applic, col = "#333333"), draw = TRUE, vp = NULL)
   grid.text("Not\napplic.", just = "centre", x = unit(0.955, "npc"),y = unit(.94, "npc"),  gp = gpar(col = "#ffffff", fontsize = "8", fontface = "bold"))
-  
+
   # Dotted lines ##
   grid.lines(x = c(0.1,0.962), y = 0.79, default.units = "npc", name =  NULL, gp = gpar(col = "#333333", lty = "dotted", lwd = 2.5))
   grid.lines(x = 0.962, y = c(0.6,0.79), default.units = "npc", name =  NULL, gp = gpar(col = "#333333", lty = "dotted", lwd = 2.5))
@@ -1439,7 +1437,7 @@ for (i in 1:length(areas_wo_comp)){
   grid.lines(x = c(0.05,0.962), y = 0.4, default.units = "npc", name =  NULL, gp = gpar(col = "#333333", lty = "dotted", lwd = 2.5))
   grid.lines(x = 0.962, y = c(0.2,0.4), default.units = "npc", name =  NULL, gp = gpar(col = "#333333", lty = "dotted", lwd = 2.5))
   grid.lines(x = c(0.05,0.962), y = 0.2, default.units = "npc", name =  NULL, gp = gpar(col = "#333333", lty = "dotted", lwd = 2.5))
-  
+
   # Circles and arrows
   grid.circle(x = 0.11, y = 0.79  , r = 0.02, default.units = "npc", name = NULL, gp = gpar(fill = "#333333", col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(arrow_right, x = unit(0.11, "npc"), y = unit(0.79, "npc"),  just = "centre", width = .0175)
@@ -1469,87 +1467,87 @@ for (i in 1:length(areas_wo_comp)){
   grid.raster(arrow_left, x = unit(0.962, "npc"), y = unit(0.2, "npc"),  just = "centre", width = .0175)
   grid.circle(x = 0.315, y = 0.2  , r = 0.02, default.units = "npc", name = NULL, gp = gpar(fill = "#333333", col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(arrow_left, x = unit(0.315, "npc"), y = unit(0.2, "npc"),  just = "centre", width = .0175)
-  
+
 # Stages ##
-  
+
   #  Pre-birth to Early years ##
   grid.circle(x = 0.05, y = 0.79  , r = 0.06, default.units = "npc", name = NULL, gp = gpar(fill = "#000000"), draw = TRUE, vp = NULL)
   grid.text("Pre-birth\nto Early\nYears", just = "centre", x = unit(0.05, "npc"), y = unit(.79, "npc"), gp = gpar(col = "#ffffff", fontsize = "8", fontface = "bold"))
-  
+
 # indicator 1 - infant mortality
-  
-indicator_1_ch <- ch_data %>% 
+
+indicator_1_ch <- ch_data %>%
   filter(ID == '92196')
 
   grid.circle(x = 0.15, y = 0.835  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_1_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.text("Infant\nMortality", just = "centre", x = unit(0.15, "npc"), y = unit(.835, "npc"), gp = gpar(col = "#ffffff", fontsize = "7"))
   grid.text(ifelse(is.na(indicator_1_ch$Value),"-",paste(round(indicator_1_ch$Value,0), " per 1,000", sep = "")), just = "left", x = unit(0.13, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_1_ch$Value),"Data on\ninfant mortality\nunavailable",paste("Rate of deaths in\ninfants aged under\n1 year per 1,000 live\nbirths (", as.character(indicator_1_ch$Timeperiod), ")\n(", indicator_1_ch$Numerator, " deaths)", sep = "")), just = "left", x = unit(0.13, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
-  
+
+
 # indicator 2 - Low birth weight babies
-indicator_2_ch <- ch_data %>% 
+indicator_2_ch <- ch_data %>%
   filter(ID == '20101')
-  
+
   grid.circle(x = 0.24, y = 0.835  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_2_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_2a_icon, x = unit(0.233, "npc"), y = unit(0.835, "npc"),  just = "centre", width = .025)
   grid.raster(ind_2b_icon, x = unit(0.247, "npc"), y = unit(0.845, "npc"),  just = "centre", width = .0125)
   grid.text(ifelse(is.na(indicator_2_ch$Value),"-",paste(indicator_2_ch$Numerator, " (",round(indicator_2_ch$Value,1),"%)", sep = "")), just = "left", x = unit(0.22, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_2_ch$Value),"Data on\nlow birth weight\nunavailable",paste("babies born\nin ", as.character(indicator_2_ch$Timeperiod), " had a\nLOW BIRTHWEIGHT\n(< 2,500g)", sep = "")), just = "left", x = unit(0.22, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # indicator 3 - Breast feeding initiation
-  indicator_3_ch <- ch_data %>% 
+  indicator_3_ch <- ch_data %>%
     filter(ID == '20201')
-  
+
   grid.circle(x = 0.33, y = 0.835  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_3_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_3_icon, x = unit(0.33, "npc"), y = unit(0.835, "npc"),  just = "centre", width = .025)
-  
+
   grid.text(ifelse(is.na(indicator_3_ch$Value),"-",paste(round(indicator_3_ch$Value,1), "%", sep = "")), just = "left", x = unit(0.31, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_3_ch$Value),"Data on\nbreast feeding\ninitiation\nunavailable",paste("of mothers\nbreastfeed their\nbabies in the first\n48hrs after delivery\nin ", as.character(indicator_3_ch$Timeperiod), sep = "")), just = "left", x = unit(0.31, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # indicator 4 - 0 to 4 year olds in households with an adult on out of work benefits #
-  indicator_4_ch <- ch_data %>% 
+  indicator_4_ch <- ch_data %>%
     filter(ID == '004')
-  
+
   grid.circle(x = 0.42, y = 0.835  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_4_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.text("Out of\nwork\nBenefits", just = "centre", x = unit(0.42, "npc"), y = unit(.835, "npc"), gp = gpar(col = "#ffffff", fontsize = "6"))
-  
+
   grid.text(ifelse(is.na(indicator_4_ch$Value),"-",paste(round(indicator_4_ch$Value,1), "%", sep = "")), just = "left", x = unit(0.4, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_4_ch$Value),"Data\nunavailable","of 0-4 year olds in\nhouseholds with an\nadult on out-of-work\nbenefits in May 2017."), just = "left", x = unit(0.4, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # indicator 5 - School readiness at the end of reception
-  indicator_5_ch <- ch_data %>% 
+  indicator_5_ch <- ch_data %>%
     filter(ID == '005')
-  
+
   grid.circle(x = 0.51, y = 0.835  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_5_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_5_icon, x = unit(0.51, "npc"), y = unit(0.835, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_5_ch$Value),"-",paste(round(indicator_5_ch$Value,1), "%", sep = "")), just = "left", x = unit(0.49, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_5_ch$Value), "Data\nunavailable",paste0("of children assessed\nas achieving a good\nlevel of development\n(being 'School Ready')\nat the end of reception\nin ", indicator_5_ch$Timeperiod)), just = "left", x = unit(0.49, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # School years ##
   grid.circle(x = 0.625, y = 0.79  , r = 0.06, default.units = "npc", name = NULL, gp = gpar(fill = "#000000"), draw = TRUE, vp = NULL)
   grid.text("School\nYears", just = "centre", x = unit(0.625, "npc"), y = unit(.79, "npc"), gp = gpar(col = "#ffffff", fontsize = "8", fontface = "bold"))
-  
+
   # indicator 6 - Excess weight reception
-  indicator_6_ch <- ch_data %>% 
+  indicator_6_ch <- ch_data %>%
     filter(ID == '20601')
-  
+
   grid.circle(x = 0.725, y = 0.835  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_6_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_6_icon, x = unit(0.725, "npc"), y = unit(0.835, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_6_ch$Value),"-",paste(round(indicator_6_ch$Value,1), "%", sep = "")), just = "left", x = unit(0.705, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_6_ch$Value), "Data\nunavailable",paste("of reception aged\npupils (4/5 years)\nmeasured as having\nExcess Weight\nin ", indicator_6_ch$Timeperiod, sep = "")), just = "left", x = unit(0.705, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # indicator 7 - Excess weight year six
-  indicator_7_ch <- ch_data %>% 
+  indicator_7_ch <- ch_data %>%
     filter(ID == '20602')
-  
+
   grid.circle(x = 0.815, y = 0.835  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_7_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_7_icon, x = unit(0.815, "npc"), y = unit(0.835, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_7_ch$Value),"-",paste(round(indicator_7_ch$Value,1), "%", sep = "")), just = "left", x = unit(0.795, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_7_ch$Value), "Data\nunavailable",paste("of Year 6 pupils\n(aged 10/11 years)\nmeasured as having\nExcess Weight\nin ", indicator_7_ch$Timeperiod, sep = "")), just = "left", x = unit(0.795, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 8 - KS2 attainment reading, writing and maths
-  indicator_8_ch <- ch_data %>% 
+  indicator_8_ch <- ch_data %>%
     filter(ID == '008')
 
   grid.circle(x = 0.905, y = 0.84  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_8_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
@@ -1557,268 +1555,268 @@ indicator_2_ch <- ch_data %>%
   grid.text("KS2", just = "centre", x = unit(0.905, "npc"), y = unit(.825, "npc"), gp = gpar(col = "#ffffff", fontsize = "7", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_8_ch$Value),"-",paste(round(indicator_8_ch$Value,1), "%", sep = "")), just = "left", x = unit(0.88, "npc"), y = unit(.78, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_8_ch$Value), "Data\nunavailable",paste("of pupils attain the\nexpected levels at\nKey stage 2 for\nReading, Writing and\nMathematics in 2019")), just = "left", x = unit(0.88, "npc"), y = unit(.76, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 9 - Children in poverty (under 16s)
-indicator_9_ch <- ch_data %>% 
+indicator_9_ch <- ch_data %>%
   filter(ID == '10101')
 
   grid.circle(x = 0.89, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_9_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_9_icon, x = unit(0.89, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_9_ch$Value),"-",paste(round(indicator_9_ch$Value,1), "%", sep = "")), just = "left", x = unit(0.87, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_9_ch$Value), "Data\nunavailable",paste("of children aged\nunder 16 years\nlived in poverty\nin ", indicator_9_ch$Timeperiod, sep = "")), just = "left", x = unit(0.87, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 10 - Emergency admissions for self harm
-  indicator_10_ch <- ch_data %>% 
+  indicator_10_ch <- ch_data %>%
     filter(ID == '21001')
-  
+
   grid.circle(x = 0.8, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_10_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_10_icon, x = unit(0.8, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_10_ch$Value),"-",paste(round(indicator_10_ch$Value,0), " per\n100,000", sep = "")), just = "left", x = unit(0.78, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_10_ch$Value), "Data\nunavailable",paste("Emergency Hospital\nAdmissions for\nIntentional Self-\nHarm in ", indicator_10_ch$Timeperiod)), just = "left", x = unit(0.78, "npc"), y = unit(.5475, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 11 - Teenage pregnancy
-  indicator_11_ch <- ch_data %>% 
+  indicator_11_ch <- ch_data %>%
     filter(ID == '20401')
-  
+
   grid.circle(x = 0.705, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_11_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_11_icon, x = unit(0.705, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_11_ch$Value),"-",paste(round(indicator_11_ch$Value,0), " per\n1,000", sep = "")), just = "left", x = unit(0.69, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_11_ch$Value), "Data\nunavailable",paste("In ", indicator_11_ch$Timeperiod, ", ", round(indicator_11_ch$Numerator,0)," young\nwomen under 18 years\nbecame pregnant.", sep = "")), just = "left", x = unit(0.69, "npc"), y = unit(.5475, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # indicator 12 - GCSE five A*-Cs
-  indicator_12_ch <- ch_data %>% 
+  indicator_12_ch <- ch_data %>%
     filter(ID == '92199')
-  
+
   grid.circle(x = 0.61, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_12_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_12_icon, x = unit(0.61, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_12_ch$Value),"-",paste(round(indicator_12_ch$Value ,1), "%", sep = "")), just = "left", x = unit(0.592, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_12_ch$Value), "Data\nunavailable",paste("of pupils attained\nat least five GCSE\ngrades at A*-C including\nenglish  and maths\nin ", indicator_12_ch$Timeperiod, sep = "")), just = "left", x = unit(0.592, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # Early working life ##
   grid.circle(x = 0.53, y = 0.6  , r = 0.06, default.units = "npc", name = NULL, gp = gpar(fill = "#000000"), draw = TRUE, vp = NULL)
   grid.text("Early\nWorking\nLife", just = "centre", x = unit(0.53, "npc"), y = unit(.6, "npc"), gp = gpar(col = "#ffffff", fontsize = "8", fontface = "bold"))
-  
+
   # indicator 13 - Youth claimant rate
-  indicator_13_ch <- ch_data %>% 
+  indicator_13_ch <- ch_data %>%
     filter(ID == '013')
-  
+
   grid.circle(x = 0.445, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_13_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_13_icon, x = unit(0.445, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_13_ch$Value),"-",paste(round(indicator_13_ch$Value ,1), "%", sep = "")), just = "left", x = unit(0.42, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_13_ch$Value), "Data\nunavailable",paste("Youth claimant rate\n(", indicator_13_ch$Numerator," young people\naged 18-24 years)\non out-of-work benefits\nin ",indicator_13_ch$Timeperiod, sep = "")), just = "left", x = unit(0.42, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # indicator 14 - Median hourly earnings males
-  indicator_14_ch <- ch_data %>% 
+  indicator_14_ch <- ch_data %>%
     filter(ID == '014')
-    
+
   grid.circle(x = 0.355, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_14_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_14_icon, x = unit(0.355, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_14_ch$Value),"-",paste("£", str_pad(indicator_14_ch$Value, width = 5, side="right", pad="0"), sep = "")), just = "left", x = unit(0.331, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_14_ch$Value), "Data\nunavailable",paste("Full time hourly gross\nearnings for males\n(median rate) excluding\novertime in ", indicator_14_ch$Timeperiod, "\nEngland: £", str_pad(indicator_14_ch$Comp_Value, width = 5, side="right", pad="0"), sep = "")), just = "left", x = unit(0.331, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # indicator 15 - median hourly earnings females
-  indicator_15_ch <- ch_data %>% 
+  indicator_15_ch <- ch_data %>%
     filter(ID == '015')
-  
+
   grid.circle(x = 0.265, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_15_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_15_icon, x = unit(0.265, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_15_ch$Value),"-",paste("£", str_pad(indicator_15_ch$Value, width = 5, side="right", pad="0"), sep = "")), just = "left", x = unit(0.24, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_15_ch$Value), "Data\nunavailable",paste("Full time hourly gross\nearnings for females\n(median rate) excluding\novertime in ", indicator_15_ch$Timeperiod, "\nEngland: £", str_pad(indicator_15_ch$Comp_Value, width = 5, side = "right", pad = "0"), sep = "")), just = "left", x = unit(0.24, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # indicator 16 - Housing affordability index
-  indicator_16_ch <- ch_data %>% 
+  indicator_16_ch <- ch_data %>%
     filter(ID == '016')
-    
+
     grid.circle(x = 0.175, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_16_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_16_icon, x = unit(0.175, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_16_ch$Value),"-",paste(round(indicator_16_ch$Value,2), sep = "")), just = "left", x = unit(0.14, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_16_ch$Value), "Data\nunavailable",paste("Housing Affordability\nRatio of lower quartile\nhouse price to lower\nquartile earnings in \n",indicator_16_ch$Timeperiod," ",comp_area, ": ", round(indicator_16_ch$Comp_Value,2), sep = "")), just = "left", x = unit(0.14, "npc"), y = unit(.57, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # indicator 17 KSI
-  indicator_17_ch <- ch_data %>% 
+  indicator_17_ch <- ch_data %>%
     filter(ID == '11001')
-  
+
   grid.circle(x = 0.085, y = 0.645  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_17_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_17_icon, x = unit(0.085, "npc"), y = unit(0.645, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_17_ch$Value),"-",paste(round(indicator_17_ch$Value, 0), " per\n100,000", sep = "")), just = "left", x = unit(0.065, "npc"), y = unit(.59, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_17_ch$Value), "Data\nunavailable",paste("Rate of people\nkilled or seriously\ninjured on the roads\nin ",indicator_17_ch$Timeperiod, sep = "")), just = "left", x = unit(0.065, "npc"), y = unit(.5475, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 18 - Violent crime
-indicator_18_ch <- ch_data %>% 
+indicator_18_ch <- ch_data %>%
   filter(ID == '11202')
 
   grid.circle(x = 0.1, y = 0.45  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_18_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.text("Violent\nCrime", just = "centre", x = unit(0.1, "npc"), y = unit(.45, "npc"), gp = gpar(col = "#ffffff", fontsize = "7"))
   grid.text(ifelse(is.na(indicator_18_ch$Value),"-",paste(round(indicator_18_ch$Value, 0), " per 1,000", sep = "")), just = "left", x = unit(0.081, "npc"), y = unit(.39, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_18_ch$Value), "Data\nunavailable",paste("Violence against the\nperson (recorded\ncrime data)\n",format(indicator_18_ch$Numerator, big.mark = ",")," offences\nin ",indicator_18_ch$Timeperiod, sep = "")), just = "left", x = unit(0.081, "npc"), y = unit(.37, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # indicator 19 - Admission episodes for alcohol related conditions
-  indicator_19_ch <- ch_data %>% 
+  indicator_19_ch <- ch_data %>%
     filter(ID == '91414')
-  
+
   grid.circle(x = 0.19, y = 0.45  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_19_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_19_icon, x = unit(0.19, "npc"), y = unit(0.45, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_19_ch$Value),"-",paste(round(indicator_19_ch$Value, 0), " per\n100,000", sep = "")), just = "left", x = unit(0.16, "npc"), y = unit(.39, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_19_ch$Value), "Data\nunavailable",paste("Admission episodes for\nalcohol related conditions\n(narrow definition) ",format(round(indicator_19_ch$Numerator,0), big.mark = ","),"\nadmissions in ",indicator_19_ch$Timeperiod, sep = "")), just = "left", x = unit(0.16, "npc"), y = unit(.3475, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 20 - Adults undertaking 150 minutes of physical activity
-indicator_20_ch <- ch_data %>% 
+indicator_20_ch <- ch_data %>%
   filter(ID == '93014')
 
   grid.circle(x = 0.28, y = 0.45  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_20_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_20_icon, x = unit(0.28, "npc"), y = unit(0.45, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_20_ch$Value),"-",paste(round(indicator_20_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.26, "npc"), y = unit(.39, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_20_ch$Value), "Data\nunavailable",paste("of adults undertaking\nat least 150 minutes\nof physical activity\nper week in ",indicator_20_ch$Timeperiod, sep = "")), just = "left", x = unit(0.26, "npc"), y = unit(.37, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # indicator 21 - Less than 30 equivalent minutes of physical activity
-  indicator_21_ch <- ch_data %>% 
+  indicator_21_ch <- ch_data %>%
     filter(ID == '93015')
-  
+
   grid.circle(x = 0.37, y = 0.45  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_21_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_21_icon, x = unit(0.37, "npc"), y = unit(0.45, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_21_ch$Value),"-",paste(round(indicator_21_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.35, "npc"), y = unit(.39, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_21_ch$Value), "Data\nunavailable",paste("of adults\nundertaking less than\n30 equivalent minutes\nof physical activity\nper week in ",indicator_21_ch$Timeperiod, sep = "")), just = "left", x = unit(0.35, "npc"), y = unit(.37, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # Mid working life to retirement
 grid.circle(x = 0.465, y = 0.4  , r = 0.06, default.units = "npc", name = NULL, gp = gpar(fill = "#000000"), draw = TRUE, vp = NULL)
 grid.text("Mid Working\nlife to\nretirement", just = "centre", x = unit(0.465, "npc"), y = unit(.4, "npc"), gp = gpar(col = "#ffffff", fontsize = "8", fontface = "bold"))
-  
+
 # indicator 22 - Adult smoking prevalence
-indicator_22_ch <- ch_data %>% 
+indicator_22_ch <- ch_data %>%
   filter(ID == '92443')
-  
+
 grid.circle(x = 0.55, y = 0.45  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_22_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_22_icon, x = unit(0.55, "npc"), y = unit(0.45, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_22_ch$Value),"-",paste(round(indicator_22_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.53, "npc"), y = unit(.39, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_22_ch$Value), "Data\nunavailable",paste("adult smoking\nprevalence\n(",indicator_22_ch$Timeperiod,")", sep = "")), just = "left", x = unit(0.53, "npc"), y = unit(.37, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 23 - Overweight or Obese adults
-indicator_23_ch <- ch_data %>% 
+indicator_23_ch <- ch_data %>%
   filter(ID == '93088')
 
   grid.circle(x = 0.64, y = 0.45  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_23_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_23_icon, x = unit(0.64, "npc"), y = unit(0.45, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_23_ch$Value),"-",paste(round(indicator_23_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.62, "npc"), y = unit(.39, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_23_ch$Value), "Data\nunavailable",paste("of adults (aged\n18+ years) classified\nas overweight or\nobese (",indicator_23_ch$Timeperiod,")", sep = "")), just = "left", x = unit(0.62, "npc"), y = unit(.37, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 24 - Breast cancer screening
-indicator_24_ch <- ch_data %>% 
+indicator_24_ch <- ch_data %>%
   filter(ID == '22001')
 
   grid.circle(x = 0.73, y = 0.45  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_24_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_24_icon, x = unit(0.73, "npc"), y = unit(0.45, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_24_ch$Value),"-",paste(round(indicator_24_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.71, "npc"), y = unit(.39, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_24_ch$Value), "Data\nunavailable",paste("breast cancer\nscreening coverage\nwomen  aged\n53-70 years\n(",indicator_24_ch$Timeperiod,")", sep = "")), just = "left", x = unit(0.71, "npc"), y = unit(.37, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 25 - Bowel cancer screening
-indicator_25_ch <- ch_data %>% 
+indicator_25_ch <- ch_data %>%
   filter(ID == '91720')
 
 grid.circle(x = 0.82, y = 0.45  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_25_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_25_icon, x = unit(0.82, "npc"), y = unit(0.45, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_25_ch$Value),"-",paste(round(indicator_25_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.8, "npc"), y = unit(.39, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_25_ch$Value), "Data\nunavailable",paste("bowel cancer\nscreening coverage\nadults aged\n60-74 years\n(",indicator_25_ch$Timeperiod,")", sep = "")), just = "left", x = unit(0.8, "npc"), y = unit(.37, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 26_a - Cervical cancer screening 25-49
-indicator_26_a_ch <- ch_data %>% 
+indicator_26_a_ch <- ch_data %>%
   filter(ID == '93560')
-  
+
 grid.circle(x = 0.91, y = 0.45  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_26_a_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_26_icon, x = unit(0.91, "npc"), y = unit(0.45, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_26_a_ch$Value),"-",paste(round(indicator_26_a_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.88, "npc"), y = unit(.39, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_26_a_ch$Value), "Data\nunavailable",paste("cervical cancer\nscreening coverage\nwomen aged\n25-49 years\n(",indicator_26_a_ch$Timeperiod,")", sep = "")), just = "left", x = unit(0.88, "npc"), y = unit(.37, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 26_b - Cervical cancer screening 50-64
-  indicator_26_b_ch <- ch_data %>% 
+  indicator_26_b_ch <- ch_data %>%
     filter(ID == '93561')
 
   grid.circle(x = 0.89, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_26_b_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_26_icon, x = unit(0.89, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_26_b_ch$Value),"-",paste(round(indicator_26_b_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.87, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_26_b_ch$Value), "Data\nunavailable",paste("cervical cancer\nscreening coverage\nwomen aged\n50-64 years (",indicator_26_b_ch$Timeperiod,")", sep = "")), just = "left", x = unit(0.87, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 27 - Cancer premature mortality
-indicator_27_ch <- ch_data %>% 
+indicator_27_ch <- ch_data %>%
   filter(ID == '40501')
-  
+
   grid.circle(x = 0.79, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_27_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_27_icon, x = unit(0.79, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_27_ch$Value),"-",paste(round(indicator_27_ch$Value, 0), " per 100,000", sep = "")), just = "left", x = unit(0.77, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_27_ch$Value), "Data\nunavailable",paste("Mortality from all\nCancers among those\naged under 75 years in\n",indicator_27_ch$Timeperiod, sep = "")), just = "left", x = unit(0.77, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 28 Cardiovascular disease premature mortality
-indicator_28_ch <- ch_data %>% 
+indicator_28_ch <- ch_data %>%
   filter(ID == '40401')
 
   grid.circle(x = 0.7, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_28_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_28_icon, x = unit(0.7, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_28_ch$Value),"-",paste(round(indicator_28_ch$Value, 0), " per 100,000", sep = "")), just = "left", x = unit(0.68, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_28_ch$Value), "Data\nunavailable",paste("Mortality from all\nCardiovascular\ndiseases among\nthose aged under\n75 years in ",indicator_28_ch$Timeperiod, sep = "")), just = "left", x = unit(0.68, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   # Retirement to older age ##
   grid.circle(x = 0.625, y = 0.2  , r = 0.06, default.units = "npc", name = NULL, gp = gpar(fill = "#000000"), draw = TRUE, vp = NULL)
   grid.text("Retirement\nto older age", just = "centre", x = unit(0.625, "npc"), y = unit(.2, "npc"), gp = gpar(col = "#ffffff", fontsize = "8", fontface = "bold"))
-  
+
   # indicator 29 - ID 2015 - older people income deprivation
-  indicator_29_ch <- ch_data %>% 
+  indicator_29_ch <- ch_data %>%
     filter(ID == '029')
-  
+
   grid.circle(x = 0.54, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_29_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_29_icon, x = unit(0.54, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_29_ch$Value),"-",paste(round(indicator_29_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.515, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_29_ch$Value), "Data\nunavailable",paste("of older people\naged 60+ years living\non low incomes\n(English indices of\ndeprivation, ",indicator_29_ch$Timeperiod, ")\nEngland: ", round(indicator_29_ch$Comp_Value,1), "%", sep = "")), just = "left", x = unit(0.515, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 31 - Fuel poverty
-  indicator_30_ch <- ch_data %>% 
+  indicator_30_ch <- ch_data %>%
     filter(ID == '90356')
-  
+
   grid.circle(x = 0.45, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_30_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_30_icon, x = unit(0.45, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_30_ch$Value),"-",paste(round(indicator_30_ch$Value, 1), "%", sep = "")), just = "left", x = unit(0.43, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_30_ch$Value), "Data\nunavailable",paste("of households\nexperiencing fuel\npoverty (Low income\nhigh cost method) in\n",indicator_30_ch$Timeperiod, sep = "")), just = "left", x = unit(0.43, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 31 - Emergency admissions for hip fractures
-indicator_31_ch <- ch_data %>% 
+indicator_31_ch <- ch_data %>%
   filter(ID == '41401')
-  
+
   grid.circle(x = 0.36, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_31_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_31_icon, x = unit(0.36, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
-  
+
   grid.text(ifelse(is.na(indicator_31_ch$Value),"-",paste(round(indicator_31_ch$Value, 0), " per 100,000", sep = "")), just = "left", x = unit(0.335, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_31_ch$Value), "Data\nunavailable",paste("Emergency admissions\nfor hip fractures among\nthose aged 65 years\nand over in ",indicator_31_ch$Timeperiod, "\n(", format(indicator_31_ch$Numerator, big.mark = ',', trim = TRUE)," admissions)", sep = "")), just = "left", x = unit(0.335, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 32 - Excess winter deaths
-indicator_32_ch <- ch_data %>% 
+indicator_32_ch <- ch_data %>%
   filter(ID == '90360')
 
   grid.circle(x = 0.27, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_32_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_32_icon, x = unit(0.27, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_32_ch$Value),"-",paste(round(indicator_32_ch$Value, 1), sep = "")), just = "left", x = unit(0.25, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_32_ch$Value), "Data\nunavailable",paste("Excess winter\ndeaths index\nall ages\n",indicator_32_ch$Timeperiod, sep = "")), just = "left", x = unit(0.25, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 33 - Male life expectancy at birth
-indicator_33_ch <- ch_data %>% 
+indicator_33_ch <- ch_data %>%
   filter(Name == 'Male life expectancy at birth')
 
   grid.circle(x = 0.18, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_33_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_33_icon, x = unit(0.18, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_33_ch$Value),"-",paste(round(indicator_33_ch$Value, 1), " years", sep = "")), just = "left", x = unit(0.16, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_33_ch$Value),"Data on male\nlife expectancy\nunavailable",paste("Male life\nexpectancy\nat birth in\n",indicator_33_ch$Timeperiod, sep = "")), just = "left", x = unit(0.16, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
 # indicator 34 - Female life expectancy at birth
-indicator_34_ch <- ch_data %>% 
+indicator_34_ch <- ch_data %>%
   filter(Name == 'Female life expectancy at birth')
-  
+
   grid.circle(x = 0.09, y = 0.25  , r = 0.03, default.units = "npc", name = NULL, gp = gpar(fill = indicator_34_ch$Colour, col = "#ffffff"), draw = TRUE, vp = NULL)
   grid.raster(ind_34_icon, x = unit(0.09, "npc"), y = unit(0.25, "npc"),  just = "centre", width = .025)
   grid.text(ifelse(is.na(indicator_34_ch$Value),"-",paste(round(indicator_34_ch$Value, 1), " years", sep = "")), just = "left", x = unit(0.07, "npc"), y = unit(.19, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "10", fontface = "bold"))
   grid.text(ifelse(is.na(indicator_34_ch$Value),"Data on female\nlife expectancy\nunavailable",paste("Female life\nexpectancy\nat birth in\n",indicator_34_ch$Timeperiod, sep = "")), just = "left", x = unit(0.07, "npc"), y = unit(.17, "npc"), vjust = 1, gp = gpar(col = "#333333", fontsize = "7"))
-  
+
   grid.raster(unit_logo, y = unit(0.1, "npc"), x = unit(0.815, "npc"), vjust = 1, hjust = 0, width = .17)
   grid.text("http://jsna.westsussex.gov.uk",just = "left", x = unit(0.05, "npc"), y = unit(.05, "npc"), gp = gpar(col = "#1c8ccd", fontsize = "11", fontface = "bold"))
-  
+
   grid.text("Infographic images designed by Freepik and OCHA from Flaticon",just = "centre", x = unit(0.5, "npc"), y = unit(.05, "npc"), gp = gpar(col = "#333333", fontsize = "8"))
-  
+
   dev.off()
 }
 
@@ -1828,7 +1826,7 @@ meta <- main_df %>%
   select(ID, Name, Description, Unit, Timeperiod, Polarity, img_path) %>% 
   unique() %>% 
   mutate(Number = row_number()) %>%
-  mutate(x = ifelse(Number == 1, .16, ifelse(Number == 2, .24, ifelse(Number == 3, .32, ifelse(Number == 4, .43, ifelse(Number == 5, .51, ifelse(Number == 6, .73, ifelse(Number == 7, .81, ifelse(Number == 8, .89, ifelse(Number == 9, .88, ifelse(Number == 10, .8, ifelse(Number == 11, .72, ifelse(Number == 12, .6, ifelse(Number == 13, .44, ifelse(Number == 14, .36, ifelse(Number == 15, .26, ifelse(Number == 16, .18, ifelse(Number == 17, .1, ifelse(Number == 18, .1, ifelse(Number == 19, .18, ifelse(Number == 20, .26, ifelse(Number == 21, .38, ifelse(Number == 22, .54, ifelse(Number == 23, .62, ifelse(Number == 24, .71, ifelse(Number == 25, .81, ifelse(Number == 26, .9, ifelse(Number == 27, .87, ifelse(Number == 28, .79, ifelse(Number == 29, .71, ifelse(Number == 30, .52, ifelse(Number == 31, .44, ifelse(Number == 32, .36, ifelse(Number == 33, .26, ifelse(Number == 34, .18, ifelse(Number == 35, .1, NA)))))))))))))))))))))))))))))))))))) %>% 
+  mutate(x = ifelse(Number == 1, .16, ifelse(Number == 2, .24, ifelse(Number == 3, .32, ifelse(Number == 4, .43, ifelse(Number == 5, .52, ifelse(Number == 6, .71, ifelse(Number == 7, .81, ifelse(Number == 8, .9, ifelse(Number == 9, .9, ifelse(Number == 10, .81, ifelse(Number == 11, .71, ifelse(Number == 12, .6, ifelse(Number == 13, .45, ifelse(Number == 14, .36, ifelse(Number == 15, .27, ifelse(Number == 16, .18, ifelse(Number == 17, .1, ifelse(Number == 18, .09, ifelse(Number == 19, .18, ifelse(Number == 20, .28, ifelse(Number == 21, .38, ifelse(Number == 22, .54, ifelse(Number == 23, .62, ifelse(Number == 24, .71, ifelse(Number == 25, .81, ifelse(Number == 26, .9, ifelse(Number == 27, .9, ifelse(Number == 28, .81, ifelse(Number == 29, .7, ifelse(Number == 30, .52, ifelse(Number == 31, .44, ifelse(Number == 32, .36, ifelse(Number == 33, .26, ifelse(Number == 34, .18, ifelse(Number == 35, .1, NA)))))))))))))))))))))))))))))))))))) %>% 
   mutate(y = ifelse(Number %in% c(1:8), .05, ifelse(Number %in% c(9:17), .3, ifelse(Number %in% c(18:26), .55, ifelse(Number %in% c(27:35), .8, NA))))) 
 
 meta %>% 
