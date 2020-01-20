@@ -380,7 +380,7 @@ svg_lt_walkthrough
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
     if (width < 1300) {
-    return ".65rem"; }
+    return ".6rem"; }
     else {
     return '.8rem';}
   })
@@ -399,7 +399,7 @@ svg_lt_walkthrough
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
     if (width < 1300) {
-    return ".65rem"; }
+    return ".6rem"; }
     else {
     return '.8rem';}
   })
@@ -418,7 +418,7 @@ svg_lt_walkthrough
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
     if (width < 1300) {
-    return ".65rem"; }
+    return ".6rem"; }
     else {
     return '.8rem';}
   })
@@ -437,7 +437,7 @@ svg_lt_walkthrough
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
     if (width < 1300) {
-    return ".65rem"; }
+    return ".6rem"; }
     else {
     return '.8rem';}
   })
@@ -456,7 +456,7 @@ svg_lt_walkthrough
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
     if (width < 1300) {
-    return ".65rem"; }
+    return ".6rem"; }
     else {
     return '.8rem';}
   })
@@ -711,7 +711,7 @@ svg_lt_walkthrough
     // .style('font-size', '.7rem')
     .attr("font-size", function (d) {
       if (width < 1300) {
-      return ".65rem"; }
+      return ".6rem"; }
       else {
       return '.8rem';}
     })
@@ -734,7 +734,7 @@ svg_lt_walkthrough
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
       if (width < 1300) {
-      return ".65rem"; }
+      return ".6rem"; }
       else {
       return '.8rem';}
     })
@@ -757,7 +757,7 @@ svg_lt_walkthrough
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
       if (width < 1300) {
-      return ".65rem"; }
+      return ".6rem"; }
       else {
       return '.8rem';}
     })
@@ -780,7 +780,7 @@ svg_lt_walkthrough
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
       if (width < 1300) {
-      return ".65rem"; }
+      return ".6rem"; }
       else {
       return '.8rem';}
     })
@@ -803,7 +803,7 @@ svg_lt_walkthrough
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
       if (width < 1300) {
-      return ".65rem"; }
+      return ".6rem"; }
       else {
       return '.8rem';}
     })
@@ -1096,7 +1096,7 @@ var selected_area_df = json.filter(function(d){
           .attr('text-anchor','middle')
           .attr("font-size", function (d) {
             if (width < 1300) {
-            return ".65rem"; }
+            return ".6rem"; }
             else {
             return '.8rem';}
           })
@@ -1115,7 +1115,7 @@ var selected_area_df = json.filter(function(d){
           .attr('text-anchor','middle')
           .attr("font-size", function (d) {
             if (width < 1300) {
-            return ".65rem"; }
+            return ".6rem"; }
             else {
             return '.8rem';}
           })
@@ -1134,7 +1134,7 @@ var selected_area_df = json.filter(function(d){
           .attr('text-anchor','middle')
           .attr("font-size", function (d) {
             if (width < 1300) {
-            return ".65rem"; }
+            return ".6rem"; }
             else {
             return '.8rem';}
           })
@@ -1153,7 +1153,7 @@ var selected_area_df = json.filter(function(d){
           .attr('text-anchor','middle')
           .attr("font-size", function (d) {
             if (width < 1300) {
-            return ".65rem"; }
+            return ".6rem"; }
             else {
             return '.8rem';}
           })
@@ -1172,7 +1172,7 @@ var selected_area_df = json.filter(function(d){
           .attr('text-anchor','middle')
           .attr("font-size", function (d) {
             if (width < 1300) {
-            return ".65rem"; }
+            return ".6rem"; }
             else {
             return '.8rem';}
           })
@@ -1427,7 +1427,7 @@ var selected_area_df = json.filter(function(d){
               // .style('font-size', '.7rem')
               .attr("font-size", function (d) {
                 if (width < 1300) {
-                return ".65rem"; }
+                return ".6rem"; }
                 else {
                 return '.8rem';}
               })
@@ -1450,7 +1450,7 @@ var selected_area_df = json.filter(function(d){
               .attr('text-anchor','middle')
               .attr("font-size", function (d) {
                 if (width < 1300) {
-                return ".65rem"; }
+                return ".6rem"; }
                 else {
                 return '.8rem';}
               })
@@ -1473,7 +1473,7 @@ var selected_area_df = json.filter(function(d){
               .attr('text-anchor','middle')
               .attr("font-size", function (d) {
                 if (width < 1300) {
-                return ".65rem"; }
+                return ".6rem"; }
                 else {
                 return '.8rem';}
               })
@@ -1496,7 +1496,7 @@ var selected_area_df = json.filter(function(d){
               .attr('text-anchor','middle')
               .attr("font-size", function (d) {
                 if (width < 1300) {
-                return ".65rem"; }
+                return ".6rem"; }
                 else {
                 return '.8rem';}
               })
@@ -1519,7 +1519,7 @@ var selected_area_df = json.filter(function(d){
               .attr('text-anchor','middle')
               .attr("font-size", function (d) {
                 if (width < 1300) {
-                return ".65rem"; }
+                return ".6rem"; }
                 else {
                 return '.8rem';}
               })

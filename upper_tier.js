@@ -381,7 +381,7 @@ svg_ut_walkthrough
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
     if (width < 1300) {
-    return ".65rem"; }
+    return ".6rem"; }
     else {
     return '.8rem';}
   })
@@ -400,7 +400,7 @@ svg_ut_walkthrough
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
     if (width < 1300) {
-    return ".65rem"; }
+    return ".6rem"; }
     else {
     return '.8rem';}
   })
@@ -419,7 +419,7 @@ svg_ut_walkthrough
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
     if (width < 1300) {
-    return ".65rem"; }
+    return ".6rem"; }
     else {
     return '.8rem';}
   })
@@ -438,7 +438,7 @@ svg_ut_walkthrough
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
     if (width < 1300) {
-    return ".65rem"; }
+    return ".6rem"; }
     else {
     return '.8rem';}
   })
@@ -457,7 +457,7 @@ svg_ut_walkthrough
   .attr('text-anchor','middle')
   .attr("font-size", function (d) {
     if (width < 1300) {
-    return ".65rem"; }
+    return ".6rem"; }
     else {
     return '.8rem';}
   })
@@ -626,7 +626,7 @@ svg_ut_walkthrough
     // .style('font-size', '.7rem')
     .attr("font-size", function (d) {
       if (width < 1300) {
-      return ".65rem"; }
+      return ".6rem"; }
       else {
       return '.8rem';}
     })
@@ -649,7 +649,7 @@ svg_ut_walkthrough
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
       if (width < 1300) {
-      return ".65rem"; }
+      return ".6rem"; }
       else {
       return '.8rem';}
     })
@@ -672,7 +672,7 @@ svg_ut_walkthrough
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
       if (width < 1300) {
-      return ".65rem"; }
+      return ".6rem"; }
       else {
       return '.8rem';}
     })
@@ -695,7 +695,7 @@ svg_ut_walkthrough
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
       if (width < 1300) {
-      return ".65rem"; }
+      return ".6rem"; }
       else {
       return '.8rem';}
     })
@@ -718,7 +718,7 @@ svg_ut_walkthrough
     .attr('text-anchor','middle')
     .attr("font-size", function (d) {
       if (width < 1300) {
-      return ".65rem"; }
+      return ".6rem"; }
       else {
       return '.8rem';}
     })
@@ -1009,7 +1009,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
           .attr('text-anchor','middle')
           .attr("font-size", function (d) {
             if (width < 1300) {
-            return ".65rem"; }
+            return ".6rem"; }
             else {
             return '.8rem';}
           })
@@ -1028,7 +1028,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
           .attr('text-anchor','middle')
           .attr("font-size", function (d) {
             if (width < 1300) {
-            return ".65rem"; }
+            return ".6rem"; }
             else {
             return '.8rem';}
           })
@@ -1047,7 +1047,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
           .attr('text-anchor','middle')
           .attr("font-size", function (d) {
             if (width < 1300) {
-            return ".65rem"; }
+            return ".6rem"; }
             else {
             return '.8rem';}
           })
@@ -1066,7 +1066,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
           .attr('text-anchor','middle')
           .attr("font-size", function (d) {
             if (width < 1300) {
-            return ".65rem"; }
+            return ".6rem"; }
             else {
             return '.8rem';}
           })
@@ -1085,7 +1085,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
           .attr('text-anchor','middle')
           .attr("font-size", function (d) {
             if (width < 1300) {
-            return ".65rem"; }
+            return ".6rem"; }
             else {
             return '.8rem';}
           })
@@ -1254,7 +1254,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
               // .style('font-size', '.7rem')
               .attr("font-size", function (d) {
                 if (width < 1300) {
-                return ".65rem"; }
+                return ".6rem"; }
                 else {
                 return '.8rem';}
               })
@@ -1277,7 +1277,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
               .attr('text-anchor','middle')
               .attr("font-size", function (d) {
                 if (width < 1300) {
-                return ".65rem"; }
+                return ".6rem"; }
                 else {
                 return '.8rem';}
               })
@@ -1300,7 +1300,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
               .attr('text-anchor','middle')
               .attr("font-size", function (d) {
                 if (width < 1300) {
-                return ".65rem"; }
+                return ".6rem"; }
                 else {
                 return '.8rem';}
               })
@@ -1323,7 +1323,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
               .attr('text-anchor','middle')
               .attr("font-size", function (d) {
                 if (width < 1300) {
-                return ".65rem"; }
+                return ".6rem"; }
                 else {
                 return '.8rem';}
               })
@@ -1346,7 +1346,7 @@ var selected_ut_area_df = json_ut.filter(function(d){
               .attr('text-anchor','middle')
               .attr("font-size", function (d) {
                 if (width < 1300) {
-                return ".65rem"; }
+                return ".6rem"; }
                 else {
                 return '.8rem';}
               })
