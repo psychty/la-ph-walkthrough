@@ -19,8 +19,9 @@ window.onclick = function(event) {
   }
 }
 
-var ut_stage_circles = [{'line_1':'Pre-birth', 'line_2': 'to early', 'line_3': 'years', "x":.05, "y":.1},{'line_1':'School', 'line_2': 'years', "x":.67, "y":.1},{"line_1":'Early', 'line_2': 'working', 'line_3':'life', "x":.32, "y":.35},{"line_1":'Mid working', 'line_2':'life to', 'line_3':'retirement', "x":.61, "y":.6},{"line_1":'Retirement', 'line_2':'to older age', "x":.635, "y":.85}]
 
+
+var ut_stage_circles = [{'line_1':'Pre-birth', 'line_2': 'to early', 'line_3': 'years', "x":.05, "y":.1},{'line_1':'School', 'line_2': 'years', "x":.67, "y":.1},{"line_1":'Early', 'line_2': 'working', 'line_3':'life', "x":.32, "y":.35},{"line_1":'Mid working', 'line_2':'life to', 'line_3':'retirement', "x":.61, "y":.6},{"line_1":'Retirement', 'line_2':'to older age', "x":.635, "y":.85}]
 
 var ut_stage_arrows = [{"x":.11, "y":.1, "img":'./images/right_white.svg'},{"x":.37, "y":.1, "img":'./images/right_white.svg'},{"x":.78, "y":.1, "img":'./images/right_white.svg'},{"x":.96, "y":.1, "img":'./images/down_white.svg'},{"x":.96, "y":.35, "img":'./images/left_white.svg'},{"x":.62, "y":.35, "img":'./images/left_white.svg'},{"x":.04, "y":.35, "img":'./images/down_white.svg'},{"x":.04, "y":.6, "img":'./images/right_white.svg'},{"x":.42, "y":.6, "img":'./images/right_white.svg'},{"x":.8, "y":.6, "img":'./images/right_white.svg'},{"x":.96, "y":.6, "img":'./images/down_white.svg'},{"x":.96, "y":.85, "img":'./images/left_white.svg'},{"x":.275, "y":.85, "img":'./images/left_white.svg'}]
 
@@ -60,18 +61,65 @@ if(width > 1300){
   var scaled_icon_size = 50
   }
 
+var circles_for_key = [{'line_1':'Significantly', 'line_2': 'better', 'colour': '#3ECC26', 'x': 50, 'y':31},{'line_1':'Similar', 'colour': '#E7AF27', "x": 125, "y": 31},{"line_1":'Significantly', 'line_2': 'worse','colour': '#CC2629',  "x": 200, "y":31},{"line_1":'Not', 'line_2':'applicable', 'colour': '#8E8E8E',  "x": 275, "y":31}]
+
+var svg_key = d3.select('#circle_key')
+.append('svg')
+.attr('width', 325)
+.attr('height', 62)
+.style('background-color', '#fcfaf7')
+.append('g');
+
+svg_key
+.selectAll()
+.data(circles_for_key)
+.enter()
+.append('circle')
+.attr("cx", function(d){ return d.x })
+.attr("cy", function(d){ return d.y })
+// .attr("r",  function(d){ return circle_size(width)})
+.attr('r', 30)
+.style("fill", function(d){ return d.colour })
+.style('stroke',function(d){ return d.colour });
+
+svg_key
+.selectAll()
+.data(circles_for_key)
+.enter()
+.append('text')
+.attr("dx", function(d){ return d.x })
+.attr("dy", function(d){ return d.y - 5 })
+.text(function(d){ return d.line_1})
+.style("fill", "white")
+.style('stroke-opacity',0)
+.attr('text-anchor','middle')
+.attr("font-size", '.7rem');
+
+svg_key
+.selectAll()
+.data(circles_for_key)
+.enter()
+.append('text')
+.attr("dx", function(d){ return d.x })
+.attr("dy", function(d){ return d.y + 10 })
+.text(function(d){ return d.line_2})
+.style("fill", "white")
+.style('stroke-opacity',0)
+.attr('text-anchor','middle')
+.attr("font-size", '.7rem');
+
 // Set up tooltip for circles
 var tooltip_ut = d3.select("#wsx_upper_tier_walkthrough")
-    .append("div")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("position", "absolute")
-    .style("z-index", "10")
-    .style("background-color", "white")
-    .style("border", "solid")
-    .style("border-width", "1px")
-    .style("border-radius", "5px")
-    .style("padding", "10px")
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip")
+.style("position", "absolute")
+.style("z-index", "10")
+.style("background-color", "white")
+.style("border", "solid")
+.style("border-width", "1px")
+.style("border-radius", "5px")
+.style("padding", "10px")
 
 var showTooltip_ut = function(d, i) {
 
@@ -323,9 +371,9 @@ var ut_images_arrows = svg_ut_walkthrough.selectAll("bar")
   .data(ut_stage_arrows)
   .enter()
   .append("svg:image")
-  .attr("x", function(d) { return x_pos(d.x) - 12; })
-  .attr('y', function(d) { return y_pos(d.y) - 12; })
-  .attr('height', 24)
+  .attr("x", function(d) { return x_pos(d.x) - 10; })
+  .attr('y', function(d) { return y_pos(d.y) - 10; })
+  .attr('height', 20)
   .attr("xlink:href", function(d) {return d.img; })
   .attr('id', '#ut_arrow_images');
 

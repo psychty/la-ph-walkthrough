@@ -26,6 +26,20 @@ text-align:center; /* used to center div in IE */
     text-align:left; /*resets text alignment from body tag */
 }
 
+.same_row_key {
+  display:inline-block !important;
+  vertical-align: top;
+    margin: 0;
+}
+
+.same_row_text {
+  width: calc(100% - 360px);
+  display:inline-block !important;
+  vertical-align: top;
+  margin: 0;
+  text-align: justify; 
+}
+
 svg {
   background-color: #FFF;
   stroke: black;
