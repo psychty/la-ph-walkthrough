@@ -89,7 +89,7 @@ ind_3_latest_ut_year <- fingertips_data(IndicatorID = 91323, AreaTypeID = 202) %
   select(Timeperiod) %>% 
   unique()
 
-indicator_3 <- fingertips_data(IndicatorID = 91323, AreaTypeID = 102) %>% 
+indicator_3 <- fingertips_data(IndicatorID = 91323, AreaTypeID = 202) %>% 
   filter(Timeperiod == ind_3_latest_ut_year$Timeperiod) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
   rename(ID = IndicatorID,
          Name = IndicatorName,
@@ -110,9 +110,7 @@ indicator_3 <- fingertips_data(IndicatorID = 91323, AreaTypeID = 102) %>%
          line_3 = paste0('bloodspot screening'),
          line_4 = paste0('result in ', Timeperiod),
          line_5 = paste0('(', format(round(Numerator,0),big.mark = ',', trim = TRUE), ' babies)')) %>% 
-  mutate(img_path = './images/laboratory-microscope.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/laboratory-microscope.svg') 
 
 # Indicator 4 - Infant Mortality ####
 indicator_4 <- fingertips_data(IndicatorID = 92196, AreaTypeID = 202) %>% 
@@ -260,7 +258,7 @@ if (!file.exists("./Journey through indicators/Key_stage_2_underlying_data.zip")
   download.file("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/829253/KS2_provisional_underlying_data.zip", "./Journey through indicators/Key_stage_2_underlying_data.zip", mode = "wb")
   unzip("./Journey through indicators/Key_stage_2_underlying_data.zip", exdir = "./Journey through indicators")}
 
-indicator_9 <- fingertips_data(IndicatorID = 92672, AreaTypeID = 102) %>% 
+indicator_9 <- fingertips_data(IndicatorID = 92672, AreaTypeID = 202) %>% 
   arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1] & Sex == "Persons") %>%  # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
   rename(ID = IndicatorID,
@@ -282,9 +280,7 @@ indicator_9 <- fingertips_data(IndicatorID = 92672, AreaTypeID = 102) %>%
          line_3 = paste0('Key Stage 2 for'),
          line_4 = paste0('reading, writing,'),
          line_5 = paste0('and maths in ', Timeperiod)) %>% 
-  mutate(img_path = './images/sharpener.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/sharpener.svg') 
 
 # Indicator 10 - under 16s living in poverty ####
 indicator_10 <- fingertips_data(IndicatorID = 10101,  AreaTypeID = 202) %>% 
@@ -313,7 +309,7 @@ indicator_10 <- fingertips_data(IndicatorID = 10101,  AreaTypeID = 202) %>%
   mutate(img_path = './images/saving-pig.svg')
 
 # Indicator 11 - Unintentional and deliberate injury ####
-indicator_11 <- fingertips_data(IndicatorID = 90285,  AreaTypeID = 102) %>% 
+indicator_11 <- fingertips_data(IndicatorID = 90285,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons") %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -337,9 +333,7 @@ indicator_11 <- fingertips_data(IndicatorID = 90285,  AreaTypeID = 102) %>%
          line_3 = paste0('for unintentional'),
          line_4 = paste0('and deliberate injury'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/broken-arm.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/broken-arm.svg') 
 
 # Indicator 12 - Under 18s conceptions ####
 indicator_12 <- fingertips_data(IndicatorID = 20401,  AreaTypeID = 202) %>% 
@@ -366,7 +360,7 @@ indicator_12 <- fingertips_data(IndicatorID = 20401,  AreaTypeID = 202) %>%
   mutate(img_path = './images/baby-stroller.svg')
 
 # Indicator 13 - Current smokers aged 15 ####
-indicator_13 <- fingertips_data(IndicatorID = 91548,  AreaTypeID = 102) %>% 
+indicator_13 <- fingertips_data(IndicatorID = 91548,  AreaTypeID = 202) %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
@@ -389,12 +383,10 @@ indicator_13 <- fingertips_data(IndicatorID = 91548,  AreaTypeID = 102) %>%
          line_3 = paste0('they were'),
          line_4 = paste0('current smokers'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/cigarette-with-smoke.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/cigarette-with-smoke.svg') 
 
 # Indicator 14 - Average Attainment 8 ####
-indicator_14 <- fingertips_data(IndicatorID = 93378,  AreaTypeID = 102) %>% 
+indicator_14 <- fingertips_data(IndicatorID = 93378,  AreaTypeID = 202) %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
   rename(ID = IndicatorID,
@@ -415,12 +407,10 @@ indicator_14 <- fingertips_data(IndicatorID = 93378,  AreaTypeID = 102) %>%
          line_3 = paste0('score per'),
          line_4 = paste0('pupil'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/cap.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/cap.svg')
 
 # Indicator 15 - 16-18 year old NEET ####
-indicator_15 <- fingertips_data(IndicatorID = 93203,  AreaTypeID = 102) %>% 
+indicator_15 <- fingertips_data(IndicatorID = 93203,  AreaTypeID = 202) %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
@@ -443,12 +433,10 @@ indicator_15 <- fingertips_data(IndicatorID = 93203,  AreaTypeID = 102) %>%
          line_3 = paste0('not in education,'),
          line_4 = paste0('employment, or'),
          line_5 = paste0('training in ', Timeperiod)) %>% 
-  mutate(img_path = './images/wrench.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/wrench.svg') 
 
 # Indicator 16 - Rate of first time entrants to the youth justice system ####
-indicator_16 <- fingertips_data(IndicatorID = 10401,  AreaTypeID = 102) %>% 
+indicator_16 <- fingertips_data(IndicatorID = 10401,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons") %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -472,12 +460,10 @@ indicator_16 <- fingertips_data(IndicatorID = 10401,  AreaTypeID = 102) %>%
          line_3 = paste0('to the youth'),
          line_4 = paste0('justice system'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/handcuffs.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/handcuffs.svg')
 
 # Indicator 17 - Outdoor space for exercise ####
-indicator_17 <- fingertips_data(IndicatorID = 11601,  AreaTypeID = 102) %>% 
+indicator_17 <- fingertips_data(IndicatorID = 11601,  AreaTypeID = 202) %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
@@ -500,12 +486,10 @@ indicator_17 <- fingertips_data(IndicatorID = 11601,  AreaTypeID = 102) %>%
          line_3 = paste0('space for'),
          line_4 = paste0('exercise/health'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/tree.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/tree.svg') 
 
 # Indicator 18 - KSI roads ####
-indicator_18 <- fingertips_data(IndicatorID = 11001,  AreaTypeID = 102) %>% 
+indicator_18 <- fingertips_data(IndicatorID = 11001,  AreaTypeID = 202) %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>%  # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
   rename(ID = IndicatorID,
@@ -526,9 +510,7 @@ indicator_18 <- fingertips_data(IndicatorID = 11001,  AreaTypeID = 102) %>%
          line_3 = paste0('seriously injured'),
          line_4 = paste0('on the roads'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/overturned-car.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/overturned-car.svg') 
 
 # Indicator 19 - Adult smoking prevalence ####
 indicator_19 <- fingertips_data(IndicatorID = 92443,  AreaTypeID = 202) %>% 
@@ -556,7 +538,7 @@ indicator_19 <- fingertips_data(IndicatorID = 92443,  AreaTypeID = 202) %>%
   mutate(img_path = './images/cigarette-with-smoke.svg')
 
 # Indicator 20 - Emergency admissions for intentional self-harm ####
-indicator_20 <- fingertips_data(IndicatorID = 21001,  AreaTypeID = 102) %>% 
+indicator_20 <- fingertips_data(IndicatorID = 21001,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons") %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -580,12 +562,10 @@ indicator_20 <- fingertips_data(IndicatorID = 21001,  AreaTypeID = 102) %>%
          line_3 = paste0('admissions for'),
          line_4 = paste0('intentional self-'),
          line_5 = paste0('harm in ', Timeperiod)) %>% 
-  mutate(img_path = './images/emergency-ambulance.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/emergency-ambulance.svg') 
 
 # Indicator 21 - Successful completion of drug treatment (non-opiate users) ####
-indicator_21 <- fingertips_data(IndicatorID = 90245,  AreaTypeID = 102) %>% 
+indicator_21 <- fingertips_data(IndicatorID = 90245,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons" & Age == "18+ yrs") %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>%  # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -607,12 +587,10 @@ indicator_21 <- fingertips_data(IndicatorID = 90245,  AreaTypeID = 102) %>%
          line_3 = paste0('completing non-'),
          line_4 = paste0('opiate drug'),
          line_5 = paste0('treatment in ', Timeperiod)) %>% 
-  mutate(img_path = './images/syringe.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/syringe.svg') 
 
 # Indicator 22 Hospital admissions for alcohol-related conditions (Narrow), all ages ####
-indicator_22 <- fingertips_data(IndicatorID = 91414,  AreaTypeID = 102) %>% 
+indicator_22 <- fingertips_data(IndicatorID = 91414,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons") %>% 
   arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -634,9 +612,7 @@ indicator_22 <- fingertips_data(IndicatorID = 91414,  AreaTypeID = 102) %>%
          line_3 = paste0('related conditions'),
          line_4 = paste0('(narrow definition)'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/glass-and-bottle-of-wine.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/glass-and-bottle-of-wine.svg')
 
 # Indicator 23 - Physically active adults (current method) ####
 indicator_23 <- fingertips_data(IndicatorID = 93014,  AreaTypeID = 202) %>% 
@@ -689,7 +665,7 @@ indicator_24 <- fingertips_data(IndicatorID = 93015,  AreaTypeID = 202) %>%
   mutate(img_path = './images/sofa-with-armrest.svg')
 
 # Indicator 25 - Self-reported low happiness ####
-indicator_25 <- fingertips_data(IndicatorID = 22303,  AreaTypeID = 102) %>% 
+indicator_25 <- fingertips_data(IndicatorID = 22303,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons" & Age == "16+ yrs") %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1])%>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -711,9 +687,7 @@ indicator_25 <- fingertips_data(IndicatorID = 22303,  AreaTypeID = 102) %>%
          line_3 = paste0('who reported'),
          line_4 = paste0('low happiness'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/indifferent.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/indifferent.svg') 
 
 # Indicator 26 - Excess weight ####
 indicator_26 <- fingertips_data(IndicatorID = 93088,  AreaTypeID = 202) %>% 
@@ -789,7 +763,7 @@ indicator_28 <- fingertips_data(IndicatorID = 91720,  AreaTypeID = 202) %>%
   mutate(img_path = './images/underpants.svg')
 
 # Indicator 29 - Cumulative percentage of 40-74 year olds receiving Health Checks ####
-indicator_29 <- fingertips_data(IndicatorID = 91100,  AreaTypeID = 102) %>% 
+indicator_29 <- fingertips_data(IndicatorID = 91100,  AreaTypeID = 202) %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
   rename(ID = IndicatorID,
@@ -810,9 +784,7 @@ indicator_29 <- fingertips_data(IndicatorID = 91100,  AreaTypeID = 102) %>%
          line_3 = paste0('NHS Health Check'),
          line_4 = paste0('who received one'),
          line_5 = paste0(Timeperiod)) %>% 
-  mutate(img_path = './images/report.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/report.svg') 
 
 # Indicator 30 - Late diagnosis of HIV ####
 indicator_30 <- fingertips_data(IndicatorID = 90791,  AreaTypeID = 202) %>% 
@@ -836,12 +808,10 @@ indicator_30 <- fingertips_data(IndicatorID = 90791,  AreaTypeID = 202) %>%
          line_3 = paste0('those aged 15+'),
          line_4 = paste0('diagnosed as late'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/awareness-ribbon.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/awareness-ribbon.svg') 
 
 # Indicator 31 - Mortality from cvd ####
-indicator_31 <- fingertips_data(IndicatorID = 40401,  AreaTypeID = 102) %>% 
+indicator_31 <- fingertips_data(IndicatorID = 40401,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons") %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>%  # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -863,12 +833,10 @@ indicator_31 <- fingertips_data(IndicatorID = 40401,  AreaTypeID = 102) %>%
          line_3 = paste0('diseases in persons aged'),
          line_4 = paste0('under 75 years'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/cardio.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/cardio.svg')
 
 # Indicator 32 - Mortality from all cancers ####
-indicator_32 <- fingertips_data(IndicatorID = 40501,  AreaTypeID = 102) %>% 
+indicator_32 <- fingertips_data(IndicatorID = 40501,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons") %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -890,12 +858,10 @@ indicator_32 <- fingertips_data(IndicatorID = 40501,  AreaTypeID = 102) %>%
          line_3 = paste0('in persons aged'),
          line_4 = paste0('under 75 years'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/awareness-ribbon.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/awareness-ribbon.svg') 
 
 # Indicator 33 - Social isolation ####
-indicator_33 <- fingertips_data(IndicatorID = 90280,  AreaTypeID = 102) %>% 
+indicator_33 <- fingertips_data(IndicatorID = 90280,  AreaTypeID = 202) %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1] & Age == '65+ yrs') %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
   rename(ID = IndicatorID,
@@ -916,12 +882,10 @@ indicator_33 <- fingertips_data(IndicatorID = 90280,  AreaTypeID = 102) %>%
          line_3 = paste0('who have as much'),
          line_4 = paste0('social contact as'),
          line_5 = paste0('they want in ', Timeperiod)) %>% 
-  mutate(img_path = './images/users-group.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/users-group.svg') 
 
 # Indicator 34 - Flu vaccine ####
-indicator_34 <- fingertips_data(IndicatorID = 30314,  AreaTypeID = 102) %>% 
+indicator_34 <- fingertips_data(IndicatorID = 30314,  AreaTypeID = 202) %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
   rename(ID = IndicatorID,
@@ -942,12 +906,10 @@ indicator_34 <- fingertips_data(IndicatorID = 30314,  AreaTypeID = 102) %>%
          line_3 = paste0('who received'),
          line_4 = paste0('the flu vaccine'),
          line_5 = paste0('in ', Timeperiod)) %>% 
-  mutate(img_path = './images/virus.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/virus.svg') 
 
 # Indicator 35 - Emergency admissions for hip fractures ####
-indicator_35 <- fingertips_data(IndicatorID = 41401,  AreaTypeID = 102) %>% 
+indicator_35 <- fingertips_data(IndicatorID = 41401,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons") %>% 
   arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -969,12 +931,10 @@ indicator_35 <- fingertips_data(IndicatorID = 41401,  AreaTypeID = 102) %>%
          line_3 = paste0('hip fractures'),
          line_4 = paste0('among those'),
          line_5 = paste0('aged 65+ in ', Timeperiod)) %>% 
-  mutate(img_path = './images/hip-bone.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/hip-bone.svg') 
 
 # Indicator 36 - Male slope inequality in life expectancy at birth ####
-indicator_36 <- fingertips_data(IndicatorID = 92901,  AreaTypeID = 102) %>% 
+indicator_36 <- fingertips_data(IndicatorID = 92901,  AreaTypeID = 202) %>% 
   filter(Sex == "Male") %>% 
   arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -998,12 +958,10 @@ indicator_36 <- fingertips_data(IndicatorID = 92901,  AreaTypeID = 102) %>%
          line_3 = paste0('life expectancy'),
          line_4 = paste0('at birth in'),
          line_5 = paste0(Timeperiod)) %>% 
-  mutate(img_path = './images/decreasing.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/decreasing.svg') 
 
 # Indicator 37 - Female slope inequality in life expectancy at birth ####
-indicator_37 <- fingertips_data(IndicatorID = 92901,  AreaTypeID = 102) %>% 
+indicator_37 <- fingertips_data(IndicatorID = 92901,  AreaTypeID = 202) %>% 
   filter(Sex == "Female") %>% 
   arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -1027,12 +985,10 @@ indicator_37 <- fingertips_data(IndicatorID = 92901,  AreaTypeID = 102) %>%
          line_3 = paste0('life expectancy'),
          line_4 = paste0('at birth in'),
          line_5 = paste0(Timeperiod)) %>% 
-  mutate(img_path = './images/decreasing.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/decreasing.svg') 
 
 # Indicator 38 - Male Life Expectancy ####
-indicator_38 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 102) %>% 
+indicator_38 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 202) %>% 
   filter(Sex == "Male") %>% 
   arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -1056,12 +1012,10 @@ indicator_38 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 102) %>%
          line_3 = paste0('at birth'),
          line_4 = paste0('in ', Timeperiod),
          line_5 = NA) %>% 
-  mutate(img_path = './images/headstone.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/headstone.svg')
 
 # Indicator 39 - Female Life Expectancy ####
-indicator_39 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 102) %>% 
+indicator_39 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 202) %>% 
   filter(Sex == "Female") %>% 
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1]) %>% # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -1085,9 +1039,7 @@ indicator_39 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 102) %>%
          line_3 = paste0('at birth'),
          line_4 = paste0('in ', Timeperiod),
          line_5 = NA) %>% 
-  mutate(img_path = './images/headstone.svg') %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', Area_code)) %>% 
-  mutate(Area_name = ifelse(Area_code == 'E06000059', 'Dorset', Area_name))
+  mutate(img_path = './images/headstone.svg') 
 
 # Compile ####
 
@@ -1178,14 +1130,14 @@ England <- data.frame(Area_Code = "E92000001", Area_Name = "England", Area_Type 
 Areas <- rbind(LAD, Counties, Region, England) 
 rm(LAD, Counties, Region, England, UA)
 
-main_df <- main_df %>%
-  filter(Area_code %in% Areas$Area_Code)
+# main_df <- main_df %>%
+  # filter(Area_code %in% Areas$Area_Code)
 
 areas <- c('West Sussex', 'East Sussex','Brighton and Hove', 'South East region', 'England')
 
 # i = 1
 
-rm(indicator_1, indicator_2, indicator_3, indicator_4, indicator_5, indicator_6, indicator_7, indicator_8, indicator_9, indicator_10, indicator_11, indicator_12, indicator_13, indicator_14, indicator_15, indicator_16, indicator_17, indicator_18, indicator_19, indicator_20, indicator_21, indicator_22, indicator_23, indicator_24, indicator_25, indicator_26, indicator_27, indicator_28, indicator_29, indicator_30, indicator_31, indicator_32, indicator_33, indicator_34, indicator_35, indicator_36, indicator_37, indicator_38, indicator_39, ind_3_latest_ut_year)
+# rm(indicator_1, indicator_2, indicator_3, indicator_4, indicator_5, indicator_6, indicator_7, indicator_8, indicator_9, indicator_10, indicator_11, indicator_12, indicator_13, indicator_14, indicator_15, indicator_16, indicator_17, indicator_18, indicator_19, indicator_20, indicator_21, indicator_22, indicator_23, indicator_24, indicator_25, indicator_26, indicator_27, indicator_28, indicator_29, indicator_30, indicator_31, indicator_32, indicator_33, indicator_34, indicator_35, indicator_36, indicator_37, indicator_38, indicator_39, ind_3_latest_ut_year)
 
 # We can define some hex colours to use later in our comparisons
 better <- "#3ECC26"
@@ -1231,21 +1183,54 @@ main_df %>%
   write_lines(paste0(github_repo_dir, '/ut_data_extract_compare_england.json'))
 
 # Nearest neighbour rank ####
-i = 3
+# All indicators are built using the areatype == 202 which is from April 2019 onwards and incorporates some authority boundary changes.
 
+# The CIPFA model included in the fingertipsR package is for 2018 and so areas like Dorset (cty) have changed to Dorset (with different area codes) and Bournemouth, Christchurch and Poole have combined since.
+
+# In this instance we need to hardcode some areas to bypass this as it has an impact on Brighton and Hove's nearest neighbours.
+
+bh_data_manual <- data.frame('Area_x' = rep('Brighton and Hove', 16), Area_name = c('Nottingham', 'Medway', 'Newcastle upon Tyne', 'Liverpool','Portsmouth','Southampton','Leeds','Sheffield','York','Plymouth','Salford','Coventry','Bristol','Southend-on-Sea','Brighton and Hove', 'Reading'))
+
+es_data_manual <- data.frame('Area_x' = rep('East Sussex', 16), Area_name = c('Nottinghamshire','Kent','Lancashire','Norfolk','Worcestershire','Staffordshire','Somerset','East Sussex','Devon','Gloucestershire','North Yorkshire','Suffolk','Warwickshire','Essex', 'West Sussex','Hampshire'))
+
+ws_data_manual <- data.frame('Area_x' = rep('West Sussex', 16), Area_name = c('Kent','Northamptonshire','Worcestershire', 'Staffordshire','Somerset','East Sussex', 'Devon', 'Gloucestershire', 'Cambridgeshire','North Yorkshire','Suffolk','Warwickshire','Essex','West Sussex', 'Hampshire', 'Oxfordshire'))
+
+nn_data_manual <- bh_data_manual %>% 
+  bind_rows(ws_data_manual) %>% 
+  bind_rows(es_data_manual)
+
+neighbours_ut_data <- data.frame(Area_x = character(), Area_name = character(), Name = character(), Value = double(), Lower_CI = double(), Upper_CI = double(), Numerator = double(), Denominator = double(), Label = character(), Rank = double(), Polarity = character())
+
+for(i in 1:length(areas_wo_comp)){
 area_x <- areas_wo_comp[i]
 area_x_code <- as.character(unique(subset(main_df, Area_name == area_x, select = 'Area_code')))
 
-neighbours <- data.frame(Area_code = nearest_neighbours(area_x_code, AreaTypeID = 102, measure = 'CIPFA')) %>% 
-  mutate(Area_code = ifelse(Area_code == 'E10000009',  'E06000059', as.character(Area_code)))
+neighbours <- nn_data_manual %>% 
+  filter(Area_x == area_x)
 
 nn_area_x_main <- main_df %>% 
-  filter(Area_code %in% c(neighbours$Area_code, area_x_code))
-
-unique(nn_area_x_main$Area_name)
+  filter(Area_name %in% neighbours$Area_name)
 
 all_nn_represented <- nn_area_x_main %>% 
   group_by(Name) %>% 
-  summarise(n())
+  mutate(Rank = ifelse(Polarity == 'Lower is better', rank(Value), ifelse(Polarity == 'Higher is better', rank(-Value), ifelse(Polarity == 'Not applicable', rank(Value), NA)))) %>% 
+  mutate(Area_x = unique(neighbours$Area_x)) %>% 
+  select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Polarity)
 
-#Not all brighton and hove indicators have 15 nn to compare.
+neighbours_ut_data <- neighbours_ut_data %>% 
+  bind_rows(all_nn_represented)
+}
+
+neighbours_ut_data1 <- neighbours_ut_data %>% 
+  left_join(comp_data[c('Name', 'Comp_Value','Comp_Lower_CI','Comp_Upper_CI')], by = 'Name') %>% 
+  mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>% 
+  mutate(Colour = ifelse(Significance == 'Not applicable', not_applic, ifelse(Significance == 'Similar', no_diff, ifelse(Significance == 'Significantly higher' & Polarity == 'Higher is better', better, ifelse(Significance == 'Significantly higher' & Polarity == 'Lower is better', worse, ifelse(Significance == 'Significantly lower' & Polarity == 'Lower is better', better, ifelse(Significance == 'Significantly lower' & Polarity == 'Higher is better', worse, NA))))))) %>%
+  select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Significance, Colour) %>% 
+  toJSON() %>% 
+  write_lines(paste0(github_repo_dir, '/ut_data_neighbours.json'))
+  
+comp_data %>% 
+  select(-Comp_Numerator) %>% 
+  mutate(Area_name = 'England') %>% 
+  toJSON() %>% 
+  write_lines(paste0(github_repo_dir, '/Comp_data_ut.json'))

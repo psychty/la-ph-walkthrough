@@ -19,8 +19,6 @@ window.onclick = function(event) {
   }
 }
 
-
-
 var ut_stage_circles = [{'line_1':'Pre-birth', 'line_2': 'to early', 'line_3': 'years', "x":.05, "y":.1},{'line_1':'School', 'line_2': 'years', "x":.67, "y":.1},{"line_1":'Early', 'line_2': 'working', 'line_3':'life', "x":.32, "y":.35},{"line_1":'Mid working', 'line_2':'life to', 'line_3':'retirement', "x":.61, "y":.6},{"line_1":'Retirement', 'line_2':'to older age', "x":.635, "y":.85}]
 
 var ut_stage_arrows = [{"x":.11, "y":.1, "img":'./images/right_white.svg'},{"x":.37, "y":.1, "img":'./images/right_white.svg'},{"x":.78, "y":.1, "img":'./images/right_white.svg'},{"x":.96, "y":.1, "img":'./images/down_white.svg'},{"x":.96, "y":.35, "img":'./images/left_white.svg'},{"x":.62, "y":.35, "img":'./images/left_white.svg'},{"x":.04, "y":.35, "img":'./images/down_white.svg'},{"x":.04, "y":.6, "img":'./images/right_white.svg'},{"x":.42, "y":.6, "img":'./images/right_white.svg'},{"x":.8, "y":.6, "img":'./images/right_white.svg'},{"x":.96, "y":.6, "img":'./images/down_white.svg'},{"x":.96, "y":.85, "img":'./images/left_white.svg'},{"x":.275, "y":.85, "img":'./images/left_white.svg'}]
@@ -91,9 +89,10 @@ svg_key
 .attr("dy", function(d){ return d.y - 5 })
 .text(function(d){ return d.line_1})
 .style("fill", "white")
+.style('stroke', 'white')
 .style('stroke-opacity',0)
 .attr('text-anchor','middle')
-.attr("font-size", '.7rem');
+.attr("font-size", '.6rem');
 
 svg_key
 .selectAll()
@@ -104,9 +103,10 @@ svg_key
 .attr("dy", function(d){ return d.y + 10 })
 .text(function(d){ return d.line_2})
 .style("fill", "white")
+.style('stroke', 'white')
 .style('stroke-opacity',0)
 .attr('text-anchor','middle')
-.attr("font-size", '.7rem');
+.attr("font-size", '.6rem');
 
 // Set up tooltip for circles
 var tooltip_ut = d3.select("#wsx_upper_tier_walkthrough")

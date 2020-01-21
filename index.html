@@ -21,9 +21,9 @@
 <p>Each circle represents an outcome and you can hover hover and click on a circle to find out more.</p>
 <div>
 <div id = 'circle_key' class = 'same_row_key'></div>
-<p class = 'same_row_text'>The colour of the circle shows the value for the chosen area compared with England (usually based on whether the 95% confidence intervals overlap). In some cases, we might expect a low value to be better (for example rate of teenage pregnancies) and in other cases we might expect a higher value to be better (e.g. uptake of screening) and as such a green circle denotes that the value is <b>significantly better</b> than the value for England and a red value denotes that the value is <b>significantly worse</b> than England. A statistically similar value is denoted by a yellow circle. Where it is not appropriate to that a high or low value is better, or if it is not possible to compare against the national value, the circle will be coloured grey.</p>
+<p class = 'same_row_text'>The colour of the circle shows the value for the chosen area compared with England (usually based on whether the 95% confidence intervals overlap). In some cases, a low value might be better (for example the rate of teenage pregnancies) and in other cases a higher value may be better (e.g. uptake of screening) and as such a green circle denotes that the value is <b>significantly better</b> than the value for England and a red value denotes that the value is <b>significantly worse</b> than England. A statistically similar value is denoted by a yellow circle. Where it is not appropriate to that a high or low value is better, or if it is not possible to compare against the national value, the circle will be coloured grey.</p>
 </div>
-
+<p>You can also find the comparison by hovering over a circle.</p>
 
 <p>In time, more information will be added to this analysis, including trends over time, comparisions with other areas such as regions or statistically similar areas.</p>
 
@@ -37,6 +37,16 @@
 <h3 class = 'small_screen_adapt'>Sussex Upper tier local authorities compared to England; Updated January 2020</h3>
 <div id = 'wsx_upper_tier_walkthrough' class = 'small_screen_adapt'></div>
 <p class = 'small_screen_adapt'>Infographic images designed by Freepik from Flaticon</p>
+
+
+<h3>Exploring indicators</h3>
+<span>Area:</span>
+<select id='select_area_ut_explore_button'></select>
+<span>Indicator:</span>
+<select id ='select_indicator_ut_explore_button'></select>
+<div id = 'ut_nearest_neighbours' class = 'ut_nn_bars'></div>
+<p class = 'same_row_text'>You can explore an individual indicator and area. This works independently of the visualisation above.</p>
+
 
 <h2 class = 'small_screen_adapt'>Lower tier local authorities</h2>
 <p class = 'small_screen_adapt'>By default, outcomes for Adur are shown, but you can use the drop down menu below to select a different lower tier local authority in Sussex.</p>
@@ -76,6 +86,7 @@
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src = 'upper_tier.js'></script>
+<script src = 'ut_nn.js'></script>
 <script src = 'lower_tier.js'></script>
 </body>
 </html>
