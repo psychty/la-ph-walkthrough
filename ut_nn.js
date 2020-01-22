@@ -1,20 +1,18 @@
-
-var width_ut_nn = document.getElementById("ut_nearest_neighbours").offsetWidth;
-var height_ut_nn = 400;
-
 // margins
 var margin = {
     top: 30,
     right: 250,
-    bottom: 80,
+    bottom: 100,
     left: 30
 };
 
-// data frame
-var request = new XMLHttpRequest();
-  request.open("GET", "./ut_data_neighbours.json", false);
-  request.send(null);
+var width_ut_nn = document.getElementById("ut_nearest_neighbours").offsetWidth;
+var height_ut_nn = 400;
 
+// data
+var request = new XMLHttpRequest();
+    request.open("GET", "./ut_data_neighbours.json", false);
+    request.send(null);
 var json_ut_nn = JSON.parse(request.responseText); // parse the fetched json data into a variable
 
 // List of areas in the dataset
@@ -62,23 +60,27 @@ selected_area_ind_ut = json_ut_nn.filter(function (d) { // gets a subset of the 
         return d3.ascending(a.Rank, b.Rank);
     })
 
-var x_scale_areas_ut = d3.scaleBand()
-.range([0, width_ut_nn - margin.left - margin.right])
-.padding(0.2);
+selected_ut_nn_max = d3.map(selected_area_ind_ut, function (d) {
+  return (d.Max_value)
+  })
+  .keys()
 
-var y_scale_explore_ind_ut = d3.scaleLinear() // our y axis is continuous (linear)
-.range([height_ut_nn - margin.bottom - margin.top, 0]);
 
 // append the svg object to the body of the page
-var svg_ut_walkthrough = d3.select("#ut_nearest_neighbours")
+var svg_ut_nn = d3.select("#ut_nearest_neighbours")
 .append("svg")
 .attr("width", width_ut_nn)
 .attr("height", height_ut_nn)
-.append("g");
-
-var xAxis_ind_explore_ut = svg_ut_walkthrough
 .append("g")
-.attr("transform", "translate(" + margin.left + "," + (height_ut_nn - margin.bottom) + ")");
+.attr("transform", "translate(" + margin.left + ","  + margin.top +")");
+
+var xAxis_ind_explore_ut = svg_ut_nn
+.append("g")
+.attr("transform", "translate(0," + (height_ut_nn - margin.bottom) + ")");
+
+var x_scale_areas_ut = d3.scaleBand()
+.range([0, width_ut_nn - margin.left - margin.right])
+.padding(0.2);
 
 x_scale_areas_ut
 .domain(selected_area_ind_ut.map(function (d) {
@@ -89,49 +91,110 @@ xAxis_ind_explore_ut
 
 xAxis_ind_explore_ut
 .selectAll("text")
-.attr("transform", "rotate(-45)")
+.attr("transform", "translate(0)rotate(-45)")
 .style("text-anchor", "end")
-.style('stroke-opacity',0);
+.style('stroke-opacity', 0);
 
-var yAxis_ind_explore_ut = svg_ut_walkthrough
-.append("g")
-.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+var y_scale_explore_ind_ut = d3.scaleLinear()
+.range([height_ut_nn - margin.bottom, 0]);
 
 y_scale_explore_ind_ut
-.domain([0, d3.max(selected_area_ind_ut, function (d) {
-return d.Value })]); // update the yaxis based on 'data'
+.domain([0, selected_ut_nn_max]); // update the yaxis based on 'data'
 
-yAxis_ind_explore_ut
+var yAxis_ind_explore_ut = svg_ut_nn
+.append("g")
 .call(d3.axisLeft(y_scale_explore_ind_ut));
 
 yAxis_ind_explore_ut
 .selectAll('text')
 .style("stroke-opacity", 0)
 
-var bars_ut_nn = svg_ut_walkthrough
+// tooltip
+var tooltip_ut_nn = d3.select("#ut_nearest_neighbours")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+
+// The tooltip function
+var showTooltip_ut_nn = function(d, i) {
+
+tooltip_ut_nn
+  .html("<h4>" + d.Area_name + '</h4><p>' + d.Value + '</p>')
+  .style("opacity", 1)
+  .style("top", (event.pageY - 10) + "px")
+  .style("left", (event.pageX + 10) + "px")
+  .style("visibility", "visible")
+  }
+
+var mouseleave_ut_nn = function(d) {
+  tooltip_ut_nn.style("visibility", "hidden")
+  }
+
+var bars_ut_nn = svg_ut_nn
 .selectAll("rect")
-.data(selected_area_ind_ut)
+.data(selected_area_ind_ut);
 
 bars_ut_nn
 .enter()
 .append("rect") // Add a new rect for each new element
 .merge(bars_ut_nn) // get the already existing elements as well
 .attr("x", function (d) {
-  return x_scale_areas_ut(d.Area_name) + margin.left;
+  return x_scale_areas_ut(d.Area_name);
   })
 .attr("y", function (d) {
   return y_scale_explore_ind_ut(d.Value) ;
   })
 .attr("width", x_scale_areas_ut.bandwidth())
 .attr("height", function (d) {
-  return height_ut_nn - y_scale_explore_ind_ut(d.Value) - margin.bottom;
+  return  (height_ut_nn - margin.bottom) - y_scale_explore_ind_ut(d.Value);
   })
 .style("fill", function (d) {
   return d.Colour })
 .style("stroke-opacity", function(d) {
-         if (d.Area_name === selected_ut_area_option) {
-         return 1
-         } else {
-         return 0
-         }
-     });
+  if (d.Area_name === selected_ut_area_option) {
+  return 1
+  } else {
+  return 0
+  }})
+.on("mousemove", showTooltip_ut_nn)
+.on('mouseout', mouseleave_ut_nn);
+
+// Confidence intervals
+// bars_ut_nn
+// .selectAll("")
+// .enter()
+// .append("line")
+// .attr("x1", function (d) {
+//   return x_scale_areas_ut(d.Area_name) - 4;
+//   })
+// .attr("x2", function (d) {
+//   return x_scale_areas_ut(d.Area_name) + 4;
+//   })
+// .attr("width", x_scale_areas_ut.bandwidth())
+// .attr("y1", function(d){ return(y_scale_explore_ind_ut(d.Lower_CI))} )
+// .attr("y2", function(d){ return(y_scale_explore_ind_ut(d.Lower_CI))} )
+// .attr("stroke", "black")
+//
+
+// Add one dot in the legend for each name.
+svg_ut_nn
+.append("circle")
+.attr("cx", width_ut_nn - 230)
+.attr("cy", 80) // 100 is where the first dot appears. 20 is the distance between dots
+.attr("r", 4)
+.style("fill", '#000000')
+.style("alignment-baseline", "middle")
+
+svg_ut_nn
+.append("text")
+.attr("x", width_ut_nn - 225)
+.attr("y", 80) // 100 is where the first dot appears. 20 is the distance between dots
+.text('Banans')
+.attr('stroke-opacity', 0)
