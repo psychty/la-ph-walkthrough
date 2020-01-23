@@ -20,7 +20,7 @@
 
 <p>Each circle represents an outcome and you can hover hover and click on a circle to find out more.</p>
 <div>
-<div id = 'circle_key' class = 'same_row_key'></div>
+<div id = 'circle_key' class = 'same_row'></div>
 <p class = 'same_row_text'>The colour of the circle shows the value for the chosen area compared with England (usually based on whether the 95% confidence intervals overlap). In some cases, a low value might be better (for example the rate of teenage pregnancies) and in other cases a higher value may be better (e.g. uptake of screening) and as such a green circle denotes that the value is <b>significantly better</b> than the value for England and a red value denotes that the value is <b>significantly worse</b> than England. A statistically similar value is denoted by a yellow circle. Where it is not appropriate to that a high or low value is better, or if it is not possible to compare against the national value, the circle will be coloured grey.</p>
 </div>
 <p>You can also find the comparison by hovering over a circle.</p>
@@ -44,10 +44,14 @@
 <select id='select_area_ut_explore_button'></select>
 <span>Indicator:</span>
 <select id ='select_indicator_ut_explore_button'></select>
-<div id = 'ut_nearest_neighbours' class = 'ut_nn_bars'></div>
-<p class = 'same_row_text'>You can explore an individual indicator and area. This works independently of the visualisation above.</p>
-
-
+<p id = 'Area_ut_nn_1'></p>
+<div id = 'ut_nearest_neighbours' class = 'ut_nn_bars same_row'></div>
+<div class = 'same_row_text_nn'>
+<p>You can explore an individual indicator and area. This works independently of the visualisation above.</p>
+<p>Each of the three areas can be seen in relation to their 2019 statistically similar neighbours. These are not geographically close neighbours, but areas in England which share similar demographics as measured by The Chartered Institue of Public Finance and Accountancy (CIPFA).</p>
+<p>The CIPFA Nearest Neighbours model seeks to measure similarity between Local Authorities by computing similarity based on variables such as population age, density, unemployment and taxbase per head, retail premises, housing benefit caseload, and characteristics of housing and mortality. Every area pair is given a score and the most similar 15 areas are identified as statistical neighbours.</p>
+<p>These nearest neighbours are based on 2019 revisions to upper tier local authorities as published by Public Health England on the Fingertips platform.</p>
+</div>
 <h2 class = 'small_screen_adapt'>Lower tier local authorities</h2>
 <p class = 'small_screen_adapt'>By default, outcomes for Adur are shown, but you can use the drop down menu below to select a different lower tier local authority in Sussex.</p>
 <span class = 'small_screen_adapt'>Area:</span>
@@ -78,13 +82,14 @@
 
 </article>
 </div>
-
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3plus.org/js/d3plus.v2.0.0-alpha.22.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
 <script src="https://d3js.org/d3-format.v1.min.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
 <script src = 'upper_tier.js'></script>
 <script src = 'ut_nn.js'></script>
 <script src = 'lower_tier.js'></script>

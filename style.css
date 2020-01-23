@@ -21,12 +21,16 @@ font-family: 'Open Sans', sans-serif;
 text-align:center; /* used to center div in IE */
 }
 
+.comparator {
+  stroke-dasharray: 5,5;
+}
+
 #wrapper {
     margin:0 auto; /*centers the div horizontally in all browsers (except IE)*/
     text-align:left; /*resets text alignment from body tag */
 }
 
-.same_row_key {
+.same_row {
   display:inline-block !important;
   vertical-align: top;
     margin: 0;
@@ -40,10 +44,19 @@ text-align:center; /* used to center div in IE */
   text-align: justify;
 }
 
+.same_row_text_nn {
+  width: 25%;
+  display:inline-block !important;
+  vertical-align: top;
+  margin: 0;
+  padding-left: 5 !important;
+  text-align: justify;
+}
+
 .ut_nn_bars {
-  width: 80%; /* This is 80% of the article.main */
-  max-width: 800px; /* But it wont go any wider than 800px */
-  height: 400px;
+  width: 70%; /* This is 30% of the article.main */
+  max-width: 1000px; /* But it wont go any wider than 800px */
+  height: 425px;
 }
 
 svg {

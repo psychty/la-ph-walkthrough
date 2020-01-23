@@ -13,7 +13,7 @@ comp_area <- "England"
 github_repo_dir <- "~/Documents/Repositories/la-ph-walkthrough"
 
 library(easypackages)
-libraries("png", "grid", 'plyr', "tidyverse", "gridExtra", "fingertipsR", "PHEindicatormethods", "readODS", "readxl", 'jsonlite')
+libraries("png", "grid", 'plyr', "tidyverse", "gridExtra", "fingertipsR", "PHEindicatormethods", "readODS", "readxl", 'jsonlite', 'scales')
 
 options(scipen = 999)
 
@@ -1199,7 +1199,7 @@ nn_data_manual <- bh_data_manual %>%
   bind_rows(ws_data_manual) %>% 
   bind_rows(es_data_manual)
 
-neighbours_ut_data <- data.frame(Area_x = character(), Area_name = character(), Name = character(), Value = double(), Lower_CI = double(), Upper_CI = double(), Numerator = double(), Denominator = double(), Label = character(), Rank = double(), Polarity = character(), Max_value = double())
+neighbours_ut_data <- data.frame(Area_x = character(), Area_name = character(), Name = character(), Value = double(), Lower_CI = double(), Upper_CI = double(), Numerator = double(), Denominator = double(), Label = character(), Rank = double(), Rank_label = character(), Polarity = character(), Max_value = double())
 
 for(i in 1:length(areas_wo_comp)){
 area_x <- areas_wo_comp[i]
@@ -1214,9 +1214,10 @@ nn_area_x_main <- main_df %>%
 all_nn_represented <- nn_area_x_main %>% 
   group_by(Name) %>% 
   mutate(Rank = ifelse(Polarity == 'Lower is better', rank(Value), ifelse(Polarity == 'Higher is better', rank(-Value), ifelse(Polarity == 'Not applicable', rank(Value), NA)))) %>% 
+  mutate(Rank_label = ifelse(Polarity == 'Not applicable' & Rank == 1, 'Lowest', ifelse(Rank == 1, 'Best', ifelse(Rank == 16, 'Worst', paste0(ordinal_format()(Rank)))))) %>%
   mutate(Area_x = unique(neighbours$Area_x)) %>% 
-  select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Polarity) %>% 
-  mutate(Max_value = max(Value, na.rm = TRUE)) %>% 
+  select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Rank_label, Polarity) %>% 
+  mutate(Max_value = max(Upper_CI, na.rm = TRUE)) %>% 
   mutate(Max_value = ifelse(Max_value < 5, 5, ifelse(Max_value < 10, 10, ifelse(Max_value < 100, round_any(Max_value, 5, ceiling), ifelse(Max_value < 150, round_any(Max_value, 10, ceiling), ifelse(Max_value < 250, round_any(Max_value, 25, ceiling), ifelse(Max_value < 750, round_any(Max_value, 50, ceiling), round_any(Max_value, 100, ceiling))))))))
 
 neighbours_ut_data <- neighbours_ut_data %>% 
@@ -1227,15 +1228,14 @@ neighbours_ut_data %>%
   left_join(comp_data[c('Name', 'Comp_Value','Comp_Lower_CI','Comp_Upper_CI')], by = 'Name') %>% 
   mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>% 
   mutate(Colour = ifelse(Significance == 'Not applicable', not_applic, ifelse(Significance == 'Similar', no_diff, ifelse(Significance == 'Significantly higher' & Polarity == 'Higher is better', better, ifelse(Significance == 'Significantly higher' & Polarity == 'Lower is better', worse, ifelse(Significance == 'Significantly lower' & Polarity == 'Lower is better', better, ifelse(Significance == 'Significantly lower' & Polarity == 'Higher is better', worse, NA))))))) %>%
-  select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Significance, Max_value, Colour) %>% 
+  select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Rank_label, Significance, Max_value, Colour) %>% 
   toJSON() %>% 
   write_lines(paste0(github_repo_dir, '/ut_data_neighbours.json'))
 
 comp_data %>% 
   select(-Comp_Numerator) %>% 
-  left_join(top_values, by = 'Name') %>% 
   mutate(Area_name = 'England') %>% 
   toJSON() %>% 
   write_lines(paste0(github_repo_dir, '/Comp_data_ut.json'))
 
-
+unique(meta$Unit)
