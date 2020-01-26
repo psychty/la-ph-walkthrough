@@ -1229,10 +1229,13 @@ nne <- neighbours_ut_data %>%
   mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>% 
   mutate(Colour = ifelse(Significance == 'Not applicable', not_applic, ifelse(Significance == 'Similar', no_diff, ifelse(Significance == 'Significantly higher' & Polarity == 'Higher is better', better, ifelse(Significance == 'Significantly higher' & Polarity == 'Lower is better', worse, ifelse(Significance == 'Significantly lower' & Polarity == 'Lower is better', better, ifelse(Significance == 'Significantly lower' & Polarity == 'Higher is better', worse, NA))))))) %>%
   select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Rank_label, Significance, Max_value, Colour) %>% 
-  filter(!is.na(Value))%>% 
-  toJSON() %>% 
+  mutate(data_available = ifelse(is.na(Value), 'No data', 'Data')) %>% 
+  mutate(Value = replace_na(Value, 0)) %>% 
+  mutate(Lower_CI = replace_na(Lower_CI, 0)) %>% 
+  mutate(Upper_CI = replace_na(Upper_CI, 0)) %>% 
+  toJSON() %>%
   write_lines(paste0(github_repo_dir, '/ut_data_neighbours.json'))
-
+  
 comp_data %>% 
   select(-Comp_Numerator) %>% 
   mutate(Area_name = 'England') %>% 

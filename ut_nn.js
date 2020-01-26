@@ -750,7 +750,8 @@ svg_ut_nn
 .style('font-weight', 'bold')
 .attr('id', 'selected_significance_text_1');
 
-if(selected_area_ind_ut.length !== 16) {
+if(selected_area_ind_ut.filter(function (d) { // gets a subset of the json data
+    return d.data_available === 'No data' }).length >0) {
 svg_ut_nn
 .append("text")
 .attr("text-anchor", "left")
