@@ -13,7 +13,7 @@ comp_area <- "England"
 github_repo_dir <- "~/Documents/Repositories/la-ph-walkthrough"
 
 library(easypackages)
-libraries("png", "grid", "tidyverse", "gridExtra", "fingertipsR", "PHEindicatormethods", "readODS", "readxl", 'jsonlite')
+libraries("png", "grid",'plyr', "tidyverse", "gridExtra", "fingertipsR", "PHEindicatormethods", "readODS", "readxl", 'jsonlite')
 
 options(scipen = 999)
 
@@ -1852,4 +1852,77 @@ main_df %>%
   toJSON() %>% 
   write_lines(paste0(github_repo_dir, '/lt_data_extract_compare_england.json'))
 
+# Nearest neighbour rank ####
+# All indicators are built using the areatype == 101 which is from April 2019 onwards and incorporates some authority boundary changes.
+
+# The CIPFA model included in the fingertipsR package is for 2018 and so areas like Dorset (cty) have changed to Dorset (with different area codes) and Bournemouth, Christchurch and Poole have combined since.
+
+# In this instance we need to hardcode some areas to bypass this as it has an impact on Brighton and Hove's nearest neighbours.
+
+chosen_areas <- meta_areas %>% 
+  filter(Area_name %in% areas_wo_comp) %>% 
+  select(Area_name, Area_code)
+
+nn_data_manual <- data.frame(Area_x = character(), Area_name = character())
+
+for(i in 1:nrow(chosen_areas)){
+  
+  manual_nn <- data.frame(Area_code = nearest_neighbours(chosen_areas$Area_code[i], AreaTypeID = 101)) %>% 
+    left_join(meta_areas[c('Area_code', 'Area_name')], by = 'Area_code') %>% 
+    mutate(Area_x = chosen_areas$Area_name[i]) %>% 
+    select(Area_x, Area_name) %>% 
+    add_row(Area_x = chosen_areas$Area_name[i], Area_name = chosen_areas$Area_name[i])
+  
+  nn_data_manual <- nn_data_manual %>% 
+    bind_rows(manual_nn)
+  }
+
+nn_data_manual %>% 
+  group_by(Area_x) %>% 
+  summarise(n())
+
+neighbours_lt_data <- data.frame(Area_x = character(), Area_name = character(), Name = character(), Value = double(), Lower_CI = double(), Upper_CI = double(), Numerator = double(), Denominator = double(), Label = character(), Rank = double(), Rank_label = character(), Polarity = character(), Max_value = double())
+
+library(scales)
+
+for(i in 1:length(areas_wo_comp)){
+  area_x <- areas_wo_comp[i]
+  area_x_code <- as.character(unique(subset(main_df, Area_name == area_x, select = 'Area_code')))
+  
+  neighbours <- nn_data_manual %>% 
+    filter(Area_x == area_x)
+  
+  nn_area_x_main <- main_df %>% 
+    filter(Area_name %in% neighbours$Area_name)
+  
+  all_nn_represented <- nn_area_x_main %>% 
+    group_by(Name) %>% 
+    mutate(Rank = ifelse(Polarity == 'Lower is better', rank(Value), ifelse(Polarity == 'Higher is better', rank(-Value), ifelse(Polarity == 'Not applicable', rank(Value), NA)))) %>% 
+    mutate(Rank_label = ifelse(Polarity == 'Not applicable' & Rank == 1, 'Lowest', ifelse(Rank == 1, 'Best', ifelse(Rank == 16, 'Worst', paste0(ordinal_format()(Rank)))))) %>%
+    mutate(Area_x = unique(neighbours$Area_x)) %>% 
+    select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Rank_label, Polarity) %>% 
+    mutate(Max_value = max(Upper_CI, na.rm = TRUE)) %>% 
+    mutate(Max_value = ifelse(Max_value < 5, 5, ifelse(Max_value < 10, 10, ifelse(Max_value < 100, round_any(Max_value, 5, ceiling), ifelse(Max_value < 150, round_any(Max_value, 10, ceiling), ifelse(Max_value < 250, round_any(Max_value, 25, ceiling), ifelse(Max_value < 750, round_any(Max_value, 50, ceiling), round_any(Max_value, 100, ceiling))))))))
+  
+  neighbours_lt_data <- neighbours_lt_data %>% 
+    bind_rows(all_nn_represented)
+}
+
+neighbours_lt_data %>% 
+  left_join(comp_data[c('Name', 'Comp_Value','Comp_Lower_CI','Comp_Upper_CI')], by = 'Name') %>% 
+  mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>% 
+  mutate(Colour = ifelse(Significance == 'Not applicable', not_applic, ifelse(Significance == 'Similar', no_diff, ifelse(Significance == 'Significantly higher' & Polarity == 'Higher is better', better, ifelse(Significance == 'Significantly higher' & Polarity == 'Lower is better', worse, ifelse(Significance == 'Significantly lower' & Polarity == 'Lower is better', better, ifelse(Significance == 'Significantly lower' & Polarity == 'Higher is better', worse, NA))))))) %>%
+  select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Rank_label, Significance, Max_value, Colour) %>% 
+  mutate(data_available = ifelse(is.na(Value), 'No data', 'Data')) %>% 
+  mutate(Value = replace_na(Value, 0)) %>% 
+  mutate(Lower_CI = replace_na(Lower_CI, 0)) %>% 
+  mutate(Upper_CI = replace_na(Upper_CI, 0)) %>% 
+  toJSON() %>%
+  write_lines(paste0(github_repo_dir, '/lt_data_neighbours.json'))
+
+comp_data %>% 
+  select(-Comp_Numerator) %>% 
+  mutate(Area_name = 'England') %>% 
+  toJSON() %>% 
+  write_lines(paste0(github_repo_dir, '/Comp_data_lt.json'))
 
