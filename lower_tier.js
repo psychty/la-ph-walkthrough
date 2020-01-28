@@ -324,6 +324,7 @@ var images_arrows = svg_lt_walkthrough.selectAll("bar")
   .append("svg:image")
   .attr("x", function(d) { return x_pos(d.x) - 12; })
   .attr('y', function(d) { return y_pos(d.y) - 12; })
+  .attr('width', 24)
   .attr('height', 24)
   .attr("xlink:href", function(d) {return d.img; })
   .attr('id', 'arrow_images');
@@ -1039,6 +1040,7 @@ svg_lt_walkthrough
           .append("svg:image")
           .attr("x", function(d) { return x_pos(d.x) - 12; })
           .attr('y', function(d) { return y_pos(d.y) - 12; })
+          .attr('width', 24)
           .attr('height', 24)
           .attr("xlink:href", function(d) {return d.img; })
           .attr('id', 'arrow_images');

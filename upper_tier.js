@@ -373,6 +373,7 @@ var ut_images_arrows = svg_ut_walkthrough.selectAll("bar")
   .append("svg:image")
   .attr("x", function(d) { return x_pos(d.x) - 10; })
   .attr('y', function(d) { return y_pos(d.y) - 10; })
+  .attr('width', 20)
   .attr('height', 20)
   .attr("xlink:href", function(d) {return d.img; })
   .attr('id', '#ut_arrow_images');
@@ -1000,6 +1001,7 @@ var ut_images_arrows = svg_ut_walkthrough.selectAll("bar")
 .append("svg:image")
 .attr("x", function(d) { return x_pos(d.x) - 12; })
 .attr('y', function(d) { return y_pos(d.y) - 12; })
+.attr('width', 24)
 .attr('height', 24)
 .attr("xlink:href", function(d) {return d.img; })
 .attr('id', '#ut_arrow_images');
@@ -1429,7 +1431,6 @@ var selected_ut_area_df = json_ut.filter(function(d){
               update_ut_walkthrough(selected_ut_area_option)
               })
 
-console.log(window.innerWidth)
 
       }, 400);
   });

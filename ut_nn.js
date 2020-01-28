@@ -7,13 +7,14 @@ var margin = {
 };
 
 var possible_units = d3.scaleOrdinal()
-    .domain(["proportion", "rate", "average score", "life expectancy in years"])
-    .range(['Proportion', 'Rate', 'Average score', 'Years']);
-
+    .domain(["proportion", "rate", "average score", "life expectancy in years", 'median'])
+    .range(['Proportion', 'Rate', 'Average score', 'Years', 'Median hourly wage (£s)']);
 
 var width_ut_nn = document.getElementById("ut_nearest_neighbours").offsetWidth;
 var height_ut_nn = 425;
 
+// try axios
+// show error or 'loading' div then show data
 // data
 var request = new XMLHttpRequest();
     request.open("GET", "./ut_data_meta_extract.json", false);
@@ -38,7 +39,7 @@ var areas_upper_tier_explore = d3.map(json_ut_nn, function (d) {
     })
     .keys()
 
-// List of areas in the dataset
+// List of indicators in the dataset
 var indicators_upper_tier_explore = d3.map(json_ut_nn, function (d) {
   return (d.Name)
   })
@@ -345,11 +346,19 @@ svg_ut_nn
 .attr('fill', '#0f4c81')
 .attr('id', 'selected_area_text');
 
+
+// This is the if not
+if(selected_ut_meta[0]['Unit'] !== 'rate'){
+
 svg_ut_nn
 .data(selected_area_ut_nn_explore)
 .append("text")
-.attr("x", width_ut_nn - 250)
+.attr("x", width_ut_nn - 270)
 .attr("y", 60)
+.attr('opacity',0)
+.transition()
+.duration(1500)
+.attr('opacity',1)
 .text(function(d){
   return d.Label + ' in ' + selected_ut_meta[0]['Timeperiod']
 })
@@ -357,11 +366,13 @@ svg_ut_nn
 .attr('font-size', '.9rem')
 .style('font-weight', 'bold')
 .attr('id', 'selected_label_text');
+};
+
 
 svg_ut_nn
 .data(selected_area_ut_nn_explore)
 .append("text")
-.attr("x", width_ut_nn - 250)
+.attr("x", width_ut_nn - 270)
 .attr("y", 100)
 .text(function(d){
   return d.Rank_label + ' compared to '
@@ -373,7 +384,7 @@ svg_ut_nn
 
 svg_ut_nn
 .append("text")
-.attr("x", width_ut_nn - 250)
+.attr("x", width_ut_nn - 270)
 .attr("y", 120)
 .text('similar areas')
 .style('stroke', 'none')
@@ -384,7 +395,7 @@ svg_ut_nn
 svg_ut_nn
 .data(selected_area_ut_nn_explore)
 .append("text")
-.attr("x", width_ut_nn - 250)
+.attr("x", width_ut_nn - 270)
 .attr("y", 160)
 .text(function(d) {
   if (selected_ut_meta[0]['Polarity'] === 'Not applicable') {
@@ -400,7 +411,7 @@ svg_ut_nn
 svg_ut_nn
 .data(selected_area_ut_nn_explore)
 .append("text")
-.attr("x", width_ut_nn - 250)
+.attr("x", width_ut_nn - 270)
 .attr("y", 180)
 .text(function(d) {
   if (selected_ut_meta[0]['Polarity'] === 'Not applicable') {
@@ -460,6 +471,13 @@ svg_ut_nn
 
 svg_ut_nn
 .selectAll("#selected_label_text")
+.transition()
+.duration(750)
+.style('opacity' ,0 )
+.remove();
+
+svg_ut_nn
+.selectAll("#selected_label_text_rate")
 .transition()
 .duration(750)
 .style('opacity' ,0 )
@@ -682,10 +700,53 @@ svg_ut_nn
 .attr('fill', '#0f4c81')
 .attr('id', 'selected_area_text');
 
+// This is the if infant mortality is true
+if(selected_ut_meta[0]['ID'] === '92196'){
+
 svg_ut_nn
 .data(selected_area_ut_nn_explore)
 .append("text")
-.attr("x", width_ut_nn - 250)
+.attr("x", width_ut_nn - 270)
+.attr("y", 45)
+.attr('opacity',0)
+.transition()
+.duration(1500)
+.attr('opacity',1)
+.text(function(d){
+  return d3.format('.0f')(d.Value) + ' per 1,000 live births'
+})
+.attr('stroke-opacity', 0)
+.attr('font-size', '.9rem')
+.style('font-weight', 'bold')
+.attr('id', 'selected_label_text');
+
+//
+svg_ut_nn
+.data(selected_area_ut_nn_explore)
+.append("text")
+.attr("x", width_ut_nn - 270)
+.attr("y", 60)
+.attr('opacity',0)
+.transition()
+.duration(1500)
+.attr('opacity',1)
+.text(function(d){
+  return '95% CI ' + d3.format('.0f')(d.Lower_CI) + '-' + d3.format('.0f')(d.Upper_CI) + ' in ' + selected_ut_meta[0]['Timeperiod']
+})
+.attr('stroke-opacity', 0)
+.attr('font-size', '.9rem')
+.style('font-weight', 'bold')
+.attr('id', 'selected_label_text_rate');
+};
+
+
+// This is the if not
+if(selected_ut_meta[0]['Unit'] !== 'rate'){
+
+svg_ut_nn
+.data(selected_area_ut_nn_explore)
+.append("text")
+.attr("x", width_ut_nn - 270)
 .attr("y", 60)
 .attr('opacity',0)
 .transition()
@@ -698,11 +759,12 @@ svg_ut_nn
 .attr('font-size', '.9rem')
 .style('font-weight', 'bold')
 .attr('id', 'selected_label_text');
+};
 
 svg_ut_nn
 .data(selected_area_ut_nn_explore)
 .append("text")
-.attr("x", width_ut_nn - 250)
+.attr("x", width_ut_nn - 270)
 .attr("y", 100)
 .attr('opacity',0)
 .transition()
@@ -718,7 +780,7 @@ svg_ut_nn
 
 svg_ut_nn
 .append("text")
-.attr("x", width_ut_nn - 250)
+.attr("x", width_ut_nn - 270)
 .attr("y", 120)
 .attr('opacity',0)
 .transition()
@@ -733,7 +795,7 @@ svg_ut_nn
 svg_ut_nn
 .data(selected_area_ut_nn_explore)
 .append("text")
-.attr("x", width_ut_nn - 250)
+.attr("x", width_ut_nn - 270)
 .attr("y", 160)
 .attr('opacity',0)
 .transition()
@@ -768,7 +830,7 @@ svg_ut_nn
 svg_ut_nn
 .data(selected_area_ut_nn_explore)
 .append("text")
-.attr("x", width_ut_nn - 250)
+.attr("x", width_ut_nn - 270)
 .attr("y", 180)
 .attr('opacity',0)
 .transition()
@@ -801,22 +863,22 @@ svg_ut_nn
 .attr('font-size', '.8rem')
 .attr('id', 'nn_ut_x_rank_min');
 
-// svg_ut_nn
-// .append("text")
-// .data(selected_ut_meta)
-// .attr("x", width_ut_nn - 350)
-// .attr("y", height_ut_nn - 120)
-// .text(function(d) {
-//   if (d.Polarity === 'Not applicable') {
-//     return 'Highest'
-//     } else {
-//     return 'Worst'
-//     }})
-// .attr('stroke-opacity', 0)
-// .style('font-weight', 'bold')
-// .attr('font-size', '.8rem')
-// .attr('id', 'nn_ut_x_rank_max');
-//
+svg_ut_nn
+.append("text")
+.data(selected_ut_meta)
+.attr("x", width_ut_nn - 350)
+.attr("y", height_ut_nn - 120)
+.text(function(d) {
+  if (d.Polarity === 'Not applicable') {
+    return 'Highest'
+    } else {
+    return 'Worst'
+    }})
+.attr('stroke-opacity', 0)
+.style('font-weight', 'bold')
+.attr('font-size', '.8rem')
+.attr('id', 'nn_ut_x_rank_max');
+
 // var lines_vt = svg_ut_nn
 // .selectAll('line.error_vt')
 // .data(selected_area_ind_ut);

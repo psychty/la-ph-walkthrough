@@ -1084,7 +1084,7 @@ main_df <- indicator_1 %>%
   bind_rows(indicator_39) %>% 
   mutate(Area_name = ifelse(Area_code == 'E06000058', 'Bournemouth, Christchurch, and Poole', ifelse(Area_code == 'E06000023', 'Bristol', ifelse(Area_code == 'E06000047', 'County Durham', ifelse(Area_code == 'E07000204',	'St Edmundsbury', ifelse(Area_code == 'E12000001',	'North East region', ifelse(Area_code == 'E12000002','North West region', ifelse(Area_code == 'E12000003',	'Yorkshire and the Humber region', ifelse(Area_code == 'E12000005','West Midlands region', ifelse(Area_code == 'E12000007', 'London region', ifelse(Area_code == 'E12000008',	'South East region', ifelse(Area_code == 'E12000009',	'South West region',  ifelse(Area_code == 'E12000004',	'East Midlands Region', ifelse(Area_code == 'E12000006', 'East of England region', ifelse(Area_code == 'E06000010', '	Kingston upon Hull', Area_name))))))))))))))) %>% 
   mutate(Polarity = ifelse(ID %in% c('93085','20101','92196','20601','20602','10101','90285','20401','91548','93203','10401','11001','21001','92443','91414','93015','22303','93088','90791','40401','40501','41401','92901'), 'Lower is better', ifelse(ID %in% c('91323','20201','006','92672','93378','11601','90245','93014','22001','91720','91100','90280','30314','90366'), 'Higher is better',  NA))) %>%
-  mutate(Label = ifelse(is.na(Value), 'There is no data for this indicator', Label)) %>%
+  mutate(Label = ifelse(is.na(Value), paste0('No data for ', Area_name), Label)) %>%
   mutate(Label_screen = ifelse(is.na(Value), NA, Label_screen)) %>%
   mutate(line_1 = ifelse(is.na(Value), 'There is no', line_1)) %>%
   mutate(line_2 = ifelse(is.na(Value), 'data for this', line_2)) %>%
@@ -1217,7 +1217,7 @@ all_nn_represented <- nn_area_x_main %>%
   mutate(Rank_label = ifelse(Polarity == 'Not applicable' & Rank == 1, 'Lowest', ifelse(Rank == 1, 'Best', ifelse(Rank == 16, 'Worst', paste0(ordinal_format()(Rank)))))) %>%
   mutate(Area_x = unique(neighbours$Area_x)) %>% 
   select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Rank_label, Polarity) %>% 
-  mutate(Max_value = max(Upper_CI, na.rm = TRUE)) %>% 
+  mutate(Max_value = ifelse(is.na(Upper_CI), max(Value, na.rm = TRUE), max(Upper_CI, na.rm = TRUE))) %>% 
   mutate(Max_value = ifelse(Max_value < 5, 5, ifelse(Max_value < 10, 10, ifelse(Max_value < 100, round_any(Max_value, 5, ceiling), ifelse(Max_value < 150, round_any(Max_value, 10, ceiling), ifelse(Max_value < 250, round_any(Max_value, 25, ceiling), ifelse(Max_value < 750, round_any(Max_value, 50, ceiling), round_any(Max_value, 100, ceiling))))))))
 
 neighbours_ut_data <- neighbours_ut_data %>% 

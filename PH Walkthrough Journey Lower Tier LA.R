@@ -1278,7 +1278,7 @@ main_df <- indicator_1 %>%
   bind_rows(indicator_34) %>% 
   mutate(Area_name = ifelse(Area_code == 'E06000058', 'Bournemouth, Christchurch and Poole', ifelse(Area_code == 'E06000023', 'Bristol', ifelse(Area_code == 'E12000006', 'East of England region', ifelse(Area_code == 'E12000004', 'East Midlands region', ifelse(Area_code == 'E06000019', 'Herefordshire', ifelse(Area_code == 'E07000146',	'King’s Lynn and West Norfolk', ifelse(Area_code == 'E07000112', 'Folkestone and Hythe', ifelse(Area_code == 'E06000010', 'Kingston upon Hull', ifelse(Area_code == 'E06000033',	'Southend-on-Sea', ifelse(Area_code == 'E07000204',	'St Edmundsbury', ifelse(Area_code == 'E12000001',	'North East region', ifelse(Area_code == 'E12000002','North West region', ifelse(Area_code == 'E12000003',	'Yorkshire and the Humber region', ifelse(Area_code == 'E12000005','West Midlands region', ifelse(Area_code == 'E12000007', 'London region', ifelse(Area_code == 'E12000008',	'South East region', ifelse(Area_code == 'E12000009',	'South West region',  ifelse(Area_code == 'E08000013',	'St Helens', Area_name))))))))))))))))))) %>% 
   mutate(Polarity = ifelse(ID %in% c('92196','20101','004','20601','20602','10101','21001','20401','013','11001','11202','91414','93015','92443','93088','40501','40401','41401','90360'), 'Lower is better', ifelse(ID %in% c('20201','005','008','92199','93014','22001','91720','93560','93561','90366','90366'), 'Higher is better', ifelse(ID %in% c('014','015','016','029','90356'), 'Not applicable', NA)))) %>% 
-  mutate(Label = ifelse(is.na(Value), 'There is no data for this indicator', Label)) %>% 
+  mutate(Label = ifelse(is.na(Value), paste0('No data for ', Area_name), Label)) %>% 
   mutate(Label_screen = ifelse(is.na(Value), NA, Label_screen)) %>% 
   mutate(line_1 = ifelse(is.na(Value), 'There is no', line_1)) %>% 
   mutate(line_2 = ifelse(is.na(Value), 'data for this', line_2)) %>% 
@@ -1900,9 +1900,9 @@ for(i in 1:length(areas_wo_comp)){
     mutate(Rank = ifelse(Polarity == 'Lower is better', rank(Value), ifelse(Polarity == 'Higher is better', rank(-Value), ifelse(Polarity == 'Not applicable', rank(Value), NA)))) %>% 
     mutate(Rank_label = ifelse(Polarity == 'Not applicable' & Rank == 1, 'Lowest', ifelse(Rank == 1, 'Best', ifelse(Rank == 16, 'Worst', paste0(ordinal_format()(Rank)))))) %>%
     mutate(Area_x = unique(neighbours$Area_x)) %>% 
-    select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Rank_label, Polarity) %>% 
-    mutate(Max_value = max(Upper_CI, na.rm = TRUE)) %>% 
-    mutate(Max_value = ifelse(Max_value < 5, 5, ifelse(Max_value < 10, 10, ifelse(Max_value < 100, round_any(Max_value, 5, ceiling), ifelse(Max_value < 150, round_any(Max_value, 10, ceiling), ifelse(Max_value < 250, round_any(Max_value, 25, ceiling), ifelse(Max_value < 750, round_any(Max_value, 50, ceiling), round_any(Max_value, 100, ceiling))))))))
+    mutate(Max_value = ifelse(ID %in% c('014', '015', '016', '029', '90356'), max(Value, na.rm = TRUE), max(Upper_CI, na.rm = TRUE))) %>% 
+    mutate(Max_value = ifelse(Max_value < 5, 5, ifelse(Max_value < 10, 10, ifelse(Max_value < 100, round_any(Max_value, 5, ceiling), ifelse(Max_value < 150, round_any(Max_value, 10, ceiling), ifelse(Max_value < 250, round_any(Max_value, 25, ceiling), ifelse(Max_value < 750, round_any(Max_value, 50, ceiling), round_any(Max_value, 100, ceiling)))))))) %>%
+    select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Rank_label, Polarity, Max_value)
   
   neighbours_lt_data <- neighbours_lt_data %>% 
     bind_rows(all_nn_represented)
@@ -1919,6 +1919,16 @@ neighbours_lt_data %>%
   mutate(Upper_CI = replace_na(Upper_CI, 0)) %>% 
   toJSON() %>%
   write_lines(paste0(github_repo_dir, '/lt_data_neighbours.json'))
+
+nnr <- neighbours_lt_data %>%
+  left_join(comp_data[c('Name', 'Comp_Value','Comp_Lower_CI','Comp_Upper_CI')], by = 'Name') %>%
+  mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>%
+  mutate(Colour = ifelse(Significance == 'Not applicable', not_applic, ifelse(Significance == 'Similar', no_diff, ifelse(Significance == 'Significantly higher' & Polarity == 'Higher is better', better, ifelse(Significance == 'Significantly higher' & Polarity == 'Lower is better', worse, ifelse(Significance == 'Significantly lower' & Polarity == 'Lower is better', better, ifelse(Significance == 'Significantly lower' & Polarity == 'Higher is better', worse, NA))))))) %>%
+  select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Rank_label, Significance, Max_value, Colour) %>%
+  mutate(data_available = ifelse(is.na(Value), 'No data', 'Data')) %>%
+  mutate(Value = replace_na(Value, 0)) %>%
+  mutate(Lower_CI = replace_na(Lower_CI, 0)) %>%
+  mutate(Upper_CI = replace_na(Upper_CI, 0))
 
 comp_data %>% 
   select(-Comp_Numerator) %>% 
