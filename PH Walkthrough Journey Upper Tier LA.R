@@ -352,11 +352,11 @@ indicator_12 <- fingertips_data(IndicatorID = 20401,  AreaTypeID = 202) %>%
          Label_screen = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 1,000'),
          Notes = NA) %>% 
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-  mutate(line_1 = paste0('in ', Timeperiod, ', ', format(round(Numerator,0), big.mark = ',', trim = TRUE), ' young'),
-         line_2 = paste0('women aged 15-18'),
-         line_3 = paste0('years became '),
+  mutate(line_1 = paste0(format(round(Numerator,0), big.mark = ',', trim = TRUE), ' young women'),
+         line_2 = paste0('aged 15-18'),
+         line_3 = paste0('became'),
          line_4 = 'pregnant',
-         line_5 = NA) %>% 
+         line_5 = paste0('in ', Timeperiod)) %>% 
   mutate(img_path = './images/baby-stroller.svg')
 
 # Indicator 13 - Current smokers aged 15 ####
@@ -485,7 +485,7 @@ indicator_17 <- fingertips_data(IndicatorID = 11601,  AreaTypeID = 202) %>%
          line_2 = paste0('using outdoor'),
          line_3 = paste0('space for'),
          line_4 = paste0('exercise/health'),
-         line_5 = paste0('in ', Timeperiod)) %>% 
+         line_5 = paste0('from ', Timeperiod)) %>% 
   mutate(img_path = './images/tree.svg') 
 
 # Indicator 18 - KSI roads ####
@@ -509,7 +509,7 @@ indicator_18 <- fingertips_data(IndicatorID = 11001,  AreaTypeID = 202) %>%
          line_2 = paste0('killed or'),
          line_3 = paste0('seriously injured'),
          line_4 = paste0('on the roads'),
-         line_5 = paste0('in ', Timeperiod)) %>% 
+         line_5 = paste0('from ', Timeperiod)) %>% 
   mutate(img_path = './images/overturned-car.svg') 
 
 # Indicator 19 - Adult smoking prevalence ####
@@ -807,7 +807,7 @@ indicator_30 <- fingertips_data(IndicatorID = 90791,  AreaTypeID = 202) %>%
          line_2 = paste0('diagnoses among'),
          line_3 = paste0('those aged 15+'),
          line_4 = paste0('diagnosed as late'),
-         line_5 = paste0('in ', Timeperiod)) %>% 
+         line_5 = paste0('from ', Timeperiod)) %>% 
   mutate(img_path = './images/awareness-ribbon.svg') 
 
 # Indicator 31 - Mortality from cvd ####
@@ -832,7 +832,7 @@ indicator_31 <- fingertips_data(IndicatorID = 40401,  AreaTypeID = 202) %>%
          line_2 = paste0('all cardiovascular'),
          line_3 = paste0('diseases in persons aged'),
          line_4 = paste0('under 75 years'),
-         line_5 = paste0('in ', Timeperiod)) %>% 
+         line_5 = paste0('from ', Timeperiod)) %>% 
   mutate(img_path = './images/cardio.svg')
 
 # Indicator 32 - Mortality from all cancers ####
@@ -857,7 +857,7 @@ indicator_32 <- fingertips_data(IndicatorID = 40501,  AreaTypeID = 202) %>%
          line_2 = paste0('from all cancers'),
          line_3 = paste0('in persons aged'),
          line_4 = paste0('under 75 years'),
-         line_5 = paste0('in ', Timeperiod)) %>% 
+         line_5 = paste0('from ', Timeperiod)) %>% 
   mutate(img_path = './images/awareness-ribbon.svg') 
 
 # Indicator 33 - Social isolation ####
@@ -956,7 +956,7 @@ indicator_36 <- fingertips_data(IndicatorID = 92901,  AreaTypeID = 202) %>%
   mutate(line_1 = paste0('male slope of'),
          line_2 = paste0('inequality in'),
          line_3 = paste0('life expectancy'),
-         line_4 = paste0('at birth in'),
+         line_4 = paste0('at birth from'),
          line_5 = paste0(Timeperiod)) %>% 
   mutate(img_path = './images/decreasing.svg') 
 
@@ -983,7 +983,7 @@ indicator_37 <- fingertips_data(IndicatorID = 92901,  AreaTypeID = 202) %>%
   mutate(line_1 = paste0('male slope of'),
          line_2 = paste0('inequality in'),
          line_3 = paste0('life expectancy'),
-         line_4 = paste0('at birth in'),
+         line_4 = paste0('at birth from'),
          line_5 = paste0(Timeperiod)) %>% 
   mutate(img_path = './images/decreasing.svg') 
 
@@ -1010,7 +1010,7 @@ indicator_38 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 202) %>%
   mutate(line_1 = paste0('male life'),
          line_2 = paste0('expectancy'),
          line_3 = paste0('at birth'),
-         line_4 = paste0('in ', Timeperiod),
+         line_4 = paste0('from ', Timeperiod),
          line_5 = NA) %>% 
   mutate(img_path = './images/headstone.svg')
 
@@ -1037,7 +1037,7 @@ indicator_39 <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 202) %>%
   mutate(line_1 = paste0('female life'),
          line_2 = paste0('expectancy'),
          line_3 = paste0('at birth'),
-         line_4 = paste0('in ', Timeperiod),
+         line_4 = paste0('from ', Timeperiod),
          line_5 = NA) %>% 
   mutate(img_path = './images/headstone.svg') 
 

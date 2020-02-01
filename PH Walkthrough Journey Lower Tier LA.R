@@ -1286,7 +1286,6 @@ main_df <- indicator_1 %>%
   mutate(line_4 = ifelse(is.na(Value), NA, line_4)) %>% 
   mutate(line_5 = ifelse(is.na(Value), NA, line_5))
 
-
 meta_areas <- main_df %>% 
   select(Area_code, Area_name) %>% 
   unique()
@@ -1877,9 +1876,9 @@ for(i in 1:nrow(chosen_areas)){
     bind_rows(manual_nn)
   }
 
-nn_data_manual %>% 
-  group_by(Area_x) %>% 
-  summarise(n())
+# nn_data_manual %>% 
+  # group_by(Area_x) %>% 
+  # summarise(n())
 
 neighbours_lt_data <- data.frame(Area_x = character(), Area_name = character(), Name = character(), Value = double(), Lower_CI = double(), Upper_CI = double(), Numerator = double(), Denominator = double(), Label = character(), Rank = double(), Rank_label = character(), Polarity = character(), Max_value = double())
 
@@ -1895,6 +1894,16 @@ for(i in 1:length(areas_wo_comp)){
   nn_area_x_main <- main_df %>% 
     filter(Area_name %in% neighbours$Area_name)
   
+# We have some areas missing. And this causes some problems in the  visualisation as the bars disapear from the figure. To combat this, we need to figure out how many areas there should be (16 and make sure there is a row for them, even if the data is missing).  
+  nn_area_x_1 <- nn_area_x_main %>% 
+    expand(Name, Area_name) %>%
+    left_join(meta_areas, by = 'Area_name') %>% 
+    left_join(meta, by = 'Name') %>% 
+    select('ID', 'Name', 'Description', 'Unit', 'Timeperiod', 'Area_name','Area_code', 'Polarity', 'img_path')
+  
+  nn_area_x_main <- nn_area_x_1 %>% 
+    left_join(nn_area_x_main, by = c('Name', 'Area_name', 'Area_code', "ID","Description", "Unit",  "Timeperiod", "Polarity", 'img_path'))
+  
   all_nn_represented <- nn_area_x_main %>% 
     group_by(Name) %>% 
     mutate(Rank = ifelse(Polarity == 'Lower is better', rank(Value), ifelse(Polarity == 'Higher is better', rank(-Value), ifelse(Polarity == 'Not applicable', rank(Value), NA)))) %>% 
@@ -1908,6 +1917,8 @@ for(i in 1:length(areas_wo_comp)){
     bind_rows(all_nn_represented)
 }
 
+
+
 neighbours_lt_data %>% 
   left_join(comp_data[c('Name', 'Comp_Value','Comp_Lower_CI','Comp_Upper_CI')], by = 'Name') %>% 
   mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>% 
@@ -1917,18 +1928,37 @@ neighbours_lt_data %>%
   mutate(Value = replace_na(Value, 0)) %>% 
   mutate(Lower_CI = replace_na(Lower_CI, 0)) %>% 
   mutate(Upper_CI = replace_na(Upper_CI, 0)) %>% 
+  mutate(Name = factor(Name, levels = meta$Name)) %>% 
+  arrange(Name) %>% 
   toJSON() %>%
   write_lines(paste0(github_repo_dir, '/lt_data_neighbours.json'))
 
-nnr <- neighbours_lt_data %>%
-  left_join(comp_data[c('Name', 'Comp_Value','Comp_Lower_CI','Comp_Upper_CI')], by = 'Name') %>%
-  mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>%
-  mutate(Colour = ifelse(Significance == 'Not applicable', not_applic, ifelse(Significance == 'Similar', no_diff, ifelse(Significance == 'Significantly higher' & Polarity == 'Higher is better', better, ifelse(Significance == 'Significantly higher' & Polarity == 'Lower is better', worse, ifelse(Significance == 'Significantly lower' & Polarity == 'Lower is better', better, ifelse(Significance == 'Significantly lower' & Polarity == 'Higher is better', worse, NA))))))) %>%
-  select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Rank_label, Significance, Max_value, Colour) %>%
-  mutate(data_available = ifelse(is.na(Value), 'No data', 'Data')) %>%
-  mutate(Value = replace_na(Value, 0)) %>%
-  mutate(Lower_CI = replace_na(Lower_CI, 0)) %>%
-  mutate(Upper_CI = replace_na(Upper_CI, 0))
+# nnr <- neighbours_lt_data %>%
+#   left_join(comp_data[c('Name', 'Comp_Value','Comp_Lower_CI','Comp_Upper_CI')], by = 'Name') %>%
+#   mutate(Significance = ifelse(is.na(Lower_CI), 'Not applicable', ifelse(Polarity == 'Not applicable', 'Not applicable', ifelse(Lower_CI > Comp_Upper_CI, 'Significantly higher', ifelse(Upper_CI < Comp_Lower_CI, 'Significantly lower', 'Similar'))))) %>%
+#   mutate(Colour = ifelse(Significance == 'Not applicable', not_applic, ifelse(Significance == 'Similar', no_diff, ifelse(Significance == 'Significantly higher' & Polarity == 'Higher is better', better, ifelse(Significance == 'Significantly higher' & Polarity == 'Lower is better', worse, ifelse(Significance == 'Significantly lower' & Polarity == 'Lower is better', better, ifelse(Significance == 'Significantly lower' & Polarity == 'Higher is better', worse, NA))))))) %>%
+#   select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Rank_label, Significance, Max_value, Colour) %>%
+#   mutate(data_available = ifelse(is.na(Value), 'No data', 'Data')) %>%
+#   mutate(Value = replace_na(Value, 0)) %>%
+#   mutate(Lower_CI = replace_na(Lower_CI, 0)) %>%
+#   mutate(Upper_CI = replace_na(Upper_CI, 0))
+
+# nnr %>% 
+#   group_by(Area_x, Name) %>% 
+#   summarise(n()) %>% 
+#   View()
+# 
+# # There are 40 combinations where there are not 16 rows ####
+# 
+# roth_nn <- nn_data_manual %>% 
+#   filter(Area_x == 'Rother')
+# 
+# roth <- nnr %>% 
+#   filter(Name == 'Children achieving a good level of development at the end of reception') %>% 
+#   filter(Area_x == 'Rother') 
+# 
+# setdiff(roth_nn$Area_name, roth$Area_name)
+
 
 comp_data %>% 
   select(-Comp_Numerator) %>% 
