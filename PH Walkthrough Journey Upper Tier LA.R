@@ -25,7 +25,6 @@ capwords = function(s, strict = FALSE) {
 # Exporting a single data file for further use in an exported document or for interactive viewing.
 # To achieve this we need to make consistent field names and descriptions that can easily be filtered later. It also means putting it information about comparators. The more work we do here the easier it will be to create the interactive data viz.
 
-
 # This checks to see if 'Journey through indicators' folder exists in the working directory and if not it will be created.
 if (!file.exists("./Journey through indicators")) {
   dir.create("./Journey through indicators")} 
@@ -483,9 +482,9 @@ indicator_17 <- fingertips_data(IndicatorID = 11601,  AreaTypeID = 202) %>%
   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
   mutate(line_1 = paste0('of people (16+)'),
          line_2 = paste0('using outdoor'),
-         line_3 = paste0('space for'),
-         line_4 = paste0('exercise/health'),
-         line_5 = paste0('from ', Timeperiod)) %>% 
+         line_3 = paste0('space for exercise/'),
+         line_4 = paste0('health from'),
+         line_5 = paste0(Timeperiod)) %>% 
   mutate(img_path = './images/tree.svg') 
 
 # Indicator 18 - KSI roads ####
