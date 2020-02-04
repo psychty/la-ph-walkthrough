@@ -7,7 +7,6 @@
 # Author: Rich Tyler #
 # Date: January 2020 #
 ######################
-
 comp_area <- "England"
 
 github_repo_dir <- "~/Documents/Repositories/la-ph-walkthrough"
@@ -1909,7 +1908,7 @@ for(i in 1:length(areas_wo_comp)){
     mutate(Rank = ifelse(Polarity == 'Lower is better', rank(Value), ifelse(Polarity == 'Higher is better', rank(-Value), ifelse(Polarity == 'Not applicable', rank(Value), NA)))) %>% 
     mutate(Rank_label = ifelse(Polarity == 'Not applicable' & Rank == 1, 'Lowest', ifelse(Rank == 1, 'Best', ifelse(Rank == 16, 'Worst', paste0(ordinal_format()(Rank)))))) %>%
     mutate(Area_x = unique(neighbours$Area_x)) %>% 
-    mutate(Max_value = ifelse(ID %in% c('014', '015', '016', '029', '90356'), max(Value, na.rm = TRUE), max(Upper_CI, na.rm = TRUE))) %>% 
+    mutate(Max_value = ifelse(ID %in% c('014', '015', '016', '029', '90356', '90366'), max(Value, na.rm = TRUE), max(Upper_CI, na.rm = TRUE))) %>% 
     mutate(Max_value = ifelse(Max_value < 5, 5, ifelse(Max_value < 10, 10, ifelse(Max_value < 100, round_any(Max_value, 5, ceiling), ifelse(Max_value < 150, round_any(Max_value, 10, ceiling), ifelse(Max_value < 250, round_any(Max_value, 25, ceiling), ifelse(Max_value < 750, round_any(Max_value, 50, ceiling), round_any(Max_value, 100, ceiling)))))))) %>%
     select(Area_x, Area_name, Name, Value, Lower_CI, Upper_CI, Numerator, Denominator, Label, Rank, Rank_label, Polarity, Max_value)
   

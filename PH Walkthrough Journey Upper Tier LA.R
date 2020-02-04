@@ -167,42 +167,69 @@ indicator_5 <- fingertips_data(IndicatorID = 20201, AreaTypeID = 202) %>%
 #download.file("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/849261/EYFSP_pupil_characteristics_2019_-_underlying_data.zip",  "./Journey through indicators/EYFSP_2019_Tables.zip")
 #unzip("./Journey through indicators/EYFSP_2019_Tables.zip", exdir = "./Journey through indicators")
 
-indicator_6 <-  read_excel("./Journey through indicators/EYFSP_LA_1_key_measures_additional_tables_2018_2019.xlsx", col_types = c("text", "numeric", "text", "text", "text", "text", "text", "numeric", "text", "text", "text", "text", "text", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric")) %>%
-  mutate(la_name = ifelse(is.na(region_name), country_name, ifelse(is.na(la_name), region_name, la_name))) %>% 
-  mutate(new_la_code = ifelse(is.na(region_code), country_code, ifelse(is.na(new_la_code), region_code, new_la_code))) %>% 
-  mutate(la_name = gsub(" UA", "", la_name)) %>% 
-  rename(Area_name = la_name,
-         Area_code = new_la_code,
-         level = geographic_level,
-         Timeperiod = time_period) %>% 
-  filter(Timeperiod == "201819") %>% 
-  filter(gender == 'Total') %>% 
-  filter(characteristic_type == 'Total') %>% 
-  select(Timeperiod, level, Area_code, Area_name, number_of_pupils, gld_number, gld_percent) %>% 
-  unique() %>% 
-  mutate(gld_percent = gld_number / number_of_pupils * 100,
-         gld_lci = PHEindicatormethods:::wilson_lower(gld_number, number_of_pupils, confidence = .95) * 100,
-         gld_uci = PHEindicatormethods:::wilson_upper(gld_number, number_of_pupils, confidence = .95) * 100) %>% 
-  rename(Numerator = gld_number,
-         Denominator = number_of_pupils,
-         Value = gld_percent,
-         Lower_CI = gld_lci,
-         Upper_CI = gld_uci) %>% 
-  mutate(ID = '006',
-         Name = 'Children achieving a good level of development at the end of reception',
-         Timeperiod = paste0(substr(Timeperiod, 1,4), '/', substr(Timeperiod, 5, 6)),
-         Description = paste0('This is the proportion of children assessed as achieving a good level of development (e.g. being "school ready") at the end of reception.'),
+# indicator_6 <-  read_excel("./Journey through indicators/EYFSP_LA_1_key_measures_additional_tables_2018_2019.xlsx", col_types = c("text", "numeric", "text", "text", "text", "text", "text", "numeric", "text", "text", "text", "text", "text", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric")) %>%
+#   mutate(la_name = ifelse(is.na(region_name), country_name, ifelse(is.na(la_name), region_name, la_name))) %>% 
+#   mutate(new_la_code = ifelse(is.na(region_code), country_code, ifelse(is.na(new_la_code), region_code, new_la_code))) %>% 
+#   mutate(la_name = gsub(" UA", "", la_name)) %>% 
+#   rename(Area_name = la_name,
+#          Area_code = new_la_code,
+#          level = geographic_level,
+#          Timeperiod = time_period) %>% 
+#   filter(Timeperiod == "201819") %>% 
+#   filter(gender == 'Total') %>% 
+#   filter(characteristic_type == 'Total') %>% 
+#   select(Timeperiod, level, Area_code, Area_name, number_of_pupils, gld_number, gld_percent) %>% 
+#   unique() %>% 
+#   mutate(gld_percent = gld_number / number_of_pupils * 100,
+#          gld_lci = PHEindicatormethods:::wilson_lower(gld_number, number_of_pupils, confidence = .95) * 100,
+#          gld_uci = PHEindicatormethods:::wilson_upper(gld_number, number_of_pupils, confidence = .95) * 100) %>% 
+#   rename(Numerator = gld_number,
+#          Denominator = number_of_pupils,
+#          Value = gld_percent,
+#          Lower_CI = gld_lci,
+#          Upper_CI = gld_uci) %>% 
+#   mutate(ID = '006',
+#          Name = 'Children achieving a good level of development at the end of reception',
+#          Timeperiod = paste0(substr(Timeperiod, 1,4), '/', substr(Timeperiod, 5, 6)),
+#          Description = paste0('This is the proportion of children assessed as achieving a good level of development (e.g. being "school ready") at the end of reception.'),
+#          Unit = 'proportion',
+#          Label = paste0(round(Value, 1), '%'),
+#          Label_screen = paste0(round(Value, 1), '%'),
+#          Notes = NA) %>% 
+#   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+#   mutate(line_1 = paste0('of children assessed'),
+#          line_2 = paste0('as achieving a good'),
+#          line_3 = paste0('level of development'),
+#          line_4 = paste0('at the end of reception'),
+#          line_5 = paste0('in ', Timeperiod)) %>% 
+#   mutate(img_path = './images/letter-block-toy.svg')
+
+# This has caught up now and we can use fingertips to get this data
+# Good level of development at the end of reception ####
+indicator_6 <- fingertips_data(IndicatorID = 90631, AreaTypeID = 202) %>%
+  arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
+  filter(Timeperiod == unique(Timeperiod)[1],
+         Sex == 'Persons') %>%  # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
+  rename(ID = IndicatorID,
+         Name = IndicatorName,
+         Area_code = AreaCode,
+         Area_name = AreaName,
+         Lower_CI = LowerCI95.0limit,
+         Upper_CI = UpperCI95.0limit,
+         Numerator = Count) %>%
+  mutate(Description = paste0('This is the proportion of children assessed as achieving a good level of development (e.g. being "school ready") at the end of reception.'),
          Unit = 'proportion',
          Label = paste0(round(Value, 1), '%'),
          Label_screen = paste0(round(Value, 1), '%'),
-         Notes = NA) %>% 
-  select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
+         Notes = NA) %>%
+  select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>%
   mutate(line_1 = paste0('of children assessed'),
          line_2 = paste0('as achieving a good'),
          line_3 = paste0('level of development'),
          line_4 = paste0('at the end of reception'),
-         line_5 = paste0('in ', Timeperiod)) %>% 
+         line_5 = paste0('in ', Timeperiod)) %>%
   mutate(img_path = './images/letter-block-toy.svg')
+
 
 # Indicators 7 - Excess weight reception ####
 indicator_7 <- fingertips_data(IndicatorID = 20601, AreaTypeID = 202) %>% 
@@ -1082,7 +1109,7 @@ main_df <- indicator_1 %>%
   bind_rows(indicator_38) %>% 
   bind_rows(indicator_39) %>% 
   mutate(Area_name = ifelse(Area_code == 'E06000058', 'Bournemouth, Christchurch, and Poole', ifelse(Area_code == 'E06000023', 'Bristol', ifelse(Area_code == 'E06000047', 'County Durham', ifelse(Area_code == 'E07000204',	'St Edmundsbury', ifelse(Area_code == 'E12000001',	'North East region', ifelse(Area_code == 'E12000002','North West region', ifelse(Area_code == 'E12000003',	'Yorkshire and the Humber region', ifelse(Area_code == 'E12000005','West Midlands region', ifelse(Area_code == 'E12000007', 'London region', ifelse(Area_code == 'E12000008',	'South East region', ifelse(Area_code == 'E12000009',	'South West region',  ifelse(Area_code == 'E12000004',	'East Midlands Region', ifelse(Area_code == 'E12000006', 'East of England region', ifelse(Area_code == 'E06000010', '	Kingston upon Hull', Area_name))))))))))))))) %>% 
-  mutate(Polarity = ifelse(ID %in% c('93085','20101','92196','20601','20602','10101','90285','20401','91548','93203','10401','11001','21001','92443','91414','93015','22303','93088','90791','40401','40501','41401','92901'), 'Lower is better', ifelse(ID %in% c('91323','20201','006','92672','93378','11601','90245','93014','22001','91720','91100','90280','30314','90366'), 'Higher is better',  NA))) %>%
+  mutate(Polarity = ifelse(ID %in% c('93085','20101','92196','20601','20602','10101','90285','20401','91548','93203','10401','11001','21001','92443','91414','93015','22303','93088','90791','40401','40501','41401','92901'), 'Lower is better', ifelse(ID %in% c('91323','20201','90631','92672','93378','11601','90245','93014','22001','91720','91100','90280','30314','90366'), 'Higher is better',  NA))) %>%
   mutate(Label = ifelse(is.na(Value), paste0('No data for ', Area_name), Label)) %>%
   mutate(Label_screen = ifelse(is.na(Value), NA, Label_screen)) %>%
   mutate(line_1 = ifelse(is.na(Value), 'There is no', line_1)) %>%
