@@ -919,11 +919,11 @@ d3.select("#select_indicator_ut_explore_button").on("change", function(d) {
     })
 
 
-var globalResizeTimer_ut_nn = null;
-
-$(window).resize(function() {
-
-if(globalResizeTimer_ut_nn != null) window.clearTimeout(globalResizeTimer_ut_nn);
-  globalResizeTimer_ut_nn = window.setTimeout(function() {
-
-      }
+// var globalResizeTimer_ut_nn = null;
+//
+// $(window).resize(function() {
+//
+// if(globalResizeTimer_ut_nn != null) window.clearTimeout(globalResizeTimer_ut_nn);
+//   globalResizeTimer_ut_nn = window.setTimeout(function() {
+//
+//       }
