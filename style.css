@@ -2,6 +2,10 @@ p {
   font-size: .75rem;
 }
 
+li {
+  font-size: .75rem;
+}
+
 p.important {
   text-align: justify;
   font-weight: bold;

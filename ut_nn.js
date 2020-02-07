@@ -539,40 +539,12 @@ svg_ut_nn
 .style('opacity', 0)
 .remove();
 
-// svg_ut_nn
-// .selectAll(".error")
-// .transition()
-// .duration(750)
-// .style('opacity', 0)
-// .remove();
-
 svg_ut_nn
 .selectAll("#no_data_warning")
 .transition()
 .duration(750)
 .style('opacity', 0)
 .remove();
-
-// svg_ut_nn
-// .selectAll("#conf_ut_vertical_line")
-// .transition()
-// .duration(750)
-// .style('opacity', 0)
-// .remove();
-//
-// svg_ut_nn
-// .selectAll("#conf_ut_upper_line")
-// .transition()
-// .duration(750)
-// .style('opacity', 0)
-// .remove();
-//
-// svg_ut_nn
-// .selectAll("#conf_ut_lower_line")
-// .transition()
-// .duration(750)
-// .style('opacity', 0)
-// .remove();
 
 svg_ut_nn
 .selectAll("#comparator_ut_line")
@@ -879,51 +851,6 @@ svg_ut_nn
 .attr('font-size', '.8rem')
 .attr('id', 'nn_ut_x_rank_max');
 
-// var lines_vt = svg_ut_nn
-// .selectAll('line.error_vt')
-// .data(selected_area_ind_ut);
-//
-// lines_vt
-// .enter()
-// .append('line')
-// .attr('class', 'error_vt')
-// .merge(lines_vt)
-// .attr('x1', function(d) { return x_scale_areas_ut(d.Area_name) + x_scale_areas_ut.bandwidth()/2; })
-// .attr('x2', function(d) { return x_scale_areas_ut(d.Area_name) + x_scale_areas_ut.bandwidth()/2; })
-// .attr('y1', function(d) { return y_scale_explore_ind_ut(d.Upper_CI); })
-// .attr('y2', function(d) { return y_scale_explore_ind_ut(d.Lower_CI); })
-// .attr('id', 'conf_ut_vertical_line');
-//
-// var lines_uci = svg_ut_nn
-// .selectAll('line.error')
-// .data(selected_area_ind_ut);
-//
-// lines_uci
-// .enter()
-// .append('line')
-// .attr('class', 'error_uci')
-// .merge(lines_uci)
-// .attr('x1', function(d) { return x_scale_areas_ut(d.Area_name) + x_scale_areas_ut.bandwidth()*.25; })
-// .attr('x2', function(d) { return x_scale_areas_ut(d.Area_name) + x_scale_areas_ut.bandwidth()*.75; })
-// .attr('y1', function(d) { return y_scale_explore_ind_ut(d.Upper_CI); })
-// .attr('y2', function(d) { return y_scale_explore_ind_ut(d.Upper_CI); })
-// .attr('id', 'conf_ut_upper_line');
-//
-// var lines_lci = svg_ut_nn
-// .selectAll('line.error_uci')
-// .data(selected_area_ind_ut);
-//
-// lines_lci
-// .enter()
-// .append('line')
-// .attr('class', 'error')
-// .merge(lines_lci)
-// .attr('x1', function(d) { return x_scale_areas_ut(d.Area_name) + x_scale_areas_ut.bandwidth()*.25; })
-// .attr('x2', function(d) { return x_scale_areas_ut(d.Area_name) + x_scale_areas_ut.bandwidth()*.75; })
-// .attr('y1', function(d) { return y_scale_explore_ind_ut(d.Lower_CI); })
-// .attr('y2', function(d) { return y_scale_explore_ind_ut(d.Lower_CI); })
-// .attr('id', 'conf_ut_lower_line');
-
 lines_eng = svg_ut_nn
 .selectAll('line.eng')
 .data(selected_ut_ind_comp);
@@ -990,3 +917,13 @@ d3.select("#select_indicator_ut_explore_button").on("change", function(d) {
   var selected_ut_indicator_option = d3.select('#select_indicator_ut_explore_button').property("value")
   update_ut_nn(selected_ut_indicator_option)
     })
+
+
+var globalResizeTimer_ut_nn = null;
+
+$(window).resize(function() {
+
+if(globalResizeTimer_ut_nn != null) window.clearTimeout(globalResizeTimer_ut_nn);
+  globalResizeTimer_ut_nn = window.setTimeout(function() {
+
+      }

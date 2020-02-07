@@ -66,26 +66,25 @@ ind_1_trend <- fingertips_data(IndicatorID = 93085, AreaTypeID = 202) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
   mutate(Label = paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_1_lci <- ind_1_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_1_uci <- ind_1_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_1_compare <- ind_1_lci %>% 
@@ -137,26 +136,25 @@ ind_2_trend <- fingertips_data(IndicatorID = 20101, AreaTypeID = 202) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
   mutate(Label = paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_2_lci <- ind_2_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_2_uci <- ind_2_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_2_compare <- ind_2_lci %>% 
@@ -225,26 +223,25 @@ ind_3_trend <- fingertips_data(IndicatorID = 91323, AreaTypeID = 202) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
   mutate(Label = paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_3_lci <- ind_3_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_3_uci <- ind_3_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_3_compare <- ind_3_lci %>% 
@@ -296,27 +293,26 @@ ind_4_trend <- fingertips_data(IndicatorID = 92196, AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(round(Value,0), ' per 1,000 live births (95% CI ', round(Lower_CI,0), '-', round(Upper_CI,0),')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(round(Value,0), ' (', round(Lower_CI,0), '-', round(Upper_CI,0),')')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_4_lci <- ind_4_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_4_uci <- ind_4_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_4_compare <- ind_4_lci %>% 
@@ -368,26 +364,25 @@ ind_5_trend <- fingertips_data(IndicatorID = 20201, AreaTypeID = 202) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
   mutate(Label = paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_5_lci <- ind_5_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_5_uci <- ind_5_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_5_compare <- ind_5_lci %>% 
@@ -405,49 +400,6 @@ rm(ind_5_lci, ind_5_uci, ind_5_compare)
 
 # Indicator 6 - school Readiness by pupil residency ####
 
-# 2018
-
-#download.file("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/849261/EYFSP_pupil_characteristics_2019_-_underlying_data.zip",  "./Journey through indicators/EYFSP_2019_Tables.zip")
-#unzip("./Journey through indicators/EYFSP_2019_Tables.zip", exdir = "./Journey through indicators")
-
-# indicator_6 <-  read_excel("./Journey through indicators/EYFSP_LA_1_key_measures_additional_tables_2018_2019.xlsx", col_types = c("text", "numeric", "text", "text", "text", "text", "text", "numeric", "text", "text", "text", "text", "text", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric", "numeric")) %>%
-#   mutate(la_name = ifelse(is.na(region_name), country_name, ifelse(is.na(la_name), region_name, la_name))) %>% 
-#   mutate(new_la_code = ifelse(is.na(region_code), country_code, ifelse(is.na(new_la_code), region_code, new_la_code))) %>% 
-#   mutate(la_name = gsub(" UA", "", la_name)) %>% 
-#   rename(Area_name = la_name,
-#          Area_code = new_la_code,
-#          level = geographic_level,
-#          Timeperiod = time_period) %>% 
-#   filter(Timeperiod == "201819") %>% 
-#   filter(gender == 'Total') %>% 
-#   filter(characteristic_type == 'Total') %>% 
-#   select(Timeperiod, level, Area_code, Area_name, number_of_pupils, gld_number, gld_percent) %>% 
-#   unique() %>% 
-#   mutate(gld_percent = gld_number / number_of_pupils * 100,
-#          gld_lci = PHEindicatormethods:::wilson_lower(gld_number, number_of_pupils, confidence = .95) * 100,
-#          gld_uci = PHEindicatormethods:::wilson_upper(gld_number, number_of_pupils, confidence = .95) * 100) %>% 
-#   rename(Numerator = gld_number,
-#          Denominator = number_of_pupils,
-#          Value = gld_percent,
-#          Lower_CI = gld_lci,
-#          Upper_CI = gld_uci) %>% 
-#   mutate(ID = '006',
-#          Name = 'Children achieving a good level of development at the end of reception',
-#          Timeperiod = paste0(substr(Timeperiod, 1,4), '/', substr(Timeperiod, 5, 6)),
-#          Description = paste0('This is the proportion of children assessed as achieving a good level of development (e.g. being "school ready") at the end of reception.'),
-#          Unit = 'proportion',
-#          Label = paste0(round(Value, 1), '%'),
-#          Label_screen = paste0(round(Value, 1), '%'),
-#          Notes = NA) %>% 
-#   select(ID, Name, Description, Unit, Timeperiod, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, Label_screen, Notes) %>%    mutate(ID = as.character(ID)) %>% 
-#   mutate(line_1 = paste0('of children assessed'),
-#          line_2 = paste0('as achieving a good'),
-#          line_3 = paste0('level of development'),
-#          line_4 = paste0('at the end of reception'),
-#          line_5 = paste0('in ', Timeperiod)) %>% 
-#   mutate(img_path = './images/letter-block-toy.svg')
-
-# This has caught up now and we can use fingertips to get this data
 # Good level of development at the end of reception ####
 indicator_6 <- fingertips_data(IndicatorID = 90631, AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%  # Order by descending year (latest data on top)
@@ -486,26 +438,25 @@ ind_6_trend <- fingertips_data(IndicatorID = 90631, AreaTypeID = 202) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
   mutate(Label = paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_6_lci <- ind_6_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_6_uci <- ind_6_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_6_compare <- ind_6_lci %>% 
@@ -558,26 +509,25 @@ ind_7_trend <- fingertips_data(IndicatorID = 20601, AreaTypeID = 202) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
   mutate(Label = paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_7_lci <- ind_7_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_7_uci <- ind_7_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_7_compare <- ind_7_lci %>% 
@@ -630,26 +580,25 @@ ind_8_trend <- fingertips_data(IndicatorID = 20602, AreaTypeID = 202) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
   mutate(Label = paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_8_lci <- ind_8_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_8_uci <- ind_8_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_8_compare <- ind_8_lci %>% 
@@ -666,10 +615,6 @@ indicator_8 <- indicator_8 %>%
 rm(ind_8_lci, ind_8_uci, ind_8_compare)
 
 # Indicator 9 Key stage 2 expected level for reading, writing and mathematics #### 
-# if (!file.exists("./Journey through indicators/Key_stage_2_underlying_data.zip")) {
-#   download.file("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/829253/KS2_provisional_underlying_data.zip", "./Journey through indicators/Key_stage_2_underlying_data.zip", mode = "wb")
-#   unzip("./Journey through indicators/Key_stage_2_underlying_data.zip", exdir = "./Journey through indicators")}
-
 indicator_9 <- fingertips_data(IndicatorID = 92672, AreaTypeID = 202) %>% 
   arrange(desc(Timeperiod)) %>% # Order by descending year (latest data on top)
   filter(Timeperiod == unique(Timeperiod)[1] & Sex == "Persons") %>%  # Now that we have ordered the data, we select the first unique value Timeperiod as this will be the most recent value
@@ -707,26 +652,25 @@ ind_9_trend <- fingertips_data(IndicatorID = 92672, AreaTypeID = 202) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
   mutate(Label = paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_9_lci <- ind_9_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_9_uci <- ind_9_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_9_compare <- ind_9_lci %>% 
@@ -779,26 +723,25 @@ ind_10_trend <- fingertips_data(IndicatorID = 10101, AreaTypeID = 202) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
   mutate(Label = paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_10_lci <- ind_10_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_10_uci <- ind_10_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_10_compare <- ind_10_lci %>% 
@@ -850,27 +793,26 @@ ind_11_trend <- fingertips_data(IndicatorID = 90285, AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 10,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE),')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE),')')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_11_lci <- ind_11_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_11_uci <- ind_11_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_11_compare <- ind_11_lci %>% 
@@ -921,27 +863,26 @@ ind_12_trend <- fingertips_data(IndicatorID = 20401, AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 1,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ', ', format(round(Numerator, 0), big.mark = ',', trim = TRUE), ' pregnancies)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_12_lci <- ind_12_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_12_uci <- ind_12_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_12_compare <- ind_12_lci %>% 
@@ -994,26 +935,25 @@ ind_13_trend <- fingertips_data(IndicatorID = 91548, AreaTypeID = 202) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
   mutate(Label = paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_13_lci <- ind_13_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_13_uci <- ind_13_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_13_compare <- ind_13_lci %>% 
@@ -1064,27 +1004,26 @@ ind_14_trend <- fingertips_data(IndicatorID = 93378, AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(round(Value,1), ' (', round(Lower_CI,1), '-', round(Upper_CI,1),')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = ifelse(is.na(Lower_CI), paste0(round(Value,1)), paste0(round(Value,1),' (', round(Lower_CI,1), '-', round(Upper_CI,1),')'))) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_14_lci <- ind_14_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_14_uci <- ind_14_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_14_compare <- ind_14_lci %>% 
@@ -1136,8 +1075,9 @@ ind_15_trend <- fingertips_data(IndicatorID = 93203, AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = ifelse(is.na(Lower_CI), paste0(round(Value,1), '%'), paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)'))) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_15_lci <- ind_15_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
@@ -1208,8 +1148,9 @@ ind_16_trend <- fingertips_data(IndicatorID = 10401, AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_16_lci <- ind_16_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
@@ -1281,26 +1222,25 @@ ind_17_trend <- fingertips_data(IndicatorID = 11601, AreaTypeID = 202) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
   mutate(Label = paste0(round(Value,1), '% (', round(Lower_CI,1), '-', round(Upper_CI,1),'%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_17_lci <- ind_17_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_17_uci <- ind_17_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_17_compare <- ind_17_lci %>% 
@@ -1351,27 +1291,26 @@ ind_18_trend <- fingertips_data(IndicatorID = 11001, AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_18_lci <- ind_18_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_18_uci <- ind_18_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_18_compare <- ind_18_lci %>% 
@@ -1412,7 +1351,6 @@ indicator_19 <- fingertips_data(IndicatorID = 92443,  AreaTypeID = 202) %>%
          line_5 = NA) %>% 
   mutate(img_path = './images/cigarette-with-smoke.svg')
 
-
 ind_19_trend <- fingertips_data(IndicatorID = 92443,  AreaTypeID = 202) %>% 
   filter(Sex == "Persons" & Age == "18+ yrs") %>% 
   rename(ID = IndicatorID,
@@ -1425,27 +1363,26 @@ ind_19_trend <- fingertips_data(IndicatorID = 92443,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 1), big.mark = ',', trim = TRUE), '% (', format(round(Lower_CI, 1), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 1), big.mark = ',', trim = TRUE), '%)')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_19_lci <- ind_19_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_19_uci <- ind_19_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_19_compare <- ind_19_lci %>% 
@@ -1500,27 +1437,26 @@ ind_20_trend <- fingertips_data(IndicatorID = 21001,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_20_lci <- ind_20_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_20_uci <- ind_20_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_20_compare <- ind_20_lci %>% 
@@ -1573,27 +1509,26 @@ ind_21_trend <- fingertips_data(IndicatorID = 90245,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_21_lci <- ind_21_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_21_uci <- ind_21_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_21_compare <- ind_21_lci %>% 
@@ -1646,27 +1581,26 @@ ind_22_trend <- fingertips_data(IndicatorID = 91414,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_22_lci <- ind_22_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_22_uci <- ind_22_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_22_compare <- ind_22_lci %>% 
@@ -1719,27 +1653,26 @@ ind_23_trend <- fingertips_data(IndicatorID = 93014,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(round(Value, 1), '% (', round(Lower_CI, 1), '-', round(Upper_CI, 1), '%)')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_23_lci <- ind_23_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_23_uci <- ind_23_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_23_compare <- ind_23_lci %>% 
@@ -1792,27 +1725,26 @@ ind_24_trend <- fingertips_data(IndicatorID = 93015,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(round(Value, 1), '% (', round(Lower_CI, 1), '-', round(Upper_CI, 1), '%)')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_24_lci <- ind_24_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_24_uci <- ind_24_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_24_compare <- ind_24_lci %>% 
@@ -1865,27 +1797,26 @@ ind_25_trend <- fingertips_data(IndicatorID = 22303,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(round(Value, 1), '% (', round(Lower_CI, 1), '-', round(Upper_CI, 1), '%)')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_25_lci <- ind_25_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_25_uci <- ind_25_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_25_compare <- ind_25_lci %>% 
@@ -1938,27 +1869,26 @@ ind_26_trend <- fingertips_data(IndicatorID = 93088,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(round(Value, 1), '% (', round(Lower_CI, 1), '-', round(Upper_CI, 1), '%)')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_26_lci <- ind_26_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_26_uci <- ind_26_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_26_compare <- ind_26_lci %>% 
@@ -2009,27 +1939,26 @@ ind_27_trend <- fingertips_data(IndicatorID = 22001,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(round(Value, 1), '% (', round(Lower_CI, 1), '-', round(Upper_CI, 1), '%)')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_27_lci <- ind_27_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_27_uci <- ind_27_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_27_compare <- ind_27_lci %>% 
@@ -2080,27 +2009,26 @@ ind_28_trend <- fingertips_data(IndicatorID = 91720,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(round(Value, 1), '% (', round(Lower_CI, 1), '-', round(Upper_CI, 1), '%)')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_28_lci <- ind_28_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_28_uci <- ind_28_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_28_compare <- ind_28_lci %>% 
@@ -2151,27 +2079,26 @@ ind_29_trend <- fingertips_data(IndicatorID = 91100,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(round(Value, 1), '% (', round(Lower_CI, 1), '-', round(Upper_CI, 1), '%)')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_29_lci <- ind_29_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_29_uci <- ind_29_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_29_compare <- ind_29_lci %>% 
@@ -2222,27 +2149,26 @@ ind_30_trend <- fingertips_data(IndicatorID = 90791,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(round(Value, 1), '% (', round(Lower_CI, 1), '-', round(Upper_CI, 1), '%)')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_30_lci <- ind_30_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_30_uci <- ind_30_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_30_compare <- ind_30_lci %>% 
@@ -2295,27 +2221,26 @@ ind_31_trend <- fingertips_data(IndicatorID = 40401,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_31_lci <- ind_31_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_31_uci <- ind_31_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_31_compare <- ind_31_lci %>% 
@@ -2368,27 +2293,26 @@ ind_32_trend <- fingertips_data(IndicatorID = 40501,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_32_lci <- ind_32_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_32_uci <- ind_32_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_32_compare <- ind_32_lci %>% 
@@ -2441,27 +2365,26 @@ ind_33_trend <- fingertips_data(IndicatorID = 90280,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = ifelse(is.na(Lower_CI), paste0(round(Value, 1), '%'), paste0(round(Value, 1), '% (', round(Lower_CI, 1), '-', round(Upper_CI, 1), '%)'))) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_33_lci <- ind_33_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_33_uci <- ind_33_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_33_compare <- ind_33_lci %>% 
@@ -2513,27 +2436,26 @@ ind_34_trend <- fingertips_data(IndicatorID = 30314,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), '% (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), '%)')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(round(Value, 1), '% (', round(Lower_CI, 1), '-', round(Upper_CI, 1), '%)')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_34_lci <- ind_34_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_34_uci <- ind_34_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_34_compare <- ind_34_lci %>% 
@@ -2586,27 +2508,26 @@ ind_35_trend <- fingertips_data(IndicatorID = 41401,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' per 100,000 (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_35_lci <- ind_35_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_35_uci <- ind_35_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_35_compare <- ind_35_lci %>% 
@@ -2661,27 +2582,27 @@ ind_36_trend <- fingertips_data(IndicatorID = 92901,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' years (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' years (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
+  mutate(Name = 'Male slope index of inquality in life expectancy at birth') %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_36_lci <- ind_36_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_36_uci <- ind_36_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_36_compare <- ind_36_lci %>% 
@@ -2736,27 +2657,27 @@ ind_37_trend <- fingertips_data(IndicatorID = 92901,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' years (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' years (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
+  mutate(Name = 'Female slope index of inquality in life expectancy at birth') %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_37_lci <- ind_37_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_37_uci <- ind_37_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_37_compare <- ind_37_lci %>% 
@@ -2811,27 +2732,27 @@ ind_38_trend <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' years (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' years (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
+  mutate(Name = 'Male life expectancy at birth') %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_38_lci <- ind_38_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_38_uci <- ind_38_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_38_compare <- ind_38_lci %>% 
@@ -2886,31 +2807,31 @@ ind_39_trend <- fingertips_data(IndicatorID = 90366,  AreaTypeID = 202) %>%
   arrange(desc(Timeperiod)) %>%
   mutate(Timeperiod = factor(Timeperiod)) %>% 
   mutate(Period = paste0('T',(max(as.numeric(Timeperiod)) + 1) - as.numeric(Timeperiod))) %>% 
-  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' years (95% CI ', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>% 
-  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label)
+  mutate(Label = paste0(format(round(Value, 0), big.mark = ',', trim = TRUE), ' years (', format(round(Lower_CI, 0), big.mark = ',', trim = TRUE), '-', format(round(Upper_CI, 0), big.mark = ',', trim = TRUE), ')')) %>%
+  mutate(Name = 'Female life expectancy at birth') %>% 
+  mutate(timeperiods_available = n_distinct(Period)) %>% 
+  select(ID, Name, Timeperiod, Period, Area_name, Area_code, Value, Lower_CI, Upper_CI, Numerator, Denominator,Label, timeperiods_available)
 
 ind_39_lci <- ind_39_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_lci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Lower_CI) %>% 
   spread(Period, Lower_CI) %>% 
-  mutate(T3_lci = ifelse(timeperiods_available == 1, NA, T3_lci)) %>% 
-  mutate(T5_lci = ifelse(timeperiods_available == 3, T5_lci, NA)) %>% 
+  mutate(T3_lci = ifelse(timeperiods_available < 3, NA, T3_lci)) %>% 
+  mutate(T5_lci = ifelse(timeperiods_available < 5, NA, T5_lci)) %>% 
   select(-timeperiods_available)
 
 ind_39_uci <- ind_39_trend %>% 
   filter(Period %in% c('T1', 'T3', 'T5')) %>% 
   mutate(Period = paste0(Period, '_uci')) %>% 
-  mutate(timeperiods_available = n_distinct(Period)) %>% 
   select(ID, timeperiods_available, Area_name, Period, Area_code, Upper_CI) %>% 
   spread(Period, Upper_CI) %>% 
-  mutate(T3_uci = ifelse(timeperiods_available == 1, NA, T3_uci)) %>% 
-  mutate(T5_uci = ifelse(timeperiods_available == 3, T5_uci, NA)) %>% 
+  mutate(T3_uci = ifelse(timeperiods_available < 3, NA, T3_uci)) %>% 
+  mutate(T5_uci = ifelse(timeperiods_available < 5, NA, T5_uci)) %>% 
   select(-timeperiods_available)
 
 ind_39_compare <- ind_39_lci %>% 
-  left_join(ind_38_uci, by = c('Area_code', 'Area_name')) %>% 
+  left_join(ind_39_uci, by = c('Area_code', 'Area_name')) %>% 
   mutate(Data_T3 = ifelse(is.na(T3_lci), 'No data', 'Data available')) %>% 
   mutate(Sig_T3 = ifelse(Data_T3 == 'No data', 'No data', ifelse(T1_lci > T3_uci, 'Significantly higher', ifelse(T1_uci < T3_lci, 'Significantly lower', 'Similar')))) %>% 
   mutate(Data_T5 = ifelse(is.na(T5_lci), 'No data', 'Data available')) %>% 
@@ -3016,6 +2937,72 @@ rm(LAD, Counties, Region, England, UA)
 
 areas <- c('West Sussex', 'East Sussex','Brighton and Hove', 'South East region', 'England')
 
+trend_df <- ind_1_trend %>%
+  bind_rows(ind_2_trend) %>% 
+  bind_rows(ind_3_trend) %>%  
+  bind_rows(ind_4_trend) %>% 
+  bind_rows(ind_5_trend) %>% 
+  bind_rows(ind_6_trend) %>% 
+  bind_rows(ind_7_trend) %>% 
+  bind_rows(ind_8_trend) %>% 
+  bind_rows(ind_9_trend) %>% 
+  bind_rows(ind_10_trend) %>% 
+  bind_rows(ind_11_trend) %>% 
+  bind_rows(ind_12_trend) %>% 
+  bind_rows(ind_13_trend) %>% 
+  bind_rows(ind_14_trend) %>% 
+  bind_rows(ind_15_trend) %>% 
+  bind_rows(ind_16_trend) %>% 
+  bind_rows(ind_17_trend) %>% 
+  bind_rows(ind_18_trend) %>% 
+  bind_rows(ind_19_trend) %>% 
+  bind_rows(ind_20_trend) %>% 
+  bind_rows(ind_21_trend) %>% 
+  bind_rows(ind_22_trend) %>% 
+  bind_rows(ind_23_trend) %>% 
+  bind_rows(ind_24_trend) %>% 
+  bind_rows(ind_25_trend) %>% 
+  bind_rows(ind_26_trend) %>% 
+  bind_rows(ind_27_trend) %>% 
+  bind_rows(ind_28_trend) %>% 
+  bind_rows(ind_29_trend) %>% 
+  bind_rows(ind_30_trend) %>% 
+  bind_rows(ind_31_trend) %>% 
+  bind_rows(ind_32_trend) %>% 
+  bind_rows(ind_33_trend) %>% 
+  bind_rows(ind_34_trend) %>% 
+  bind_rows(ind_35_trend) %>% 
+  bind_rows(ind_36_trend) %>% 
+  bind_rows(ind_37_trend) %>% 
+  bind_rows(ind_38_trend) %>% 
+  bind_rows(ind_39_trend) %>% 
+  filter(Period %in% c('T1','T2','T3','T4','T5')) %>% 
+  mutate(Area_name = ifelse(Area_code == 'E06000058', 'Bournemouth, Christchurch, and Poole', ifelse(Area_code == 'E06000023', 'Bristol', ifelse(Area_code == 'E06000047', 'County Durham', ifelse(Area_code == 'E07000204',	'St Edmundsbury', ifelse(Area_code == 'E12000001',	'North East region', ifelse(Area_code == 'E12000002','North West region', ifelse(Area_code == 'E12000003',	'Yorkshire and the Humber region', ifelse(Area_code == 'E12000005','West Midlands region', ifelse(Area_code == 'E12000007', 'London region', ifelse(Area_code == 'E12000008',	'South East region', ifelse(Area_code == 'E12000009',	'South West region',  ifelse(Area_code == 'E12000004',	'East Midlands Region', ifelse(Area_code == 'E12000006', 'East of England region', ifelse(Area_code == 'E06000010', '	Kingston upon Hull', Area_name))))))))))))))) %>% 
+  mutate(Polarity = ifelse(ID %in% c('93085','20101','92196','20601','20602','10101','90285','20401','91548','93203','10401','11001','21001','92443','91414','93015','22303','93088','90791','40401','40501','41401','92901'), 'Lower is better', ifelse(ID %in% c('91323','20201','90631','92672','93378','11601','90245','93014','22001','91720','91100','90280','30314','90366'), 'Higher is better',  NA))) %>% 
+  mutate(Label = ifelse(is.na(Value), paste0('No data in ', Timeperiod), Label)) %>% 
+  mutate(Period = factor(Period, levels = c('T1','T2','T3','T4','T5'))) %>% 
+  mutate(ID = as.character(ID))
+
+meta_trend <- trend_df %>% 
+  select(Name, ID, timeperiods_available, Polarity) %>% 
+  unique()
+
+# Trend label 
+meta_trend_period_lookup <- trend_df %>% 
+  select(Name, Timeperiod, Period) %>% 
+  unique()
+
+trend_df <- trend_df %>% 
+  expand(Name, Period, Area_code) %>% 
+  left_join(meta_trend_period_lookup, by = c('Name', 'Period')) %>% 
+  left_join(meta_areas, by = 'Area_code') %>% 
+  left_join(meta_trend, by = 'Name') %>% 
+  left_join(trend_df, by = c('Name', 'ID', 'Area_code', 'Area_name', 'Period','Timeperiod', 'timeperiods_available', 'Polarity')) 
+
+trend_periods <- meta_trend_period_lookup %>% 
+  spread(Period, Timeperiod) %>% 
+  select(Name, T3, T5)
+
 # i = 1
 
 # rm(indicator_1, indicator_2, indicator_3, indicator_4, indicator_5, indicator_6, indicator_7, indicator_8, indicator_9, indicator_10, indicator_11, indicator_12, indicator_13, indicator_14, indicator_15, indicator_16, indicator_17, indicator_18, indicator_19, indicator_20, indicator_21, indicator_22, indicator_23, indicator_24, indicator_25, indicator_26, indicator_27, indicator_28, indicator_29, indicator_30, indicator_31, indicator_32, indicator_33, indicator_34, indicator_35, indicator_36, indicator_37, indicator_38, indicator_39, ind_3_latest_ut_year)
@@ -3039,7 +3026,6 @@ meta <- main_df %>%
   mutate(x = ifelse(Number == 1, .16, ifelse(Number == 2, .24, ifelse(Number == 3, .32, ifelse(Number == 4, .43, ifelse(Number == 5, .51, ifelse(Number == 6, .59, ifelse(Number == 7, .74, ifelse(Number == 8, .82, ifelse(Number == 9, .9, ifelse(Number == 10, .92, ifelse(Number == 11, .83, ifelse(Number == 12, .74, ifelse(Number == 13, .66, ifelse(Number == 14, .58, ifelse(Number == 15, .5, ifelse(Number == 16, .42, ifelse(Number == 17, .24, ifelse(Number == 18, .16, ifelse(Number == 19, .08, ifelse(Number == 20, .1, ifelse(Number == 21, .19, ifelse(Number == 22, .28, ifelse(Number == 23, .37, ifelse(Number == 24, .46, ifelse(Number == 25, .54, ifelse(Number == 26, .68, ifelse(Number == 27, .76, ifelse(Number == 28, .84, ifelse(Number == 29, .92, ifelse(Number == 30, .92, ifelse(Number == 31, .83, ifelse(Number == 32, .725, ifelse(Number == 33, .56, ifelse(Number == 34, .48, ifelse(Number == 35, .4,  ifelse(Number == 36, .32, ifelse(Number == 37, .24, ifelse(Number == 38, .16, ifelse(Number == 39, .08, NA)))))))))))))))))))))))))))))))))))))))) %>% 
   mutate(y = ifelse(Number %in% c(1:9), .05, ifelse(Number %in% c(10:19), .3, ifelse(Number %in% c(20:29), .55, ifelse(Number %in% c(30:39), .8, NA))))) 
 
-
 meta %>% 
   toJSON() %>% 
   write_lines(paste0(github_repo_dir, '/ut_data_meta_extract.json'))
@@ -3051,6 +3037,11 @@ comp_data <- main_df %>%
          Comp_Lower_CI = Lower_CI,
          Comp_Upper_CI = Upper_CI,
          Comp_Numerator = Numerator)
+
+main_df <- main_df %>%
+  left_join(trend_periods, by = 'Name') %>% 
+  mutate(Sig_T3_label = ifelse(is.na(T3), 'There are less than three data points available to explore trends for this indicator.',  ifelse(Sig_T3 == 'No data', paste0('There are no data available for ', Area_name, ' in ', T3, ' to explore trends.'), paste0('Since ', T3, ', the ', Unit, ' in ', Area_name, ' has', ifelse(Sig_T3 == 'Similar', ' not significantly changed.', ifelse(Sig_T3 == 'Significantly lower' & Polarity == 'Not applicable', ' significantly decreased.', ifelse(Sig_T3 == 'Significantly lower' & Polarity == 'Lower is better', ' significantly improved.', ifelse(Sig_T3 == 'Significantly lower' & Polarity == 'Higher is better', ' significantly worsened.', ifelse(Sig_T3 == 'Significantly higher' & Polarity == 'Not applicable', ' significantly increased', ifelse(Sig_T3 == 'Significantly higher' & Polarity == 'Lower is better', ' significantly worsened.', ifelse(Sig_T3 == 'Significantly higher' & Polarity == 'Higher is better', ' significantly improved.', NA))))))))))) %>% 
+  mutate(Sig_T5_label = ifelse(is.na(T5), 'There are less than five data points available to explore long term trends for this indicator.',  ifelse(Sig_T5 == 'No data', paste0('There are no data available for ', Area_name, ' in ', T5, ' to explore trends.'), paste0('Since ', T5, ', the ', Unit, ' in ', Area_name, ' has', ifelse(Sig_T5 == 'Similar', ' not significantly changed.', ifelse(Sig_T5 == 'Significantly lower' & Polarity == 'Not applicable', ' significantly decreased.', ifelse(Sig_T5 == 'Significantly lower' & Polarity == 'Lower is better', ' significantly improved.', ifelse(Sig_T5 == 'Significantly lower' & Polarity == 'Higher is better', ' significantly worsened.', ifelse(Sig_T5 == 'Significantly higher' & Polarity == 'Not applicable', ' significantly increased', ifelse(Sig_T5 == 'Significantly higher' & Polarity == 'Lower is better', ' significantly worsened.', ifelse(Sig_T5 == 'Significantly higher' & Polarity == 'Higher is better', ' significantly improved.', NA)))))))))))
 
 main_df %>% 
   filter(Area_name %in% areas_wo_comp) %>% 

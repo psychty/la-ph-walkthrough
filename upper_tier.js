@@ -167,6 +167,26 @@ d3.select("#indicator_label")
   .html('In ' + d.Area_name + ' in ' + d.Timeperiod + ' the ' + d.Unit + ' was <font color = "#1e4b7a" size = "3"><b>' + d.Label + '</b></font>. ' + significance_key(d.Significance) + '.</p>')
   .attr('id', 'ind_text_3');
 
+d3.select("#indicator_trend_t3")
+  .selectAll('text')
+  .remove()
+
+d3.select("#indicator_trend_t3")
+  .append('text')
+  .data(selected_ut_area_df)
+  .text(d.Sig_T3_label)
+  .attr('id', 'ind_text_trend_t3');
+
+d3.select("#indicator_trend_t5")
+  .selectAll('text')
+  .remove()
+
+d3.select("#indicator_trend_t5")
+  .append('text')
+  .data(selected_ut_area_df)
+  .text(d.Sig_T5_label)
+  .attr('id', 'ind_text_trend_t5');
+
 d3.select("#indicator_further_info")
   .selectAll('text')
   .remove()
