@@ -15,15 +15,17 @@ p.important {
 
 * {-webkit-font-smoothing: antialiased;}
 
-div {
+/* div {
     display: inline-block;
-}
+} */
 
 body {
 background-color: #fcfaf7;
 font-family: 'Open Sans', sans-serif;
 text-align:center; /* used to center div in IE */
 }
+
+
 
 .comparator {
   stroke-dasharray: 5,5;
